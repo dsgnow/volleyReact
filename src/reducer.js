@@ -1,11 +1,15 @@
 export const reducer = (state, action) => {
   switch (action.type) {
     case 'changePlayer':
-      const newPlayers = state.allPlayers.filter((player) => player.id !== '1');
+      const newPlayers = state.allPlayers.filter(
+        (player) => player.id !== '1'
+      );
       console.log(newPlayers);
       return { ...state, allPlayers: newPlayers };
     default:
-      throw new Error('Nie ma takiej akcji: ' + action.type);
+      throw new Error(
+        'Nie ma takiej akcji: ' + action.type
+      );
   }
 };
 
@@ -204,6 +208,7 @@ export const intialState = {
       gender: 'male'
     }
   ],
+  playersAssignedToGame: [],
   gameDate: '09.03.2020',
   gamePlace: 'Gliwice'
 };

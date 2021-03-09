@@ -1,0 +1,9 @@
+@import './GamePlayersTable.module.scss';
+
+.wrapTable {
+  width: 100%;
+
+  @media (min-width: 800px) {
+    width: 70%;
+  }
+}
