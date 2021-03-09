@@ -6,11 +6,11 @@ import Table from '../Table';
 
 const AddPlayersTable = (props) => {
   const context = useContext(ReducerContext);
-  const tableState = context.state.allPlayers;
+  const tableState = [...context.state.allPlayers];
 
   tableState.forEach((el, i) => {
     el.add = (
-      <MDBBtn add={el.id} color={'primary'} size="sm">
+      <MDBBtn add={el.id} onClick={() => clickHandler(el.id)} color={'primary'} size="sm">
         Dodaj gracza
       </MDBBtn>
     );
@@ -30,6 +30,12 @@ const AddPlayersTable = (props) => {
       }
     ],
     rows: tableState
+  };
+
+  const clickHandler = (e) => {
+    const filteredPlayer = context.filter((player) => player.id === e);
+    props.addPlayer(filteredPlayer);
+    console.log(filteredPlayer);
   };
 
   return (

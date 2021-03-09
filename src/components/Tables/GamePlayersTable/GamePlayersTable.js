@@ -3,27 +3,20 @@ import { MDBBtn } from 'mdbreact';
 import styles from './GamePlayersTable.module.scss';
 import Table from '../Table';
 import AddPlayersTable from './AddPlayersTable';
+import useStateStorage from '../../../hooks/useStateStorage';
 
 const GamePlayerTable = (props) => {
-  const [players, setPlayers] = useState([
-    {
-      id: '1',
-      name: 'Brylant Barber',
-      skill: 6,
-      endTime: '2021/01/02 02:00:00',
-      info: '',
-      gender: 'male'
-    }
-  ]);
+  const [players, setPlayers] = useState('');
   const tableState = players;
 
-  tableState.forEach((el, i) => {
-    el.delete = (
-      <MDBBtn delete={el.id} color={'warning'} size="sm">
-        Usuń gracza
-      </MDBBtn>
-    );
-  });
+  tableState &&
+    tableState.forEach((el, i) => {
+      el.delete = (
+        <MDBBtn delete={el.id} onClick={() => removePlayer(el.id)} color={'warning'} size="sm">
+          Usuń gracza
+        </MDBBtn>
+      );
+    });
 
   const data = {
     columns: [
@@ -46,9 +39,38 @@ const GamePlayerTable = (props) => {
     rows: tableState
   };
 
+  const test = [
+    {
+      label: 'gracze',
+      field: 'name',
+      sort: 'asc'
+    },
+    {
+      label: 'skill',
+      field: 'skill',
+      sort: 'asc'
+    },
+    {
+      label: 'usuń',
+      field: 'delete',
+      sort: 'asc'
+    }
+  ];
+
+  const addPlayer = (player) => {
+    console.log(player);
+    setPlayers([...tableState, player[0]]);
+    window.localStorage.setItem('dupa', JSON.stringify(test));
+  };
+
+  const removePlayer = (playerId) => {
+    const filteredPlayer = tableState.filter((player) => player.id !== playerId);
+    setPlayers(filteredPlayer);
+  };
+
   return (
     <div className={styles.wrapTable}>
-      <AddPlayersTable />
+      <AddPlayersTable addPlayer={addPlayer} />
       <h2>{props.title}</h2>
       <Table
         title={'Dodani gracze do gry'}
