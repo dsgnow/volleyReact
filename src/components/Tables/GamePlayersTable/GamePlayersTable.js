@@ -1,18 +1,32 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import { MDBBtn } from 'mdbreact';
 import styles from './GamePlayersTable.module.scss';
 import Table from '../Table';
 import AddPlayersTable from './AddPlayersTable';
 import useStateStorage from '../../../hooks/useStateStorage';
+import ReducerContext from '../../../context/ReducerContext';
+import cloneDeep from 'lodash/cloneDeep';
 
-const GamePlayerTable = (props) => {
-  const [players, setPlayers] = useState('');
-  const tableState = players;
+const GamePlayersTable = (props) => {
+  const context = useContext(ReducerContext);
+  const [
+    playersStorage,
+    setPlayersStorage
+  ] = useStateStorage('players', null);
+  let {
+    playersAssignedToGame
+  } = context.state.playersAssignedToGame;
+  const tableData = cloneDeep(playersStorage);
 
-  tableState &&
-    tableState.forEach((el, i) => {
+  tableData &&
+    tableData.forEach((el) => {
       el.delete = (
-        <MDBBtn delete={el.id} onClick={() => removePlayer(el.id)} color={'warning'} size="sm">
+        <MDBBtn
+          delete={el.id}
+          onClick={() => removePlayer(el.id)}
+          color={'warning'}
+          size="sm"
+        >
           Usuń gracza
         </MDBBtn>
       );
@@ -36,36 +50,36 @@ const GamePlayerTable = (props) => {
         sort: 'asc'
       }
     ],
-    rows: tableState
+    rows: tableData
   };
 
-  const test = [
-    {
-      label: 'gracze',
-      field: 'name',
-      sort: 'asc'
-    },
-    {
-      label: 'skill',
-      field: 'skill',
-      sort: 'asc'
-    },
-    {
-      label: 'usuń',
-      field: 'delete',
-      sort: 'asc'
-    }
-  ];
+  const addPlayer = (newPlayer) => {
+    const checkIfPlayerExist = playersStorage.filter(
+      (el) => el.id === newPlayer[0].id
+    );
 
-  const addPlayer = (player) => {
-    console.log(player);
-    setPlayers([...tableState, player[0]]);
-    window.localStorage.setItem('dupa', JSON.stringify(test));
+    if (!checkIfPlayerExist.length > 0) {
+      if (playersStorage && !playersAssignedToGame) {
+        playersAssignedToGame = [
+          ...playersStorage,
+          newPlayer[0]
+        ];
+      } else {
+        playersAssignedToGame = [
+          ...context.state.playersAssignedToGame,
+          newPlayer[0]
+        ];
+      }
+
+      setPlayersStorage(playersAssignedToGame);
+    }
   };
 
   const removePlayer = (playerId) => {
-    const filteredPlayer = tableState.filter((player) => player.id !== playerId);
-    setPlayers(filteredPlayer);
+    const filteredPlayer = playersStorage.filter(
+      (player) => player.id !== playerId
+    );
+    setPlayersStorage(filteredPlayer);
   };
 
   return (
@@ -85,4 +99,4 @@ const GamePlayerTable = (props) => {
   );
 };
 
-export default GamePlayerTable;
+export default GamePlayersTable;

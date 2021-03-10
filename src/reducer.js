@@ -1,11 +1,14 @@
 export const reducer = (state, action) => {
   switch (action.type) {
     case 'changePlayer':
-      const newPlayers = state.allPlayers.filter((player) => player.id !== '1');
-      console.log(newPlayers);
+      const newPlayers = state.allPlayers.filter(
+        (player) => player.id !== '1'
+      );
       return { ...state, allPlayers: newPlayers };
     default:
-      throw new Error('Nie ma takiej akcji: ' + action.type);
+      throw new Error(
+        'Nie ma takiej akcji: ' + action.type
+      );
   }
 };
 
@@ -28,7 +31,7 @@ export const intialState = {
       gender: 'male'
     },
     {
-      id: '55',
+      id: '550',
       name: 'Michał Mieszczyński',
       skill: 5,
       endTime: '2021/01/02 01:00:00',

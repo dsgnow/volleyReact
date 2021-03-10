@@ -3,14 +3,21 @@ import { MDBBtn } from 'mdbreact';
 import styles from './AddPlayersTable.module.scss';
 import ReducerContext from '../../../context/ReducerContext';
 import Table from '../Table';
+import cloneDeep from 'lodash/cloneDeep';
 
 const AddPlayersTable = (props) => {
   const context = useContext(ReducerContext);
-  const tableState = [...context.state.allPlayers];
+  const { allPlayers } = context.state;
+  const tableData = cloneDeep(allPlayers);
 
-  tableState.forEach((el, i) => {
+  tableData.forEach((el, i) => {
     el.add = (
-      <MDBBtn add={el.id} onClick={() => clickHandler(el.id)} color={'primary'} size="sm">
+      <MDBBtn
+        add={el.id}
+        onClick={() => clickHandler(el.id)}
+        color={'primary'}
+        size="sm"
+      >
         Dodaj gracza
       </MDBBtn>
     );
@@ -29,13 +36,14 @@ const AddPlayersTable = (props) => {
         sort: 'asc'
       }
     ],
-    rows: tableState
+    rows: tableData
   };
 
   const clickHandler = (e) => {
-    const filteredPlayer = context.filter((player) => player.id === e);
+    const filteredPlayer = allPlayers.filter(
+      (player) => player.id === e
+    );
     props.addPlayer(filteredPlayer);
-    console.log(filteredPlayer);
   };
 
   return (
