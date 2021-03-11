@@ -1,13 +1,10 @@
 import { useReducer, useEffect } from 'react';
 import { reducer, intialState } from './reducer';
 import ReducerContext from './context/ReducerContext';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { createMuiTheme } from '@material-ui/core/styles';
+import purple from '@material-ui/core/colors/purple';
+import green from '@material-ui/core/colors/green';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
@@ -18,13 +15,21 @@ import GamePlayersTable from './components/Tables/GamePlayersTable/GamePlayersTa
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: [
-      'Montserrat',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif'
-    ].join(',')
+    fontFamily: ['Montserrat', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'].join(',')
+  },
+  palette: {
+    primary: {
+      main: purple[500]
+    },
+    secondary: {
+      main: green[500]
+    }
+  },
+  root: {
+    mainGradient: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
+  },
+  status: {
+    danger: 'red'
   },
   overrides: {
     MuiCssBaseline: {
@@ -38,10 +43,7 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  const [state, dispatch] = useReducer(
-    reducer,
-    intialState
-  );
+  const [state, dispatch] = useReducer(reducer, intialState);
 
   return (
     <div className="App">

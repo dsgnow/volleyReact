@@ -11,26 +11,16 @@ import cloneDeep from 'lodash/cloneDeep';
 const GamePlayersTable = (props) => {
   const context = useContext(ReducerContext);
 
-  const [
-    playersStorage,
-    setPlayersStorage
-  ] = useStateStorage('players', null);
+  const [playersStorage, setPlayersStorage] = useStateStorage('players', null);
 
-  let {
-    playersAssignedToGame
-  } = context.state.playersAssignedToGame;
+  let { playersAssignedToGame } = context.state.playersAssignedToGame;
 
   const tableData = cloneDeep(playersStorage);
 
   tableData &&
     tableData.forEach((el) => {
       el.delete = (
-        <MDBBtn
-          delete={el.id}
-          onClick={() => removePlayer(el.id)}
-          color={'warning'}
-          size="sm"
-        >
+        <MDBBtn delete={el.id} onClick={() => removePlayer(el.id)} color={'warning'} size="sm">
           Usuń gracza
         </MDBBtn>
       );
@@ -58,21 +48,16 @@ const GamePlayersTable = (props) => {
   };
 
   const addPlayer = (newPlayer) => {
-    const checkIfPlayerExist = playersStorage.filter(
-      (el) => el.id === newPlayer[0].id
-    );
+    let checkIfPlayerExist;
+    playersStorage
+      ? (checkIfPlayerExist = playersStorage.filter((el) => el.id === newPlayer[0].id))
+      : (checkIfPlayerExist = []);
 
     if (!checkIfPlayerExist.length > 0) {
       if (playersStorage && !playersAssignedToGame) {
-        playersAssignedToGame = [
-          ...playersStorage,
-          newPlayer[0]
-        ];
+        playersAssignedToGame = [...playersStorage, newPlayer[0]];
       } else {
-        playersAssignedToGame = [
-          ...context.state.playersAssignedToGame,
-          newPlayer[0]
-        ];
+        playersAssignedToGame = [...context.state.playersAssignedToGame, newPlayer[0]];
       }
 
       setPlayersStorage(playersAssignedToGame);
@@ -80,9 +65,7 @@ const GamePlayersTable = (props) => {
   };
 
   const removePlayer = (playerId) => {
-    const filteredPlayer = playersStorage.filter(
-      (player) => player.id !== playerId
-    );
+    const filteredPlayer = playersStorage.filter((player) => player.id !== playerId);
     setPlayersStorage(filteredPlayer);
   };
 
