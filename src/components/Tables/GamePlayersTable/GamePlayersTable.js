@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { MDBBtn } from 'mdbreact';
 import styles from './GamePlayersTable.module.scss';
 import Table from '../Table';
+import TableUi from '../Table/Table';
 import AddPlayersTable from './AddPlayersTable';
 import useStateStorage from '../../../hooks/useStateStorage';
 import ReducerContext from '../../../context/ReducerContext';
@@ -9,13 +10,16 @@ import cloneDeep from 'lodash/cloneDeep';
 
 const GamePlayersTable = (props) => {
   const context = useContext(ReducerContext);
+
   const [
     playersStorage,
     setPlayersStorage
   ] = useStateStorage('players', null);
+
   let {
     playersAssignedToGame
   } = context.state.playersAssignedToGame;
+
   const tableData = cloneDeep(playersStorage);
 
   tableData &&
@@ -83,19 +87,22 @@ const GamePlayersTable = (props) => {
   };
 
   return (
-    <div className={styles.wrapTable}>
-      <AddPlayersTable addPlayer={addPlayer} />
-      <h2>{props.title}</h2>
-      <Table
-        title={'Dodani gracze do gry'}
-        paging={true}
-        entries={5}
-        entriesOptions={[5, 12, 24]}
-        addbutton={'true'}
-        buttonaction={'delete'}
-        data={data}
-      />
-    </div>
+    <>
+      <TableUi />
+      <div className={styles.wrapTable}>
+        <AddPlayersTable addPlayer={addPlayer} />
+        <h2>{props.title}</h2>
+        <Table
+          title={'Dodani gracze do gry'}
+          paging={true}
+          entries={5}
+          entriesOptions={[5, 12, 24]}
+          addbutton={'true'}
+          buttonaction={'delete'}
+          data={data}
+        />
+      </div>
+    </>
   );
 };
 

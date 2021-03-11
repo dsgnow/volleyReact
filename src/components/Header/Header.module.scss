@@ -1,3 +1,5 @@
+@import '../../Assets/styles/global';
+
 header {
   display: flex;
   flex-direction: column;
@@ -5,7 +7,7 @@ header {
   align-items: center;
   height: 20vh;
   color: white;
-  background-image: var(--mainGradient);
+  background-image: $primaryGradient;
 }
 
 .wrapHeadings {
