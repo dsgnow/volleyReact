@@ -26,21 +26,18 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import SearchBar from 'material-ui-search-bar';
 import { myStyles } from './TableStyles.js';
 import {
-  tableStyles,
-  tableStylesSmall
+  StyledTableContainer,
+  StyledPaper,
+  Paragraph
 } from './TableStyled.js';
 import styled from 'styled-components';
 
-const StyledTableContainer = styled(TableContainer)`
-  ${({ theme }) => `  
-  ${theme.breakpoints.up('sm')} {
-  `}
-  ${tableStyles};
-`;
-
-const StyledPaper = styled(Paper)`
-  ${tableStylesSmall};
-`;
+// const StyledPaper = styled(Paper)`
+// ${({ theme }) => `
+//   ${theme.breakpoints.up('sm')} {
+//   `}
+//   ${tableStylesSmall};
+// `;
 
 const StyledButton = styled(Button)`
   padding: 5px 20px;
@@ -194,6 +191,9 @@ export default function CustomPaginationActionsTable() {
 
   return (
     <StyledTableContainer>
+      <Paragraph>
+        Look at my buttons, they are amazing buttons !
+      </Paragraph>
       <StyledPaper>
         <SearchBar
           value={searched}
