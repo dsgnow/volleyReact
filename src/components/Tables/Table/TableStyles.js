@@ -12,10 +12,10 @@ export const myStyles = {
       marginBottom: '100px'
     }
   },
-  '&__small': {
+  wrapTable__small: {
     width: '100%',
     '@media (min-width: 800px)': {
-      width: '50%'
+      width: '60%'
     }
   },
   pagination: {
