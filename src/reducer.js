@@ -1,14 +1,9 @@
 export const reducer = (state, action) => {
   switch (action.type) {
-    case 'changePlayer':
-      const newPlayers = state.allPlayers.filter(
-        (player) => player.id !== '1'
-      );
-      return { ...state, allPlayers: newPlayers };
+    case 'changePlayersAssignedToGame':
+      return { ...state, playersAssignedToGame: action.value };
     default:
-      throw new Error(
-        'Nie ma takiej akcji: ' + action.type
-      );
+      throw new Error('Nie ma takiej akcji: ' + action.type);
   }
 };
 

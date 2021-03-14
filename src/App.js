@@ -7,14 +7,10 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
-import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import Header from '../src/components/Header/Header';
-import { MDBBtn } from 'mdbreact';
-import Table from './components/Tables/Table';
-import GamePlayersTable from './components/Tables/GamePlayersTable/GamePlayersTable';
+import GamePlayersTable from './components/GamePlayersTableUi/GamePlayersListTable';
 import styled, { ThemeProvider } from 'styled-components';
 import {
   createMuiTheme,
@@ -32,17 +28,29 @@ const theme = createMuiTheme({
     ].join(',')
   },
   palette: {
-    primary: {
-      main: '#1976d2'
+    add: {
+      main: '#3f51b5',
+      light: '#7986cb',
+      dark: '#303f9f'
     },
-    secondary: {
-      main: '#dc004e'
+    delete: {
+      main: '#f50057',
+      light: '#ff4081',
+      dark: '#c51162'
+    },
+    error: {
+      main: '#f44336'
+    },
+    mainGradient: {
+      main: 'linear-gradient(to right, #0575e6, #021b79)',
+      darken: 'linear-gradient(to right, #021b79, #0575e6)'
+    },
+    secondaryGradient: {
+      main: 'linear-gradient(to right, #ed213a, #93291e)',
+      darken: 'linear-gradient(to right, #93291e, #ed213a)'
     }
   },
-  root: {
-    mainGradient:
-      'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
-  },
+  root: {},
   status: {
     danger: 'red'
   },
@@ -58,10 +66,7 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  const [state, dispatch] = useReducer(
-    reducer,
-    intialState
-  );
+  const [state, dispatch] = useReducer(reducer, intialState);
 
   return (
     <div className="App">
@@ -72,8 +77,7 @@ function App() {
             value={{
               state: state,
               dispatch: dispatch
-            }}
-          >
+            }}>
             <Header />
             <main>
               <GamePlayersTable />

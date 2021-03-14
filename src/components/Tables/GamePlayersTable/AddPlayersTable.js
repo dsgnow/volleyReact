@@ -16,8 +16,7 @@ const AddPlayersTable = (props) => {
         add={el.id}
         onClick={() => clickHandler(el.id)}
         color={'primary'}
-        size="sm"
-      >
+        size="sm">
         Dodaj gracza
       </MDBBtn>
     );
@@ -40,9 +39,7 @@ const AddPlayersTable = (props) => {
   };
 
   const clickHandler = (e) => {
-    const filteredPlayer = allPlayers.filter(
-      (player) => player.id === e
-    );
+    const filteredPlayer = allPlayers.filter((player) => player.id === e);
     props.addPlayer(filteredPlayer);
   };
 

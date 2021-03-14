@@ -1,10 +1,11 @@
 import styled, { css } from 'styled-components';
+import { TableContainer, Paper } from '@material-ui/core';
 
-export const StyledTableContainer = styled.p`
-  ${({ theme }) => `
+export const StyledTableContainer = styled(TableContainer)`
+  /* ${({ theme }) => `
    ${theme.breakpoints.up('sm')} {
        background-color: red; 
-   `}
+   `} */
   width: 95%;
   margin: 5px auto;
   padding: 25px;
@@ -19,7 +20,7 @@ export const StyledTableContainer = styled.p`
   }
 `;
 
-export const StyledPaper = styled.p`
+export const StyledPaper = styled(Paper)`
   width: 100%;
   margin: 5px auto;
   padding: 25px;
@@ -31,9 +32,13 @@ export const StyledPaper = styled.p`
   }
 `;
 
-export const Paragraph = styled.p`
-  font-size: 14px;
-  line-height: 18px;
-  color: red;
+export const H2 = styled.h1`
+  font-size: 25px;
+  font-weight: 500;
   margin-bottom: 20px;
+
+  @media (min-width: 800px) {
+    font-size: 30px;
+    margin-bottom: 50px;
+  }
 `;

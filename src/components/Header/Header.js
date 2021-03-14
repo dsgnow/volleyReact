@@ -14,7 +14,7 @@ const Header = (props) => {
           <h1>Siatkówka {context.state.gamePlace}</h1>
           <h2>{context.state.gameDate}</h2>
         </div>
-        <button onClick={changePlayer}>Test</button>
+        {/* <button onClick={changePlayer}>Test</button> */}
       </header>
     </>
   );

@@ -1,35 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  makeStyles,
-  useTheme
-} from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableFooter,
   TablePagination,
   TableRow,
-  Paper,
-  IconButton,
-  Button
+  IconButton
 } from '@material-ui/core';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
-import {
-  KeyboardArrowLeft,
-  KeyboardArrowRight
-} from '@material-ui/icons';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
 import LastPageIcon from '@material-ui/icons/LastPage';
 
 import SearchBar from 'material-ui-search-bar';
 import { myStyles } from './TableStyles.js';
-import {
-  StyledTableContainer,
-  StyledPaper,
-  Paragraph
-} from './TableStyled.js';
+import { StyledTableContainer, StyledPaper, H2 } from './TableStyled.js';
+import Button from '../../../UI/Button/Button';
 import styled from 'styled-components';
 
 // const StyledPaper = styled(Paper)`
@@ -38,13 +26,6 @@ import styled from 'styled-components';
 //   `}
 //   ${tableStylesSmall};
 // `;
-
-const StyledButton = styled(Button)`
-  padding: 5px 20px;
-  text-transform: none;
-  outline: none;
-  text-decoration: none;
-`;
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -63,10 +44,7 @@ function TablePaginationActions(props) {
   };
 
   const handleLastPageButtonClick = (event) => {
-    onChangePage(
-      event,
-      Math.max(0, Math.ceil(count / rowsPerPage) - 1)
-    );
+    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
   return (
@@ -74,19 +52,13 @@ function TablePaginationActions(props) {
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === 'rtl' ? (
-          <LastPageIcon />
-        ) : (
-          <FirstPageIcon />
-        )}
+        aria-label="first page">
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
-        aria-label="previous page"
-      >
+        aria-label="previous page">
         {theme.direction === 'rtl' ? (
           <KeyboardArrowRight />
         ) : (
@@ -95,11 +67,8 @@ function TablePaginationActions(props) {
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
-        disabled={
-          page >= Math.ceil(count / rowsPerPage) - 1
-        }
-        aria-label="next page"
-      >
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page">
         {theme.direction === 'rtl' ? (
           <KeyboardArrowLeft />
         ) : (
@@ -108,16 +77,9 @@ function TablePaginationActions(props) {
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
-        disabled={
-          page >= Math.ceil(count / rowsPerPage) - 1
-        }
-        aria-label="last page"
-      >
-        {theme.direction === 'rtl' ? (
-          <FirstPageIcon />
-        ) : (
-          <LastPageIcon />
-        )}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page">
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
   );
@@ -130,40 +92,22 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired
 };
 
-const rowsData = [
-  {
-    id: '1',
-    name: 'Brylant Barber',
-    skill: 6,
-    endTime: '2021/01/02 02:00:00',
-    info: '',
-    gender: 'male'
-  },
-  {
-    id: '2',
-    name: 'Piotr Stachowicz',
-    skill: 6,
-    endTime: '2021/01/02 01:00:00',
-    info: '',
-    gender: 'male'
-  }
-];
-
-export default function CustomPaginationActionsTable() {
+export default function CustomPaginationActionsTable(props) {
   const theme = useTheme();
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const rowsData = props.data;
 
   const [rows, setRows] = useState(rowsData);
   const [searched, setSearched] = useState('');
 
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(
+    props.rowsPerPageOnStart[0]
+  );
+
   const requestSearch = (searchedVal) => {
     if (searchedVal !== '') {
       const filteredRows = rows.filter((row) => {
-        return row.name
-          .toLowerCase()
-          .includes(searchedVal.toLowerCase());
+        return row.name.toLowerCase().includes(searchedVal.toLowerCase());
       });
       setRows(filteredRows);
     } else {
@@ -177,8 +121,7 @@ export default function CustomPaginationActionsTable() {
   };
 
   const emptyRows =
-    rowsPerPage -
-    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -189,13 +132,16 @@ export default function CustomPaginationActionsTable() {
     setPage(0);
   };
 
+  useEffect(() => {
+    setRows(rowsData);
+  }, [rowsData]);
+
   return (
-    <StyledTableContainer>
-      <Paragraph>
-        Look at my buttons, they are amazing buttons !
-      </Paragraph>
+    <>
+      <H2>{props.title}</H2>
       <StyledPaper>
         <SearchBar
+          placeholder="Szukaj"
           value={searched}
           onChange={(searchVal) => requestSearch(searchVal)}
           onCancelSearch={() => cancelSearch()}
@@ -203,36 +149,31 @@ export default function CustomPaginationActionsTable() {
             backgroundImage: `${theme.mainGradient}`
           }}
         />
-        <Table aria-label="custom pagination table">
+        <Table aria-label="dodaj gracza">
           <TableBody>
             {(rowsPerPage > 0
-              ? rows.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : rows
             ).map((row) => (
-              <TableRow key={row.name}>
+              <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell
-                  style={{ width: 160 }}
-                  align="right"
-                >
-                  <StyledButton
-                    color="primary"
+                <TableCell style={{ width: 160 }} align="right">
+                  <Button
+                    color={props.buttonColor}
                     size="small"
                     variant="contained"
-                  >
-                    Dodaj gracza
-                  </StyledButton>
+                    onClick={() => props.handleClick(row.id)}
+                    title={props.buttonTitle}></Button>
                 </TableCell>
               </TableRow>
             ))}
-
             {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
+              <TableRow
+                style={{
+                  height: 53 * emptyRows
+                }}>
                 <TableCell colSpan={6} />
               </TableRow>
             )}
@@ -240,11 +181,15 @@ export default function CustomPaginationActionsTable() {
           <TableFooter>
             <TableRow>
               <TablePagination
+                labelRowsPerPage="wierszy na stronę"
                 rowsPerPageOptions={[
-                  5,
-                  10,
-                  25,
-                  { label: 'All', value: -1 }
+                  props.rowsPerPageOnStart[0],
+                  props.rowsPerPageOnStart[1],
+                  props.rowsPerPageOnStart[2],
+                  {
+                    label: 'All',
+                    value: -1
+                  }
                 ]}
                 colSpan={3}
                 count={rows.length}
@@ -252,20 +197,18 @@ export default function CustomPaginationActionsTable() {
                 page={page}
                 SelectProps={{
                   inputProps: {
-                    'aria-label': 'rows per page'
+                    'aria-label': 'wierszy na stronę'
                   },
                   native: true
                 }}
                 onChangePage={handleChangePage}
-                onChangeRowsPerPage={
-                  handleChangeRowsPerPage
-                }
+                onChangeRowsPerPage={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
               />
             </TableRow>
           </TableFooter>
         </Table>
       </StyledPaper>
-    </StyledTableContainer>
+    </>
   );
 }
