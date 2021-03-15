@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import {
   Table,
   TableBody,
@@ -9,16 +9,15 @@ import {
   TablePagination,
   TableRow,
   IconButton
-} from '@material-ui/core';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
-import LastPageIcon from '@material-ui/icons/LastPage';
+} from '@material-ui/core'
+import FirstPageIcon from '@material-ui/icons/FirstPage'
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
+import LastPageIcon from '@material-ui/icons/LastPage'
 
-import SearchBar from 'material-ui-search-bar';
-import { myStyles } from './TableStyles.js';
-import { StyledTableContainer, StyledPaper, H2 } from './TableStyled.js';
-import Button from '../../../UI/Button/Button';
-import styled from 'styled-components';
+import SearchBar from 'material-ui-search-bar'
+import { StyledTableContainer, StyledPaper, H2 } from './TableStyled.js'
+import Button from '../../../UI/Button/Button'
+import styled from 'styled-components'
 
 // const StyledPaper = styled(Paper)`
 // ${({ theme }) => `
@@ -28,24 +27,24 @@ import styled from 'styled-components';
 // `;
 
 function TablePaginationActions(props) {
-  const theme = useTheme();
-  const { count, page, rowsPerPage, onChangePage } = props;
+  const theme = useTheme()
+  const { count, page, rowsPerPage, onChangePage } = props
 
   const handleFirstPageButtonClick = (event) => {
-    onChangePage(event, 0);
-  };
+    onChangePage(event, 0)
+  }
 
   const handleBackButtonClick = (event) => {
-    onChangePage(event, page - 1);
-  };
+    onChangePage(event, page - 1)
+  }
 
   const handleNextButtonClick = (event) => {
-    onChangePage(event, page + 1);
-  };
+    onChangePage(event, page + 1)
+  }
 
   const handleLastPageButtonClick = (event) => {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
+    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
+  }
 
   return (
     <div style={{ flexShrink: 0 }}>
@@ -82,7 +81,7 @@ function TablePaginationActions(props) {
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
-  );
+  )
 }
 
 TablePaginationActions.propTypes = {
@@ -90,51 +89,51 @@ TablePaginationActions.propTypes = {
   onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired
-};
+}
 
 export default function CustomPaginationActionsTable(props) {
-  const theme = useTheme();
-  const rowsData = props.data;
+  const theme = useTheme()
+  const rowsData = props.data
 
-  const [rows, setRows] = useState(rowsData);
-  const [searched, setSearched] = useState('');
+  const [rows, setRows] = useState(rowsData)
+  const [searched, setSearched] = useState('')
 
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(
     props.rowsPerPageOnStart[0]
-  );
+  )
 
   const requestSearch = (searchedVal) => {
     if (searchedVal !== '') {
       const filteredRows = rows.filter((row) => {
-        return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-      });
-      setRows(filteredRows);
+        return row.name.toLowerCase().includes(searchedVal.toLowerCase())
+      })
+      setRows(filteredRows)
     } else {
-      setRows(rowsData);
+      setRows(rowsData)
     }
-  };
+  }
 
   const cancelSearch = () => {
-    setSearched('');
-    requestSearch(searched);
-  };
+    setSearched('')
+    requestSearch(searched)
+  }
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
   useEffect(() => {
-    setRows(rowsData);
-  }, [rowsData]);
+    setRows(rowsData)
+  }, [rowsData])
 
   return (
     <>
@@ -210,5 +209,5 @@ export default function CustomPaginationActionsTable(props) {
         </Table>
       </StyledPaper>
     </>
-  );
+  )
 }

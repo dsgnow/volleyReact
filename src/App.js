@@ -1,23 +1,25 @@
-import { useReducer, useEffect } from 'react';
-import { reducer, intialState } from './reducer';
-import ReducerContext from './context/ReducerContext';
+import { useReducer, useEffect } from 'react'
+import { reducer, intialState } from './reducer'
+import ReducerContext from './context/ReducerContext'
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect
-} from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import './App.css';
-import Header from '../src/components/Header/Header';
-import GamePlayersTable from './components/GamePlayersTableUi/GamePlayersListTable';
-import styled, { ThemeProvider } from 'styled-components';
+} from 'react-router-dom'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import { palette } from '@material-ui/system'
+import './App.css'
+import Header from '../src/components/Header/Header'
+import GamePlayersTable from './components/Tables/GamePlayersListTable'
+import styled, { ThemeProvider } from 'styled-components'
 import {
   createMuiTheme,
-  ThemeProvider as MuiThemeProvider
-} from '@material-ui/core/styles';
+  ThemeProvider as MuiThemeProvider,
+  responsiveFontSizes
+} from '@material-ui/core/styles'
 
-const theme = createMuiTheme({
+let theme = createMuiTheme({
   typography: {
     fontFamily: [
       'Montserrat',
@@ -25,48 +27,44 @@ const theme = createMuiTheme({
       '"Helvetica Neue"',
       'Arial',
       'sans-serif'
-    ].join(',')
+    ].join(','),
+    h1: {
+      fontWeight: 700
+    },
+    h2: {
+      fontWeight: 500
+    },
+    h3: {
+      fontWeight: 300
+    },
+    h4: {
+      fontWeight: 300
+    }
   },
   palette: {
-    add: {
-      main: '#3f51b5',
-      light: '#7986cb',
-      dark: '#303f9f'
+    primary: {
+      light: '#58a5ef',
+      main: '#0277bc',
+      dark: '#004c8b',
+      contrastText: '#ffffff'
     },
-    delete: {
-      main: '#f50057',
-      light: '#ff4081',
-      dark: '#c51162'
-    },
-    error: {
-      main: '#f44336'
+    secondary: {
+      light: '#6d6d6d',
+      main: '#424242',
+      dark: '#1b1b1b',
+      contrastText: '#ffffff'
     },
     mainGradient: {
-      main: 'linear-gradient(to right, #0575e6, #021b79)',
+      main: 'linear-gradient(to right, #0277bc, #004c8b)',
       darken: 'linear-gradient(to right, #021b79, #0575e6)'
-    },
-    secondaryGradient: {
-      main: 'linear-gradient(to right, #ed213a, #93291e)',
-      darken: 'linear-gradient(to right, #93291e, #ed213a)'
-    }
-  },
-  root: {},
-  status: {
-    danger: 'red'
-  },
-  overrides: {
-    MuiCssBaseline: {
-      '@global': {
-        html: {
-          WebkitFontSmoothing: 'auto'
-        }
-      }
     }
   }
-});
+})
+
+theme = responsiveFontSizes(theme)
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, intialState);
+  const [state, dispatch] = useReducer(reducer, intialState)
 
   return (
     <div className="App">
@@ -86,7 +84,7 @@ function App() {
         </ThemeProvider>
       </MuiThemeProvider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
