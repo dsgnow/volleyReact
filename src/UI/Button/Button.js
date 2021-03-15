@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import { Button } from '@material-ui/core';
+import styled, { css } from 'styled-components'
+import { Button } from '@material-ui/core'
 
 const StyledButton = (props) => {
   const StyledButton = styled(Button)`
@@ -25,9 +25,9 @@ const StyledButton = (props) => {
     text-decoration: none;
     color: white;
     /* background-color: ${(props) => props.color}; */
-  `;
+  `
 
-  return <StyledButton {...props}>{props.title}</StyledButton>;
-};
+  return <StyledButton {...props}>{props.title}</StyledButton>
+}
 
-export default StyledButton;
+export default StyledButton

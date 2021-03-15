@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { useTheme } from '@material-ui/core/styles'
 import {
   Table,
   TableBody,
@@ -14,8 +14,12 @@ import FirstPageIcon from '@material-ui/icons/FirstPage'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
 import LastPageIcon from '@material-ui/icons/LastPage'
 
-import SearchBar from 'material-ui-search-bar'
-import { StyledTableContainer, StyledPaper, H2 } from './TableStyled.js'
+import {
+  StyledPaper,
+  H2,
+  StyledTableHead,
+  StyledSearchBar
+} from './TableStyled.js'
 import Button from '../../../UI/Button/Button'
 import styled from 'styled-components'
 
@@ -51,13 +55,13 @@ function TablePaginationActions(props) {
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
-        aria-label="first page">
+        aria-label="pierwsza strona">
         {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
-        aria-label="previous page">
+        aria-label="poprzednia strona">
         {theme.direction === 'rtl' ? (
           <KeyboardArrowRight />
         ) : (
@@ -67,7 +71,7 @@ function TablePaginationActions(props) {
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page">
+        aria-label="następna strona">
         {theme.direction === 'rtl' ? (
           <KeyboardArrowLeft />
         ) : (
@@ -77,7 +81,7 @@ function TablePaginationActions(props) {
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page">
+        aria-label="ostatnia strona">
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
@@ -137,27 +141,36 @@ export default function CustomPaginationActionsTable(props) {
 
   return (
     <>
-      <H2>{props.title}</H2>
       <StyledPaper>
-        <SearchBar
+        <H2 variant="h4">{props.title}</H2>
+        <StyledSearchBar
+          align={'right'}
           placeholder="Szukaj"
           value={searched}
           onChange={(searchVal) => requestSearch(searchVal)}
           onCancelSearch={() => cancelSearch()}
-          style={{
-            backgroundImage: `${theme.mainGradient}`
-          }}
         />
-        <Table aria-label="dodaj gracza">
+        <Table aria-label={props.label}>
+          <StyledTableHead>
+            <TableRow>
+              {props.tableHeaders.map((header) => (
+                <TableCell style={{ fontWeight: '700' }} key={header}>
+                  {header}
+                </TableCell>
+              ))}
+            </TableRow>
+          </StyledTableHead>
           <TableBody>
             {(rowsPerPage > 0
               ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : rows
             ).map((row) => (
               <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
+                {props.columns.map((column) => (
+                  <TableCell key={column} component="th" scope="row">
+                    {row[column]}
+                  </TableCell>
+                ))}
                 <TableCell style={{ width: 160 }} align="right">
                   <Button
                     color={props.buttonColor}

@@ -11,17 +11,17 @@ import { Home } from '@material-ui/icons'
 import styled from 'styled-components'
 
 const navLinks = [
-  { title: `dodaj gre`, path: `/dodaj-gre` },
+  { title: `dodaj grę`, path: `/dodaj-gre` },
   { title: `dodaj gracza`, path: `/dodaj-gracza` },
-  { title: `edytuj`, path: `/edytuj` },
-  { title: `zaloguj`, path: `/login` }
+  { title: `profil`, path: `/edytuj` },
+  { title: `wyloguj`, path: `/wyloguj` }
 ]
 
 const StyledAppBar = styled(AppBar)`
-  margin-top: 20px;
   margin-bottom: 40px;
-  width: 90%;
+  width: 100%;
   display: none;
+  top: 0;
   ${({ theme }) => `
    ${theme.breakpoints.up('sm')} {
        display: flex

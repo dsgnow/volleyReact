@@ -55,6 +55,9 @@ const GamePlayersTable = ({ title }) => {
     <StyledTableContainer>
       <AddPlayersTable addPlayer={addPlayer} />
       <Table
+        label={'Przypisani zawodnicy do gry'}
+        tableHeaders={['gracz', 'skill', 'usuń']}
+        columns={['name', 'skill']}
         title={'Gracze dodani do gry'}
         data={tableData ? tableData : []}
         handleClick={(playerId) => removePlayer(playerId)}

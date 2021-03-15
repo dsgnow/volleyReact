@@ -25,11 +25,14 @@ const StyledHeader = styled.div`
   align-items: center;
   height: 20vh;
   color: white;
-  padding: 20px 0 40px;
+  padding: 0 0 60px;
   height: auto;
   ${({ theme }) => `
     {
        background-image: ${theme.palette.mainGradient.main};
+       ${theme.breakpoints.down('sm')} {
+        padding: 20px 0 20px;
+      }
    `}
 `
 

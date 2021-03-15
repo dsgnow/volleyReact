@@ -35,10 +35,10 @@ let theme = createMuiTheme({
       fontWeight: 500
     },
     h3: {
-      fontWeight: 300
+      fontWeight: 500
     },
     h4: {
-      fontWeight: 300
+      fontWeight: 500
     }
   },
   palette: {
