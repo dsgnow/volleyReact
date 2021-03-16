@@ -21,6 +21,7 @@ const StyledAppBar = styled(AppBar)`
   display: none;
   position: absolute;
   top: 0;
+  background-image: ${({ theme }) => theme.palette.mainGradient.main};
   ${({ theme }) => `
    ${theme.breakpoints.up('sm')} {
        display: flex

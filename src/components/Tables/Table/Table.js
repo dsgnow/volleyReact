@@ -12,7 +12,7 @@ import TablePaginationActions from './TablePaginationActions'
 import Button from '../../../UI/Button/Button'
 import {
   StyledPaper,
-  H2,
+  StyledTypography,
   StyledTableHead,
   StyledSearchBar
 } from './TableStyled.js'
@@ -82,7 +82,7 @@ export default function CustomPaginationActionsTable(props) {
   return (
     <>
       <StyledPaper>
-        <H2 variant="h4">{props.title}</H2>
+        <StyledTypography variant="h5">{props.title}</StyledTypography>
         <StyledSearchBar
           align={'right'}
           placeholder="Szukaj"

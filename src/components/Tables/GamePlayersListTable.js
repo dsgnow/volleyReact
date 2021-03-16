@@ -50,7 +50,7 @@ const GamePlayersTable = () => {
   }
 
   return (
-    <StyledTableContainer>
+    <>
       <AddPlayersTable addPlayer={addPlayer} />
       <Table
         label={'Przypisani zawodnicy do gry'}
@@ -63,7 +63,7 @@ const GamePlayersTable = () => {
         buttonColor={'secondary'}
         rowsPerPageOnStart={[3, 12, 24]}
       />
-    </StyledTableContainer>
+    </>
   )
 }
 

@@ -8,7 +8,8 @@ export const StyledTableContainer = styled(TableContainer)`
        background-color: red; 
    `} */
   /* background: ${({ theme }) => theme.primaryDark};  */
-  width: 95%;
+  position: relative;
+  width: 100%;
   margin: 5px auto;
   padding: 25px;
   box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
@@ -56,7 +57,7 @@ export const StyledPaper = styled(Paper)`
   }
 `
 
-export const H2 = styled(Typography)`
+export const StyledTypography = styled(Typography)`
   margin-bottom: 25px;
 
   @media (min-width: 800px) {

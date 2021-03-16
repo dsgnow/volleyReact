@@ -6,13 +6,14 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import chorzowskaImage from '../../assets/images/halachorzowska.jpg'
-import delfin from '../../assets/images/delfin.jpeg'
+import chorzowskaImage from '../../Assets/Images/halachorzowska.jpg'
+import delfin from '../../Assets/Images/delfin.jpeg'
 
 const StyledCard = styled(Card)`
   width: 345px;
   box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
   margin: 30px 0;
+  text-align: left;
 `
 
 const StyledCardMedia = styled(CardMedia)`
@@ -44,13 +45,16 @@ export default function MediaCard() {
               Ilość wolnych miejsc: 6/36
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Hala Widowiskowo - Sportowa ul. Chorzowska 5
+              ul. Chorzowska 5, Gliwice
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
           <Button size="large" color="primary">
             Zapisz się
+          </Button>
+          <Button size="large" color="primary">
+            Składy
           </Button>
         </CardActions>
       </StyledCard>
@@ -76,13 +80,16 @@ export default function MediaCard() {
               Ilość wolnych miejsc: 12/24
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              ul. Warszawska 35, 44-100 Gliwice
+              ul. Warszawska 35, Gliwice
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
           <Button size="large" color="primary">
             Zapisz się
+          </Button>
+          <Button size="large" color="primary">
+            Składy
           </Button>
         </CardActions>
       </StyledCard>

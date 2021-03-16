@@ -77,8 +77,8 @@ function App() {
             }}>
             <Header />
             <main>
-              <StartGames />
-              {/* <AddPlayersToGame /> */}
+              {/* <StartGames /> */}
+              <AddPlayersToGame />
             </main>
           </ReducerContext.Provider>
         </ThemeProvider>
