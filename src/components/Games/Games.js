@@ -6,8 +6,8 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import chorzowskaImage from '../../Assets/Images/halachorzowska.jpg'
-import delfin from '../../Assets/Images/delfin.jpeg'
+import chorzowskaImage from '../../assets/images/halachorzowska.jpg'
+import delfin from '../../assets/images/delfin.jpeg'
 
 const StyledCard = styled(Card)`
   width: 345px;
@@ -24,10 +24,7 @@ export default function MediaCard() {
     <>
       <StyledCard>
         <CardActionArea>
-          <StyledCardMedia
-            image={chorzowskaImage}
-            title="Contemplative Reptile"
-          />
+          <StyledCardMedia image={chorzowskaImage} title="Hala Chorzowska" />
           <CardContent style={{ marginLeft: 'auto' }}>
             <Typography gutterBottom variant="h5">
               Gliwice Chorzowska
@@ -52,17 +49,14 @@ export default function MediaCard() {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
-            Dojazd
-          </Button>
-          <Button size="small" color="primary">
+          <Button size="large" color="primary">
             Zapisz się
           </Button>
         </CardActions>
       </StyledCard>
       <StyledCard>
         <CardActionArea>
-          <StyledCardMedia image={delfin} title="Contemplative Reptile" />
+          <StyledCardMedia image={delfin} title="Hala Delfin" />
           <CardContent style={{ marginLeft: 'auto' }}>
             <Typography gutterBottom variant="h5">
               Gliwice Delfin
@@ -87,10 +81,7 @@ export default function MediaCard() {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
-            Dojazd
-          </Button>
-          <Button size="small" color="primary">
+          <Button size="large" color="primary">
             Zapisz się
           </Button>
         </CardActions>

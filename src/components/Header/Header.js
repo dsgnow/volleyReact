@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Typography } from '@material-ui/core'
 import ReducerContext from '../../context/ReducerContext'
 import Navbar from '../../UI/Navigation/Navbar'
-import headerImage from '../../Assets/Images/headerImage.jpg'
+import headerImage from '../../assets/images/headerImage.jpg'
 
 // const styledHeader = styled.div`
 //   display: flex;
