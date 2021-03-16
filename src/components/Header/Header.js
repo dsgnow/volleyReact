@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Typography } from '@material-ui/core'
 import ReducerContext from '../../context/ReducerContext'
 import Navbar from '../../UI/Navigation/Navbar'
+import headerImage from '../../Assets/Images/headerImage.jpg'
 
 // const styledHeader = styled.div`
 //   display: flex;
@@ -19,37 +20,34 @@ import Navbar from '../../UI/Navigation/Navbar'
 // `;
 
 const StyledHeader = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 20vh;
+  height: 35vh;
   color: white;
-  padding: 0 0 60px;
-  height: auto;
+  background: url(${headerImage}) no-repeat center center;
+  background-size: cover;
   ${({ theme }) => `
     {
-       background-image: ${theme.palette.mainGradient.main};
+    
        ${theme.breakpoints.down('sm')} {
         padding: 20px 0 20px;
       }
    `}
 `
 
-const Header = (props) => {
+const Header = () => {
   const context = useContext(ReducerContext)
-  const changePlayer = () => {
-    context.dispatch({ type: 'changePlayer' })
-  }
+
   return (
     <>
       <StyledHeader>
         <Navbar />
         <div>
-          <Typography variant="h2">
-            Siatkówka {context.state.gamePlace}
-          </Typography>
-          <Typography variant="h3">{context.state.gameDate}</Typography>
+          <Typography variant="h2">volley</Typography>
+          <Typography variant="h4">rozgrywki siatkarskie</Typography>
         </div>
       </StyledHeader>
     </>

@@ -1,11 +1,11 @@
 export const reducer = (state, action) => {
   switch (action.type) {
     case 'changePlayersAssignedToGame':
-      return { ...state, playersAssignedToGame: action.value };
+      return { ...state, playersAssignedToGame: action.value }
     default:
-      throw new Error('Nie ma takiej akcji: ' + action.type);
+      throw new Error('Nie ma takiej akcji: ' + action.type)
   }
-};
+}
 
 export const intialState = {
   allPlayers: [
@@ -205,4 +205,4 @@ export const intialState = {
   playersAssignedToGame: [],
   gameDate: '09.03.2020',
   gamePlace: 'Gliwice'
-};
+}

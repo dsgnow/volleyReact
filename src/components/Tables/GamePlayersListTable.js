@@ -1,14 +1,12 @@
 import { useContext } from 'react'
-import PropTypes from 'prop-types'
 import ReducerContext from '../../context/ReducerContext'
 import useStateStorage from '../../hooks/useStateStorage'
 import Table from '../Tables/Table/Table'
 import cloneDeep from 'lodash/cloneDeep'
 import AddPlayersTable from '../Tables/AddPlayersTable'
 import { StyledTableContainer } from '../Tables/Table/TableStyled'
-import { useTheme } from '@material-ui/core/styles'
 
-const GamePlayersTable = ({ title }) => {
+const GamePlayersTable = () => {
   const context = useContext(ReducerContext)
 
   const changePlayersAssignedToGame = (e) => {
@@ -67,10 +65,6 @@ const GamePlayersTable = ({ title }) => {
       />
     </StyledTableContainer>
   )
-}
-
-GamePlayersTable.propTypes = {
-  title: PropTypes.string
 }
 
 export default GamePlayersTable

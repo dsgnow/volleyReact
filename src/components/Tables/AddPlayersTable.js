@@ -1,12 +1,11 @@
 import { useContext } from 'react'
 import ReducerContext from '../../context/ReducerContext'
 import Table from '../Tables/Table/Table'
+import PropTypes from 'prop-types'
 import cloneDeep from 'lodash/cloneDeep'
-import { useTheme } from '@material-ui/core/styles'
 
 const AddPlayersTable = (props) => {
   const context = useContext(ReducerContext)
-  const theme = useTheme()
   const { allPlayers } = context.state
   const tableData = cloneDeep(allPlayers)
 
@@ -30,6 +29,10 @@ const AddPlayersTable = (props) => {
       />
     </>
   )
+}
+
+AddPlayersTable.propTypes = {
+  addPlayer: PropTypes.func.isRequired
 }
 
 export default AddPlayersTable

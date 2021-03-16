@@ -1,18 +1,17 @@
-import { useReducer, useEffect } from 'react'
+import { useReducer } from 'react'
 import { reducer, intialState } from './reducer'
 import ReducerContext from './context/ReducerContext'
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from 'react-router-dom'
+import // BrowserRouter as Router,
+// Route,
+// Switch,
+// Redirect
+'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { palette } from '@material-ui/system'
 import './App.css'
 import Header from '../src/components/Header/Header'
-import GamePlayersTable from './components/Tables/GamePlayersListTable'
-import styled, { ThemeProvider } from 'styled-components'
+import StartGames from './pages/StartGames/StartGames'
+import AddPlayersToGame from '../src/pages/admin/AddPlayersToGame/AddPlayersToGame'
+import { ThemeProvider } from 'styled-components'
 import {
   createMuiTheme,
   ThemeProvider as MuiThemeProvider,
@@ -78,7 +77,8 @@ function App() {
             }}>
             <Header />
             <main>
-              <GamePlayersTable />
+              <StartGames />
+              {/* <AddPlayersToGame /> */}
             </main>
           </ReducerContext.Provider>
         </ThemeProvider>

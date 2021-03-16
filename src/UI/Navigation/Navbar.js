@@ -7,7 +7,6 @@ import {
   Toolbar,
   IconButton
 } from '@material-ui/core'
-import { Home } from '@material-ui/icons'
 import styled from 'styled-components'
 
 const navLinks = [
@@ -18,9 +17,9 @@ const navLinks = [
 ]
 
 const StyledAppBar = styled(AppBar)`
-  margin-bottom: 40px;
   width: 100%;
   display: none;
+  position: absolute;
   top: 0;
   ${({ theme }) => `
    ${theme.breakpoints.up('sm')} {
@@ -53,8 +52,8 @@ const Navbar = () => {
               href={'/'}
               edge="start"
               color="inherit"
-              aria-label="home">
-              <Home fontSize="large" />
+              aria-label="logo">
+              volley
             </IconButton>
             <NavList component="nav" aria-labelledby="main navigation">
               {navLinks.map(({ title, path }) => (

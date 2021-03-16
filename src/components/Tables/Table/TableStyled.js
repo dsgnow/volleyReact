@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { TableContainer, Paper, Typography, TableHead } from '@material-ui/core'
 import SearchBar from 'material-ui-search-bar'
 
