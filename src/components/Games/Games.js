@@ -93,6 +93,41 @@ export default function MediaCard() {
           </Button>
         </CardActions>
       </StyledCard>
+      <StyledCard>
+        <CardActionArea>
+          <StyledCardMedia image={delfin} title="Hala Delfin" />
+          <CardContent style={{ marginLeft: 'auto' }}>
+            <Typography gutterBottom variant="h5">
+              Gliwice Delfin
+            </Typography>
+            <Typography
+              gutterBottom
+              color="textPrimary"
+              variant="h5"
+              style={{ fontWeight: 700 }}>
+              27.03.2021 15:30
+            </Typography>
+            <Typography
+              variant="h6"
+              color="textSecondary"
+              gutterBottom
+              style={{ marginTop: '10px', marginBottom: '20px' }}>
+              Ilość wolnych miejsc: 23/24
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              ul. Warszawska 35, Gliwice
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button size="large" color="primary">
+            Zapisz się
+          </Button>
+          <Button size="large" color="primary">
+            Składy
+          </Button>
+        </CardActions>
+      </StyledCard>
     </>
   )
 }

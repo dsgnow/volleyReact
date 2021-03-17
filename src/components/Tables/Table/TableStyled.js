@@ -16,12 +16,12 @@ export const StyledTableContainer = styled(TableContainer)`
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 
   @media (min-width: 800px) {
     width: 90%;
-    padding: 50px;
-    margin: 50px auto;
+    padding: 0;
+    margin: 0 auto;
     margin-bottom: 100px;
   }
 `

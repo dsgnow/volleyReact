@@ -56,6 +56,7 @@ const GamePlayersTable = () => {
         label={'Przypisani zawodnicy do gry'}
         tableHeaders={['gracz', 'skill', 'usuń']}
         columns={['name', 'skill']}
+        filteredColumn={'name'}
         title={'Gracze dodani do gry'}
         data={tableData ? tableData : []}
         handleClick={(playerId) => removePlayer(playerId)}

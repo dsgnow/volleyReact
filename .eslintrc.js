@@ -1,43 +1,47 @@
 module.exports = {
-    plugins: ['simple-import-sort'],
-    root: true, // Make sure eslint picks up the config at the root of the directory
-    parserOptions: {
-        ecmaVersion: 2020, // Use the latest ecmascript standard
-        sourceType: 'module', // Allows using import/export statements
-        ecmaFeatures: {
-            jsx: true // Enable JSX since we're using React
-        }
-    },
-    settings: {
-        react: {
-            version: 'detect' // Automatically detect the react version
-        }
-    },
-    env: {
-        browser: true, // Enables browser globals like window and document
-        amd: true, // Enables require() and define() as global variables as per the amd spec.
-        node: true // Enables Node.js global variables and Node.js scoping.
-    },
-    extends: [
-        'eslint:recommended',
-        'plugin:react/recommended',
-        'plugin:jsx-a11y/recommended',
-        'plugin:prettier/recommended' // Make this the last element so prettier config overrides other formatting rules
-    ],
-    rules: {
-        'prettier/prettier': ['error', {}, { usePrettierrc: true }],
-        'react/react-in-jsx-scope': 'off',
-        'react/jsx-wrap-multilines': [
-            'error',
-            {
-                declaration: 'parens-new-line',
-                assignment: 'parens-new-line',
-                return: 'parens-new-line',
-                arrow: 'parens-new-line',
-                condition: 'parens-new-line',
-                logical: 'parens-new-line',
-                prop: 'parens-new-line'
-            }
-        ]
+  plugins: ['simple-import-sort'],
+  root: true, // Make sure eslint picks up the config at the root of the directory
+  parserOptions: {
+    ecmaVersion: 2020, // Use the latest ecmascript standard
+    sourceType: 'module', // Allows using import/export statements
+    ecmaFeatures: {
+      jsx: true // Enable JSX since we're using React
     }
-};
+  },
+  settings: {
+    react: {
+      version: 'detect' // Automatically detect the react version
+    }
+  },
+  env: {
+    browser: true, // Enables browser globals like window and document
+    amd: true, // Enables require() and define() as global variables as per the amd spec.
+    node: true // Enables Node.js global variables and Node.js scoping.
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:jsx-a11y/recommended',
+    'plugin:prettier/recommended' // Make this the last element so prettier config overrides other formatting rules
+  ],
+  rules: {
+    'prettier/prettier': [
+      'error',
+      { endOfLine: 'auto' },
+      { usePrettierrc: true }
+    ],
+    'react/react-in-jsx-scope': 'off',
+    'react/jsx-wrap-multilines': [
+      'error',
+      {
+        declaration: 'parens-new-line',
+        assignment: 'parens-new-line',
+        return: 'parens-new-line',
+        arrow: 'parens-new-line',
+        condition: 'parens-new-line',
+        logical: 'parens-new-line',
+        prop: 'parens-new-line'
+      }
+    ]
+  }
+}

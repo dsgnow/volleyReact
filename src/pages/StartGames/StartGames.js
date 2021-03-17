@@ -26,7 +26,7 @@ const StartGames = () => {
   return (
     <>
       <StyledTypography variant="h3">Dostępne gry</StyledTypography>
-      <StyledContainer maxWidth="md">
+      <StyledContainer maxWidth="lg">
         <Games></Games>
       </StyledContainer>
     </>

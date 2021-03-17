@@ -16,6 +16,7 @@ import {
   StyledTableHead,
   StyledSearchBar
 } from './TableStyled.js'
+import cloneDeep from 'lodash/cloneDeep'
 
 // const StyledPaper = styled(Paper)`
 // ${({ theme }) => `
@@ -26,6 +27,7 @@ import {
 
 export default function CustomPaginationActionsTable(props) {
   const rowsData = props.data
+  const rowsDataDeepCopy = cloneDeep(props.data)
 
   const [rows, setRows] = useState(rowsData)
   const [searched, setSearched] = useState('')
@@ -36,14 +38,14 @@ export default function CustomPaginationActionsTable(props) {
   )
 
   const requestSearch = (searchedVal) => {
-    if (searchedVal !== '') {
-      const filteredRows = rows.filter((row) => {
-        return row.name.toLowerCase().includes(searchedVal.toLowerCase())
-      })
-      setRows(filteredRows)
-    } else {
-      setRows(rowsData)
-    }
+    setSearched(searchedVal)
+    const filteredColumn = props.filteredColumn
+    const filteredRows = rowsDataDeepCopy.filter((row) => {
+      return row[filteredColumn]
+        .toLowerCase()
+        .includes(searchedVal.toLowerCase())
+    })
+    setRows(filteredRows)
   }
 
   const cancelSearch = () => {
@@ -72,11 +74,12 @@ export default function CustomPaginationActionsTable(props) {
     label: PropTypes.string.isRequired,
     tableHeaders: PropTypes.array.isRequired,
     buttonColor: PropTypes.string.isRequired,
-    buttonTitle: PropTypes.string.isRequired,
+    buttonTitle: PropTypes.string,
     columns: PropTypes.array.isRequired,
     rowsPerPageOnStart: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
-    handleClick: PropTypes.func.isRequired
+    handleClick: PropTypes.func.isRequired,
+    filteredColumn: PropTypes.string.isRequired
   }
 
   return (
@@ -111,14 +114,16 @@ export default function CustomPaginationActionsTable(props) {
                     {row[column]}
                   </TableCell>
                 ))}
-                <TableCell style={{ width: 160 }} align="right">
-                  <Button
-                    color={props.buttonColor}
-                    size="small"
-                    variant="contained"
-                    onClick={() => props.handleClick(row.id)}
-                    title={props.buttonTitle}></Button>
-                </TableCell>
+                {props.buttonTitle && (
+                  <TableCell style={{ width: 160 }} align="right">
+                    <Button
+                      color={props.buttonColor}
+                      size="small"
+                      variant="contained"
+                      onClick={() => props.handleClick(row.id)}
+                      title={props.buttonTitle}></Button>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
             {emptyRows > 0 && (

@@ -20,6 +20,7 @@ const AddPlayersTable = (props) => {
         label={'Dodaj zawodników do gry'}
         tableHeaders={['gracz', 'dodaj']}
         columns={['name']}
+        filteredColumn={'name'}
         title={'Dodaj gracza'}
         data={tableData}
         handleClick={(playerId) => addPlayer(playerId)}

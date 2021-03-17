@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components'
 
 const navLinks = [
+  { title: `gry`, path: `/gry` },
   { title: `dodaj grę`, path: `/dodaj-gre` },
   { title: `dodaj gracza`, path: `/dodaj-gracza` },
   { title: `profil`, path: `/edytuj` },

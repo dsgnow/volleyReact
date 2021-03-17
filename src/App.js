@@ -11,6 +11,7 @@ import './App.css'
 import Header from '../src/components/Header/Header'
 import StartGames from './pages/StartGames/StartGames'
 import AddPlayersToGame from '../src/pages/admin/AddPlayersToGame/AddPlayersToGame'
+import GameComposition from '../src/pages/GameComposition/GameComposition'
 import { ThemeProvider } from 'styled-components'
 import {
   createMuiTheme,
@@ -75,10 +76,11 @@ function App() {
               state: state,
               dispatch: dispatch
             }}>
-            <Header />
+            {/* <Header /> */}
             <main>
               {/* <StartGames /> */}
-              <AddPlayersToGame />
+              {/* <AddPlayersToGame /> */}
+              <GameComposition />
             </main>
           </ReducerContext.Provider>
         </ThemeProvider>

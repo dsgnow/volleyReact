@@ -27,14 +27,11 @@ const AddPlayersToGame = () => {
   `
 
   const StyledContainer = styled.div`
-    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     background-image: ${({ theme }) => theme.palette.mainGradient.main};
     color: white;
-    top: 0;
-    left: 0;
     margin: 0 auto;
     width: 100%;
     height: 80px;
