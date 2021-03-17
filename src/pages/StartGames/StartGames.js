@@ -8,6 +8,7 @@ const StyledContainer = styled(Container)`
   flex-direction: column;
   justify-content: space-around;
   margin: 20px auto;
+  flex-wrap: wrap;
   ${({ theme }) => `
    ${theme.breakpoints.up('sm')} {
     flex-direction: row;

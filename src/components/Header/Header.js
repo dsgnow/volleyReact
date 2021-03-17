@@ -44,8 +44,10 @@ const Header = () => {
       <StyledHeader>
         <Navbar />
         <div>
-          <Typography variant="h2">volley</Typography>
-          <Typography variant="h4">rozgrywki siatkarskie</Typography>
+          <Typography variant="h1">volley</Typography>
+          <Typography style={{ fontWeight: 300 }} variant="h2">
+            rozgrywki siatkarskie
+          </Typography>
         </div>
       </StyledHeader>
     </>

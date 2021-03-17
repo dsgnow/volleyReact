@@ -29,15 +29,27 @@ let theme = createMuiTheme({
       'sans-serif'
     ].join(','),
     h1: {
+      fontSize: '5rem',
       fontWeight: 700
     },
     h2: {
+      fontSize: '3rem',
       fontWeight: 500
     },
     h3: {
+      fontSize: '2.5rem',
       fontWeight: 500
     },
     h4: {
+      fontSize: '1.8rem',
+      fontWeight: 500
+    },
+    h5: {
+      fontSize: '1.3rem',
+      fontWeight: 500
+    },
+    h6: {
+      fontSize: '1rem',
       fontWeight: 500
     }
   },
@@ -76,10 +88,10 @@ function App() {
               state: state,
               dispatch: dispatch
             }}>
-            {/* <Header /> */}
+            <Header />
             <main>
-              {/* <StartGames /> */}
-              {/* <AddPlayersToGame /> */}
+              <StartGames />
+              <AddPlayersToGame />
               <GameComposition />
             </main>
           </ReducerContext.Provider>

@@ -19,10 +19,10 @@ const AddPlayersToGame = () => {
     margin: ${({ theme }) => theme.spacing(1)};
     min-width: 150px;
     width: 40%;
-    margin: 80px auto 0;
+    margin: 40px auto 0;
     ${({ theme }) => `
     ${theme.breakpoints.up('sm')} {
-        margin: 110px auto 0;
+        margin: 60px auto 0;
     `}
   `
 
@@ -44,7 +44,7 @@ const AddPlayersToGame = () => {
   return (
     <StyledTableContainer style={{ marginTop: '40px' }}>
       <StyledContainer>
-        <Typography variant="h5">Wybierz grę i dodaj gracza</Typography>
+        <Typography variant="h4">Wybierz grę i dodaj gracza</Typography>
       </StyledContainer>
       <StyledFormControl variant="outlined">
         <InputLabel id="select game">Wybierz grę</InputLabel>

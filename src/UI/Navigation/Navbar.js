@@ -20,7 +20,7 @@ const navLinks = [
 const StyledAppBar = styled(AppBar)`
   width: 100%;
   display: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   background-image: ${({ theme }) => theme.palette.mainGradient.main};
   ${({ theme }) => `
