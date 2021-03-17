@@ -7,16 +7,16 @@ import useStateStorage from '../../../hooks/useStateStorage';
 
 const GamePlayerTable = (props) => {
   const [players, setPlayers] = useState('');
-  const tableState = players;
+  const tableState = [...players];
 
-  tableState &&
-    tableState.forEach((el, i) => {
-      el.delete = (
-        <MDBBtn delete={el.id} onClick={() => removePlayer(el.id)} color={'warning'} size="sm">
-          Usuń gracza
-        </MDBBtn>
-      );
-    });
+  // tableState &&
+  //   tableState.forEach((el, i) => {
+  //     el.delete = (
+  //       <MDBBtn delete={el.id} onClick={() => removePlayer(el.id)} color={'warning'} size="sm">
+  //         Usuń gracza
+  //       </MDBBtn>
+  //     );
+  //   });
 
   const data = {
     columns: [
@@ -60,7 +60,7 @@ const GamePlayerTable = (props) => {
   const addPlayer = (player) => {
     console.log(player);
     setPlayers([...tableState, player[0]]);
-    window.localStorage.setItem('dupa', JSON.stringify(test));
+    // window.localStorage.setItem('dupa', JSON.stringify(test));
   };
 
   const removePlayer = (playerId) => {

@@ -1,20 +1,23 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { MDBBtn } from 'mdbreact';
 import styles from './AddPlayersTable.module.scss';
 import ReducerContext from '../../../context/ReducerContext';
+import reducer from '../../../reducer';
 import Table from '../Table';
 
 const AddPlayersTable = (props) => {
   const context = useContext(ReducerContext);
-  const tableState = [...context.state.allPlayers];
+  const [state, setState] = useState('');
+  const initialState = [...context.state.allPlayers];
+  const assignedPlayers = [...context.state.playersAssignedToGame];
 
-  tableState.forEach((el, i) => {
-    el.add = (
-      <MDBBtn add={el.id} onClick={() => clickHandler(el.id)} color={'primary'} size="sm">
-        Dodaj gracza
-      </MDBBtn>
-    );
-  });
+  // initialState.forEach((el, i) => {
+  //   el.add = (
+  //     <MDBBtn add={el.id} onClick={() => clickHandler(el.id)} color={'primary'} size="sm">
+  //       Dodaj gracza
+  //     </MDBBtn>
+  //   );
+  // });
 
   const data = {
     columns: [
@@ -29,11 +32,11 @@ const AddPlayersTable = (props) => {
         sort: 'asc'
       }
     ],
-    rows: tableState
+    rows: initialState
   };
 
   const clickHandler = (e) => {
-    const filteredPlayer = context.filter((player) => player.id === e);
+    const filteredPlayer = context.state.allPlayers.filter((player) => player.id === e);
     props.addPlayer(filteredPlayer);
     console.log(filteredPlayer);
   };
