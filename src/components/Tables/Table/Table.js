@@ -29,8 +29,20 @@ export default function CustomPaginationActionsTable(props) {
   const rowsData = props.data
   const rowsDataDeepCopy = cloneDeep(props.data)
 
-  const [rows, setRows] = useState(rowsData)
+  const tableData = [
+    {
+      id: 1,
+      name: 'grupa 1',
+      skill: 36,
+      players:
+        'Damian Czapla, Michał (od P. Ważnego), Dawid (od P. Ważnego), Łukasz Wróblewski, Grzegorz Sołtysiak, Monika Szablińska',
+      playersCount: 6
+    }
+  ]
+
+  const [rows, setRows] = useState(tableData)
   const [searched, setSearched] = useState('')
+  const [search, setSearch] = useState('')
 
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(
@@ -38,7 +50,6 @@ export default function CustomPaginationActionsTable(props) {
   )
 
   const requestSearch = (searchedVal) => {
-    setSearched(searchedVal)
     const filteredColumn = props.filteredColumn
     const filteredRows = rowsDataDeepCopy.filter((row) => {
       return row[filteredColumn]
@@ -46,6 +57,10 @@ export default function CustomPaginationActionsTable(props) {
         .includes(searchedVal.toLowerCase())
     })
     setRows(filteredRows)
+  }
+
+  const handleChange = (e) => {
+    setSearch(e)
   }
 
   const cancelSearch = () => {
@@ -89,8 +104,11 @@ export default function CustomPaginationActionsTable(props) {
         <StyledSearchBar
           align={'right'}
           placeholder="Szukaj"
-          value={searched}
-          onChange={(searchVal) => requestSearch(searchVal)}
+          value={search}
+          onChange={(searchVal) => {
+            requestSearch(searchVal)
+            handleChange(searchVal)
+          }}
           onCancelSearch={() => cancelSearch()}
         />
         <Table aria-label={props.label}>
