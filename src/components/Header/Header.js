@@ -1,23 +1,55 @@
-import { useContext } from 'react';
-import styles from './Header.module.scss';
-import ReducerContext from '../../context/ReducerContext';
+import { useContext } from 'react'
+import styled from 'styled-components'
+import { Typography } from '@material-ui/core'
+import ReducerContext from '../../context/ReducerContext'
+import Navbar from '../../UI/Navigation/Navbar'
+import headerImage from '../../Assets/Images/headerImage.jpg'
 
-const Header = (props) => {
-  const context = useContext(ReducerContext);
-  const changePlayer = () => {
-    context.dispatch({ type: 'changePlayer' });
-  };
+// const styledHeader = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   height: 20vh;
+//   color: red;
+//   background-color: 'red';
+//   /* ${({ theme }) => `
+//     {
+//        background-image: ${theme.palette.mainGradient.main}
+//    `} */
+// `;
+
+const StyledHeader = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 35vh;
+  color: white;
+  background: url(${headerImage}) no-repeat center center;
+  background-size: cover;
+  ${({ theme }) => `
+    {
+    
+       ${theme.breakpoints.down('sm')} {
+        padding: 20px 0 20px;
+      }
+   `}
+`
+
+const Header = () => {
   return (
     <>
-      <header>
-        <div className={styles.wrapHeadings}>
-          <h1>Siatkówka {context.state.gamePlace}</h1>
-          <h2>{context.state.gameDate}</h2>
+      <StyledHeader>
+        <Navbar />
+        <div>
+          <Typography variant="h2">volley</Typography>
+          <Typography variant="h4">rozgrywki siatkarskie</Typography>
         </div>
-        <button onClick={changePlayer}>Test</button>
-      </header>
+      </StyledHeader>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
