@@ -14,33 +14,14 @@ import {
   StyledPaper,
   StyledTypography,
   StyledTableHead,
+  WrapSearch,
   StyledSearchBar
 } from './TableStyled.js'
-import cloneDeep from 'lodash/cloneDeep'
-
-// const StyledPaper = styled(Paper)`
-// ${({ theme }) => `
-//   ${theme.breakpoints.up('sm')} {
-//   `}
-//   ${tableStylesSmall};
-// `;
 
 export default function CustomPaginationActionsTable(props) {
   const rowsData = props.data
-  const rowsDataDeepCopy = cloneDeep(props.data)
 
-  const tableData = [
-    {
-      id: 1,
-      name: 'grupa 1',
-      skill: 36,
-      players:
-        'Damian Czapla, Michał (od P. Ważnego), Dawid (od P. Ważnego), Łukasz Wróblewski, Grzegorz Sołtysiak, Monika Szablińska',
-      playersCount: 6
-    }
-  ]
-
-  const [rows, setRows] = useState(tableData)
+  const [rows, setRows] = useState(rowsData)
   const [searched, setSearched] = useState('')
   const [search, setSearch] = useState('')
 
@@ -51,7 +32,7 @@ export default function CustomPaginationActionsTable(props) {
 
   const requestSearch = (searchedVal) => {
     const filteredColumn = props.filteredColumn
-    const filteredRows = rowsDataDeepCopy.filter((row) => {
+    const filteredRows = rowsData.filter((row) => {
       return row[filteredColumn]
         .toLowerCase()
         .includes(searchedVal.toLowerCase())
@@ -100,17 +81,19 @@ export default function CustomPaginationActionsTable(props) {
   return (
     <>
       <StyledPaper>
-        <StyledTypography variant="h5">{props.title}</StyledTypography>
-        <StyledSearchBar
-          align={'right'}
-          placeholder="Szukaj"
-          value={search}
-          onChange={(searchVal) => {
-            requestSearch(searchVal)
-            handleChange(searchVal)
-          }}
-          onCancelSearch={() => cancelSearch()}
-        />
+        <WrapSearch>
+          <StyledTypography variant="h5">{props.title}</StyledTypography>
+          <StyledSearchBar
+            align={'right'}
+            placeholder="Szukaj"
+            value={search}
+            onChange={(searchVal) => {
+              requestSearch(searchVal)
+              handleChange(searchVal)
+            }}
+            onCancelSearch={() => cancelSearch()}
+          />
+        </WrapSearch>
         <Table aria-label={props.label}>
           <StyledTableHead>
             <TableRow>

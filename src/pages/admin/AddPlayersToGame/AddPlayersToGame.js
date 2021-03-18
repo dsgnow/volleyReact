@@ -8,6 +8,11 @@ import Select from '@material-ui/core/Select'
 import styled from 'styled-components'
 import { StyledTableContainer } from '../../../components/Tables/Table/TableStyled'
 import { Typography } from '@material-ui/core'
+import {
+  StyledContainer,
+  StyledTitle,
+  StyledTitleTypography
+} from '../../../Assets/Styles/GlobalStyles'
 
 const AddPlayersToGame = () => {
   const [age, setAge] = React.useState('')
@@ -26,26 +31,13 @@ const AddPlayersToGame = () => {
     `}
   `
 
-  const StyledContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: ${({ theme }) => theme.palette.mainGradient.main};
-    color: white;
-    margin: 0 auto;
-    width: 100%;
-    height: 80px;
-    ${({ theme }) => `
-    ${theme.breakpoints.up('sm')} {
-      height: 110px;
-    `}
-  `
-
   return (
-    <StyledTableContainer style={{ marginTop: '40px' }}>
-      <StyledContainer>
-        <Typography variant="h4">Wybierz grę i dodaj gracza</Typography>
-      </StyledContainer>
+    <StyledContainer style={{ flexDirection: 'column' }}>
+      <StyledTitle>
+        <StyledTitleTypography variant="h4">
+          Wybierz grę i dodaj gracza
+        </StyledTitleTypography>
+      </StyledTitle>
       <StyledFormControl variant="outlined">
         <InputLabel id="select game">Wybierz grę</InputLabel>
         <Select
@@ -66,7 +58,7 @@ const AddPlayersToGame = () => {
         </Select>
       </StyledFormControl>
       <GamePlayersTable />
-    </StyledTableContainer>
+    </StyledContainer>
   )
 }
 

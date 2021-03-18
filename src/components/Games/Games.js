@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import chorzowskaImage from '../../Assets/Images/halachorzowska.jpg'
 import delfin from '../../Assets/Images/delfin.jpeg'
+import { NavLink, useRouteMatch } from 'react-router-dom'
 
 const StyledCard = styled(Card)`
   width: 345px;
@@ -20,7 +21,14 @@ const StyledCardMedia = styled(CardMedia)`
   height: 140px;
 `
 
+const StylednavLink = styled(NavLink)`
+  text-decoration: none;
+`
+
 export default function MediaCard() {
+  const { url } = useRouteMatch()
+  const id = '1'
+
   return (
     <>
       <StyledCard>
@@ -53,9 +61,11 @@ export default function MediaCard() {
           <Button size="large" color="primary">
             Zapisz się
           </Button>
-          <Button size="large" color="primary">
-            Składy
-          </Button>
+          <StylednavLink to={`${url}/składy/${id}`}>
+            <Button size="large" color="primary">
+              Składy
+            </Button>
+          </StylednavLink>
         </CardActions>
       </StyledCard>
       <StyledCard>
@@ -88,9 +98,11 @@ export default function MediaCard() {
           <Button size="large" color="primary">
             Zapisz się
           </Button>
-          <Button size="large" color="primary">
-            Składy
-          </Button>
+          <StylednavLink to={`${url}/składy/${id}`}>
+            <Button size="large" color="primary">
+              Składy
+            </Button>
+          </StylednavLink>
         </CardActions>
       </StyledCard>
       <StyledCard>
@@ -123,9 +135,11 @@ export default function MediaCard() {
           <Button size="large" color="primary">
             Zapisz się
           </Button>
-          <Button size="large" color="primary">
-            Składy
-          </Button>
+          <StylednavLink to={`${url}/składy/${id}`}>
+            <Button size="large" color="primary">
+              Składy
+            </Button>
+          </StylednavLink>
         </CardActions>
       </StyledCard>
       <StyledCard>
@@ -158,9 +172,11 @@ export default function MediaCard() {
           <Button size="large" color="primary">
             Zapisz się
           </Button>
-          <Button size="large" color="primary">
-            Składy
-          </Button>
+          <StylednavLink to={`${url}/składy/${id}`}>
+            <Button size="large" color="primary">
+              Składy
+            </Button>
+          </StylednavLink>
         </CardActions>
       </StyledCard>
       <StyledCard>
@@ -193,9 +209,11 @@ export default function MediaCard() {
           <Button size="large" color="primary">
             Zapisz się
           </Button>
-          <Button size="large" color="primary">
-            Składy
-          </Button>
+          <StylednavLink to={`${url}/składy/${id}`}>
+            <Button size="large" color="primary">
+              Składy
+            </Button>
+          </StylednavLink>
         </CardActions>
       </StyledCard>
       <StyledCard>
@@ -228,9 +246,11 @@ export default function MediaCard() {
           <Button size="large" color="primary">
             Zapisz się
           </Button>
-          <Button size="large" color="primary">
-            Składy
-          </Button>
+          <StylednavLink to={`${url}/składy/${id}`}>
+            <Button size="large" color="primary">
+              Składy
+            </Button>
+          </StylednavLink>
         </CardActions>
       </StyledCard>
     </>

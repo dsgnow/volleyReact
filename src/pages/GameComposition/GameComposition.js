@@ -4,6 +4,11 @@ import styled from 'styled-components'
 import { StyledTableContainer } from '../../components/Tables/Table/TableStyled'
 import { Typography } from '@material-ui/core'
 import Table from '../../components/Tables/Table/Table'
+import {
+  StyledContainer,
+  StyledTitle,
+  StyledTitleTypography
+} from '../../Assets/Styles/GlobalStyles'
 
 const tableData = [
   {
@@ -41,30 +46,14 @@ const tableData = [
 ]
 
 const AddPlayersToGame = () => {
-  const StyledDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-image: ${({ theme }) => theme.palette.mainGradient.main};
-    color: white;
-    margin: 0 auto;
-    width: 100%;
-    height: 100px;
-    ${({ theme }) => `
-    ${theme.breakpoints.up('sm')} {
-      height: 110px;
-    `}
-  `
-
   return (
-    <StyledTableContainer style={{ marginTop: '40px' }}>
-      <StyledDiv>
-        <Typography variant="h4">Składy</Typography>
-        <Typography variant="h5">
+    <StyledContainer maxWidth="lg">
+      <StyledTitle>
+        <StyledTitleTypography variant="h4">Składy</StyledTitleTypography>
+        <StyledTitleTypography variant="h5">
           Gliwice Chorzowska, 16.03.2021, 21:30
-        </Typography>
-      </StyledDiv>
+        </StyledTitleTypography>
+      </StyledTitle>
       <Table
         label={'Pierwsza rotacja'}
         tableHeaders={['grupa', 'gracze']}
@@ -76,7 +65,7 @@ const AddPlayersToGame = () => {
         buttonColor={'primary'}
         rowsPerPageOnStart={[1, 6, 12]}
       />
-    </StyledTableContainer>
+    </StyledContainer>
   )
 }
 

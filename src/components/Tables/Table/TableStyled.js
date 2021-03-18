@@ -46,7 +46,7 @@ export const StyledTableHead = styled(TableHead)`
 `
 
 export const StyledPaper = styled(Paper)`
-  width: 100%;
+  width: 90%;
   margin: 20px auto;
   padding: 25px;
   box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
@@ -57,10 +57,27 @@ export const StyledPaper = styled(Paper)`
   }
 `
 
-export const StyledTypography = styled(Typography)`
-  margin-bottom: 25px;
+export const WrapSearch = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  ${({ theme }) => `
+   ${theme.breakpoints.up('sm')} {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+   `}
+`
 
-  @media (min-width: 800px) {
-    margin-bottom: 25px;
-  }
+export const StyledTypography = styled(Typography)`
+  font-weight: 700;
+  margin-bottom: 30px;
+  ${({ theme }) => `
+   ${theme.breakpoints.up('sm')} {
+    margin-bottom: 20px;
+   `}
 `

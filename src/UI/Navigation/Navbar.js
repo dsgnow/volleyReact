@@ -8,6 +8,7 @@ import {
   IconButton
 } from '@material-ui/core'
 import styled from 'styled-components'
+import { NavLink, useRouteMatch } from 'react-router-dom'
 
 const navLinks = [
   { title: `gry`, path: `/gry` },
@@ -32,6 +33,7 @@ const StyledAppBar = styled(AppBar)`
 const NavbarDisplayFlex = styled(Container)`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `
 
 const NavList = styled(List)`
@@ -39,8 +41,8 @@ const NavList = styled(List)`
   justify-content: space-between;
 `
 
-const NavLink = styled.a`
-  text-decoration: none;
+const RouterNavLink = styled(NavLink)`
+  text-decoration: none !important;
   color: white;
 `
 
@@ -50,20 +52,18 @@ const Navbar = () => {
       <StyledAppBar position="static">
         <Toolbar>
           <NavbarDisplayFlex>
-            <IconButton
-              href={'/'}
-              edge="start"
-              color="inherit"
-              aria-label="logo">
-              volley
-            </IconButton>
+            <RouterNavLink exact to="/">
+              <IconButton edge="start" color="inherit" aria-label="logo">
+                volley
+              </IconButton>
+            </RouterNavLink>
             <NavList component="nav" aria-labelledby="main navigation">
               {navLinks.map(({ title, path }) => (
-                <NavLink href={path} key={title}>
+                <RouterNavLink exact to={path} key={title}>
                   <ListItem button>
                     <ListItemText primary={title} />
                   </ListItem>
-                </NavLink>
+                </RouterNavLink>
               ))}
             </NavList>
           </NavbarDisplayFlex>
