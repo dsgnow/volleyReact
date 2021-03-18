@@ -53,7 +53,11 @@ const Navbar = () => {
         <Toolbar>
           <NavbarDisplayFlex>
             <RouterNavLink exact to="/">
-              <IconButton edge="start" color="inherit" aria-label="logo">
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="logo"
+                style={{ fontWeight: '700' }}>
                 volley
               </IconButton>
             </RouterNavLink>

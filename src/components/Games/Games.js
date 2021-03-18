@@ -11,10 +11,16 @@ import delfin from '../../Assets/Images/delfin.jpeg'
 import { NavLink, useRouteMatch } from 'react-router-dom'
 
 const StyledCard = styled(Card)`
-  width: 345px;
+  width: 315px;
   box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
   margin: 30px 0;
   text-align: left;
+  ${({ theme }) => `
+    {  
+       ${theme.breakpoints.up('sm')} {
+        width: 345px;
+      }
+   `}
 `
 
 const StyledCardMedia = styled(CardMedia)`

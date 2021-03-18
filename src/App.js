@@ -58,6 +58,9 @@ let theme = createMuiTheme({
     }
   },
   palette: {
+    background: {
+      default: '#ffffff'
+    },
     primary: {
       light: '#58a5ef',
       main: '#0277bc',
