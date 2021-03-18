@@ -1,17 +1,21 @@
-import { useReducer } from 'react'
+import { useReducer, Suspense } from 'react'
 import { reducer, intialState } from './reducer'
 import ReducerContext from './context/ReducerContext'
-import // BrowserRouter as Router,
-// Route,
-// Switch,
-// Redirect
-'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import './App.css'
 import Header from '../src/components/Header/Header'
 import StartGames from './pages/StartGames/StartGames'
 import AddPlayersToGame from '../src/pages/admin/AddPlayersToGame/AddPlayersToGame'
 import GameComposition from '../src/pages/GameComposition/GameComposition'
+import Home from './pages/Home/Home'
+import Layout from './components/Layout/Layout'
+import NotFound from './pages/404/404'
 import { ThemeProvider } from 'styled-components'
 import {
   createMuiTheme,
@@ -78,25 +82,43 @@ theme = responsiveFontSizes(theme)
 function App() {
   const [state, dispatch] = useReducer(reducer, intialState)
 
+  const header = <Header />
+  const content = (
+    <main>
+      {/* <ErrorBoundary> */}
+      <Suspense fallback={<p>Ładowanie...</p>}>
+        <Switch>
+          {/* <AuthenticatedRoute path="/profil/hotele/dodaj" component={AddHotel} />
+            <AuthenticatedRoute path="/profil" component={Profile} /> */}
+          <Route path="/gry/składy/:id" component={GameComposition} />
+          <Route path="/gry" component={StartGames} />
+          <Route path="/dodaj-gracza" component={AddPlayersToGame} />
+          {/* <Route path="/zaloguj" component={} />
+          <Route path="/rejestracja" component={Register} /> */}
+          <Route path="/" exact component={Home} />
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
+      {/* </ErrorBoundary> */}
+    </main>
+  )
+
   return (
     <div className="App">
-      <MuiThemeProvider theme={theme}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <ReducerContext.Provider
-            value={{
-              state: state,
-              dispatch: dispatch
-            }}>
-            <Header />
-            <main>
-              <StartGames />
-              <AddPlayersToGame />
-              <GameComposition />
-            </main>
-          </ReducerContext.Provider>
-        </ThemeProvider>
-      </MuiThemeProvider>
+      <Router>
+        <MuiThemeProvider theme={theme}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <ReducerContext.Provider
+              value={{
+                state: state,
+                dispatch: dispatch
+              }}>
+              <Layout header={header} content={content} />
+            </ReducerContext.Provider>
+          </ThemeProvider>
+        </MuiThemeProvider>
+      </Router>
     </div>
   )
 }
