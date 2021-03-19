@@ -48,12 +48,12 @@ export const StyledTableHead = styled(TableHead)`
 export const StyledPaper = styled(Paper)`
   width: 90%;
   margin: 20px auto;
-  padding: 25px;
+  padding: 25px 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
-
   @media (min-width: 800px) {
     width: 60%;
     margin: 40px auto;
+    padding: 30px 30px;
   }
 `
 

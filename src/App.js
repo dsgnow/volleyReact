@@ -62,19 +62,19 @@ let theme = createMuiTheme({
       default: '#ffffff'
     },
     primary: {
-      light: '#58a5ef',
-      main: '#0277bc',
-      dark: '#004c8b',
+      light: '#003c77',
+      main: '#002046',
+      dark: '#000e1c',
       contrastText: '#ffffff'
     },
     secondary: {
-      light: '#6d6d6d',
-      main: '#424242',
-      dark: '#1b1b1b',
+      light: '#fc4783',
+      main: '#ff2362',
+      dark: '#bd1a48',
       contrastText: '#ffffff'
     },
     mainGradient: {
-      main: 'linear-gradient(to right, #0277bc, #004c8b)',
+      main: 'linear-gradient(to right, #002046, #004c8b)',
       darken: 'linear-gradient(to right, #021b79, #0575e6)'
     }
   }

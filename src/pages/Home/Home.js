@@ -2,26 +2,6 @@ import { Typography } from '@material-ui/core'
 import styled from 'styled-components'
 import volleyballPlayer from '../../Assets/Images/siatkarka.png'
 import Button from '../../UI/Button/Button'
-import headerImage from '../../Assets/Images/headerImage2.jpg'
-
-const StyledHeader = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 30vh;
-  color: white;
-  background: url(${headerImage}) no-repeat center left;
-  background-size: contain;
-  ${({ theme }) => `
-    {  
-       ${theme.breakpoints.up('sm')} {
-        height: 35vh;
-        margin-top: 50px;
-      }
-   `}
-`
 
 const StyledContainer = styled.div`
   position: relative;
@@ -30,6 +10,7 @@ const StyledContainer = styled.div`
   background-color: transparent;
   height: auto;
   margin-bottom: 30px;
+  margin-top: 30px;
   ${({ theme }) => `
     {  
        ${theme.breakpoints.up('sm')} {
@@ -97,7 +78,6 @@ const StyledButton = styled(Button)`
 const Home = () => {
   return (
     <>
-      <StyledHeader></StyledHeader>
       <StyledContainer>
         <WrapTexts>
           <Typography variant="h1">volley</Typography>
@@ -114,7 +94,7 @@ const Home = () => {
             size="large"
             variant="contained"
             title="Dostępne mecze"
-            color="primary"></StyledButton>
+            color="secondary"></StyledButton>
         </WrapTexts>
         <WrapImages>
           <Image src={volleyballPlayer} alt="" />

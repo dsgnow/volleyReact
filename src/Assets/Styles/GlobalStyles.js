@@ -3,7 +3,7 @@ import { Container, Typography } from '@material-ui/core'
 
 export const StyledContainer = styled.div`
   width: 95%;
-  margin: 40px auto;
+  margin: 20px auto;
   padding: 0 0 20px 0;
   /* box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px; */
   border-radius: 10px;
@@ -16,7 +16,7 @@ export const StyledContainer = styled.div`
   @media (min-width: 800px) {
     width: 90%;
     padding: 0 0 20px 0;
-    margin: 170px auto;
+    margin: 80px auto;
   }
 `
 

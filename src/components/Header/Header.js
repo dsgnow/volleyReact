@@ -3,52 +3,73 @@ import styled from 'styled-components'
 import { Typography } from '@material-ui/core'
 import ReducerContext from '../../context/ReducerContext'
 import Navbar from '../../UI/Navigation/Navbar'
-import headerImage from '../../Assets/Images/headerImage2.jpg'
+import headerImage from '../../Assets/Images/headerImage3.png'
 
-// const styledHeader = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   height: 20vh;
-//   color: red;
-//   background-color: 'red';
-//   /* ${({ theme }) => `
-//     {
-//        background-image: ${theme.palette.mainGradient.main}
-//    `} */
-// `;
+const StyledHeader = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+  max-width: 100vw;
+  overflow: hidden;
+  color: white;
+  background: url(${headerImage}) no-repeat center left;
+  background-size: contain;
+  background-image: ${({ theme }) => theme.palette.mainGradient.main};
+  ${({ theme }) => `
+    {  
+       ${theme.breakpoints.up('sm')} {
+        height: 35vh;
+        margin-top: 50px;
+      }
+   `}
+`
 
-// const StyledHeader = styled.div`
-//   position: relative;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   height: 35vh;
-//   color: white;
-//   background: url(${headerImage}) no-repeat center left;
-//   background-size: contain;
-//   margin-bottom: 70px;
-//   ${({ theme }) => `
-//     {
-//        ${theme.breakpoints.down('sm')} {
-//         margin-bottom: 20px;
-//         padding: 20px 0 20px;
-//       }
-//    `}
-// `
+const HeaderImage = styled.img`
+  height: 100%;
+  margin-right: auto;
+`
+
+const HeaderText = styled(Typography)`
+  font-size: 1.8rem;
+  font-weight: 700;
+  ${({ theme }) => `
+    {  
+       ${theme.breakpoints.up('sm')} {
+        font-size: 2.5rem;
+      }
+   `}
+`
+
+const WrapHeaderTexts = styled.div`
+  z-index: 999;
+  position: absolute;
+  margin: 0 auto;
+  padding-left: 20px;
+  text-align: left;
+  border-left: 7px solid white;
+`
 
 const Header = () => {
   return (
     <>
       <Navbar />
-      <div>
-        {/* <Typography variant="h1">volley</Typography>
-          <Typography style={{ fontWeight: 300 }} variant="h2">
-            rozgrywki siatkarskie
-          </Typography> */}
-      </div>
+      <StyledHeader>
+        <HeaderImage src={headerImage} alt="" />
+        <WrapHeaderTexts>
+          <HeaderText display="block" variant="body1">
+            dodaj grę,
+          </HeaderText>
+          <HeaderText display="block" variant="body1">
+            dobierz graczy,
+          </HeaderText>
+          <HeaderText display="block" variant="body1">
+            stwórz drużyny
+          </HeaderText>
+        </WrapHeaderTexts>
+      </StyledHeader>
     </>
   )
 }

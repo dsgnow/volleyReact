@@ -52,7 +52,7 @@ export const intialState = {
     {
       id: '12',
       name: 'Damian Kita',
-      skill: 6,
+      skill: 10,
       endTime: '2021/01/02 02:00:00',
       info: '',
       gender: 'male'
@@ -202,6 +202,7 @@ export const intialState = {
       gender: 'male'
     }
   ],
+  actualGameId: 1,
   playersAssignedToGame: [],
   gameDate: '09.03.2020',
   gamePlace: 'Gliwice'

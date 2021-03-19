@@ -15,9 +15,9 @@ import {
 } from '../../../Assets/Styles/GlobalStyles'
 
 const AddPlayersToGame = () => {
-  const [age, setAge] = React.useState('')
+  const [selectValue, setSelectValue] = React.useState('')
   const handleChange = (event) => {
-    setAge(event.target.value)
+    setSelectValue(event.target.value)
   }
 
   const StyledFormControl = styled(FormControl)`
@@ -43,7 +43,7 @@ const AddPlayersToGame = () => {
         <Select
           labelId="Wybierz grę"
           id="demo-simple-select-outlined"
-          value={age}
+          value={selectValue}
           onChange={handleChange}
           label="Wybierz grę">
           <MenuItem value="">
