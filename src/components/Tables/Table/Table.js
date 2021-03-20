@@ -65,6 +65,15 @@ export default function CustomPaginationActionsTable(props) {
     setRows(rowsData)
   }, [rowsData])
 
+  useEffect(() => {
+    console.log(props.autorows)
+
+    if (props.autorows) {
+      setRowsPerPage(rows.length)
+      setPage(0)
+    }
+  }, [rows])
+
   CustomPaginationActionsTable.propTypes = {
     title: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -75,7 +84,8 @@ export default function CustomPaginationActionsTable(props) {
     rowsPerPageOnStart: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
     handleClick: PropTypes.func.isRequired,
-    filteredColumn: PropTypes.string.isRequired
+    filteredColumn: PropTypes.string.isRequired,
+    autorows: PropTypes.string.isRequired
   }
 
   return (
@@ -141,11 +151,11 @@ export default function CustomPaginationActionsTable(props) {
               <TablePagination
                 labelRowsPerPage="wierszy na stronę"
                 rowsPerPageOptions={[
-                  props.rowsPerPageOnStart[0],
+                  props.autorows ? rows.length : props.rowsPerPageOnStart[0],
                   props.rowsPerPageOnStart[1],
                   props.rowsPerPageOnStart[2],
                   {
-                    label: 'All',
+                    label: 'Wszystko',
                     value: -1
                   }
                 ]}

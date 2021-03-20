@@ -5,8 +5,9 @@ import Table from '../Tables/Table/Table'
 import cloneDeep from 'lodash/cloneDeep'
 import AddPlayersTable from '../Tables/AddPlayersTable'
 import { StyledTableContainer } from '../Tables/Table/TableStyled'
+import { PinDropSharp } from '@material-ui/icons'
 
-const GamePlayersTable = () => {
+const GamePlayersTable = (props) => {
   const context = useContext(ReducerContext)
 
   const changePlayersAssignedToGame = (e) => {
@@ -53,6 +54,7 @@ const GamePlayersTable = () => {
     <>
       <AddPlayersTable addPlayer={addPlayer} />
       <Table
+        autorows={true}
         label={'Przypisani zawodnicy do gry'}
         tableHeaders={['gracz', 'skill', 'usuń']}
         columns={['name', 'skill']}

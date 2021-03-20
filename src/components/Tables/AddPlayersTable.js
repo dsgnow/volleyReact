@@ -17,6 +17,7 @@ const AddPlayersTable = (props) => {
   return (
     <>
       <Table
+        autorows={false}
         label={'Dodaj zawodników do gry'}
         tableHeaders={['gracz', 'dodaj']}
         columns={['name']}
