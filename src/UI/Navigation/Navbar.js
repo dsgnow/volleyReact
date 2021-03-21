@@ -14,11 +14,13 @@ const navLinks = [
   { title: `gry`, path: `/gry` },
   { title: `dodaj grę`, path: `/dodaj-gre` },
   { title: `dodaj gracza`, path: `/dodaj-gracza` },
-  { title: `profil`, path: `/edytuj` },
+  { title: `profil`, path: `/profil` },
   { title: `wyloguj`, path: `/wyloguj` }
 ]
 
 const StyledAppBar = styled(AppBar)`
+  max-width: 1920px;
+  margin: 0 auto;
   width: 100%;
   display: none;
   position: fixed;

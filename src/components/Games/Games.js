@@ -18,6 +18,7 @@ const StyledCard = styled(Card)`
   ${({ theme }) => `
     {  
        ${theme.breakpoints.up('sm')} {
+        margin: 30px 30px;
         width: 345px;
       }
    `}

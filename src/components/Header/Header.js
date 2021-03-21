@@ -18,35 +18,32 @@ const StyledHeader = styled.div`
   background: url(${headerImage}) no-repeat center left;
   background-size: contain;
   background-image: ${({ theme }) => theme.palette.mainGradient.main};
-  ${({ theme }) => `
-    {  
-       ${theme.breakpoints.up('sm')} {
-        height: 35vh;
-        margin-top: 50px;
-      }
-   `}
+  @media (min-width: 600px) {
+    height: 35vh;
+    margin-top: 50px;
+  }
 `
 
 const HeaderImage = styled.img`
   height: 100%;
-  margin-right: auto;
+  margin-left: auto;
 `
 
 const HeaderText = styled(Typography)`
   font-size: 1.8rem;
   font-weight: 700;
-  ${({ theme }) => `
-    {  
-       ${theme.breakpoints.up('sm')} {
-        font-size: 2.5rem;
-      }
-   `}
+  @media (orientation: landscape) {
+    font-size: 1.3rem;
+  }
+  @media (min-width: 800px) {
+    font-size: 2.5rem;
+  }
 `
 
 const WrapHeaderTexts = styled.div`
   z-index: 999;
   position: absolute;
-  margin: 0 auto;
+  left: 8vw;
   padding-left: 20px;
   text-align: left;
   border-left: 7px solid white;

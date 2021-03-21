@@ -22,6 +22,7 @@ import {
   ThemeProvider as MuiThemeProvider,
   responsiveFontSizes
 } from '@material-ui/core/styles'
+import Profile from './pages/Profile/Profile'
 
 let theme = createMuiTheme({
   typography: {
@@ -91,8 +92,7 @@ function App() {
       {/* <ErrorBoundary> */}
       <Suspense fallback={<p>Ładowanie...</p>}>
         <Switch>
-          {/* <AuthenticatedRoute path="/profil/hotele/dodaj" component={AddHotel} />
-            <AuthenticatedRoute path="/profil" component={Profile} /> */}
+          <Route path="/profil" component={Profile} />
           <Route path="/gry/składy/:id" component={GameComposition} />
           <Route path="/gry" component={StartGames} />
           <Route path="/dodaj-gracza" component={AddPlayersToGame} />
