@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 import chorzowskaImage from '../../Assets/Images/halachorzowska.jpg'
 import delfin from '../../Assets/Images/delfin.jpeg'
 import { NavLink, useRouteMatch } from 'react-router-dom'
@@ -69,13 +70,13 @@ export default function MediaCard(props) {
             <CardActionArea>
               <StyledCardMedia image={chorzowskaImage} title={game.name} />
               <CardContent style={{ marginLeft: 'auto' }}>
-                <Typography variant="h4">{`${game.name}`}</Typography>
+                <Typography variant="h4">{`${game.city} ${game.name}`}</Typography>
                 <Typography
                   gutterBottom
                   color="textPrimary"
                   variant="h5"
                   style={{ fontWeight: 700 }}>
-                  {`${game.city}`}
+                  {`${game.date} ${game.time}`}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -88,14 +89,20 @@ export default function MediaCard(props) {
                   color="textSecondary"
                   gutterBottom
                   style={{ marginTop: '5px' }}>
-                  Ilość wolnych miejsc: {`${game.freePlaces}/${game.places}`}
+                  Ilość wolnych miejsc:
+                  <Box fontWeight="fontWeightBold" display="inline" m={1}>
+                    {`${game.freePlaces}/${game.places}`}
+                  </Box>
                 </Typography>
                 <Typography
                   variant="h6"
                   color="textSecondary"
                   gutterBottom
                   style={{ marginTop: '5px' }}>
-                  Cena: {`${game.price} zł/os.`}
+                  Cena:
+                  <Box fontWeight="fontWeightBold" display="inline" m={1}>
+                    {`${game.price} zł/os.`}
+                  </Box>
                 </Typography>
                 <Typography variant="h6" color="textSecondary" component="p">
                   {`${game.street}, ${game.city}`}
