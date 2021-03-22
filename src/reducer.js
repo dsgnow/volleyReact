@@ -205,5 +205,31 @@ export const intialState = {
   actualGameId: 1,
   playersAssignedToGame: [],
   gameDate: '09.03.2020',
-  gamePlace: 'Gliwice'
+  gamePlace: 'Gliwice',
+  gamesData: [
+    {
+      id: 1,
+      name: 'Chorzowska',
+      city: 'Gliwice',
+      street: 'Chorzowska 24/11',
+      date: '16.03.2021',
+      time: '21:30',
+      places: 24,
+      freePlaces: 12,
+      level: 'amatorski',
+      price: 10
+    },
+    {
+      id: 2,
+      name: 'Delfin',
+      city: 'Gliwice',
+      street: 'Leśna 11/11',
+      date: '24.03.2021',
+      time: '21:30',
+      places: 12,
+      freePlaces: 10,
+      level: 'amatorski',
+      price: 15
+    }
+  ]
 }

@@ -1,26 +1,38 @@
-import { useState } from 'react'
-import { Switch, Route, NavLink, useRouteMatch } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import {
+  useLocation,
+  Switch,
+  Route,
+  NavLink,
+  useRouteMatch
+} from 'react-router-dom'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import styled from 'styled-components'
 import { StyledContainer as Container } from '../../Assets/Styles/GlobalStyles'
 import { ProfileDetails } from './ProfileDetails/ProfileDetails'
+import AssignedGames from './AssignedGames/AssignedGames'
+import useStateStorage from '../../hooks/useStateStorage'
 
-export default function Profile(props) {
+export default function Profile() {
   const { path, url } = useRouteMatch()
 
   const Test = () => {
     return <div>Hello</div>
   }
 
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useStateStorage('actualPage', 0)
+
+  const location = useLocation()
 
   const handleChange = (event, newValue) => {
+    console.log(newValue)
     setValue(newValue)
   }
 
   const StyledContainer = styled(Container)`
     box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+    background-color: white;
     border-radius: unset;
   `
 
@@ -34,6 +46,10 @@ export default function Profile(props) {
     }
   `
 
+  useEffect(() => {
+    location.pathname == '/profil' && setValue(0)
+  }, [location])
+
   return (
     <>
       <StyledContainer>
@@ -43,23 +59,21 @@ export default function Profile(props) {
           indicatorColor="secondary"
           textColor="primary"
           centered>
-          <StyledTab label="profil" exact to={`${url}`} component={NavLink} />
+          <StyledTab label="profil" to={`${url}`} component={NavLink} />
           <StyledTab
             label="Biorę udział"
-            exact
             to={`${url}/gry-udział`}
             component={NavLink}
           />
           <StyledTab
             label="dodane gry"
-            exact
             to={`${url}/gry-dodane`}
             component={NavLink}
           />
         </StyledTabs>
       </StyledContainer>
       <Switch>
-        <Route path={`${path}/gry-udział`} component={Test} />
+        <Route path={`${path}/gry-udział`} component={AssignedGames} />
         <Route path={`${path}/gry-dodane`} component={Test} />
         <Route path={`${path}`} component={ProfileDetails} />
       </Switch>

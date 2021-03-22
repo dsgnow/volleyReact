@@ -32,234 +32,89 @@ const StylednavLink = styled(NavLink)`
   text-decoration: none;
 `
 
-export default function MediaCard() {
+const gamesData = [
+  {
+    id: 1,
+    name: 'Chorzowska',
+    city: 'Gliwice',
+    street: 'Chorzowska 24/11',
+    date: '16.03.2021',
+    time: '21:30',
+    places: 24,
+    freePlaces: 12,
+    level: 'amatorski'
+  },
+  {
+    id: 2,
+    name: 'Delfin',
+    city: 'Gliwice',
+    street: 'Leśna 11/11',
+    date: '24.03.2021',
+    time: '21:30',
+    places: 12,
+    freePlaces: 10,
+    level: 'amatorski'
+  }
+]
+
+export default function MediaCard(props) {
   const { url } = useRouteMatch()
   const id = '1'
 
   return (
     <>
-      <StyledCard>
-        <CardActionArea>
-          <StyledCardMedia image={chorzowskaImage} title="Hala Chorzowska" />
-          <CardContent style={{ marginLeft: 'auto' }}>
-            <Typography gutterBottom variant="h4">
-              Gliwice Chorzowska
-            </Typography>
-            <Typography
-              gutterBottom
-              color="textPrimary"
-              variant="h5"
-              style={{ fontWeight: 700 }}>
-              16.03.2021 21:30
-            </Typography>
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              gutterBottom
-              style={{ marginTop: '10px', marginBottom: '20px' }}>
-              Ilość wolnych miejsc: 6/36
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              ul. Chorzowska 5, Gliwice
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="large" color="primary">
-            Zapisz się
-          </Button>
-          <StylednavLink to={`${url}/składy/${id}`}>
-            <Button size="large" color="primary">
-              Składy
-            </Button>
-          </StylednavLink>
-        </CardActions>
-      </StyledCard>
-      <StyledCard>
-        <CardActionArea>
-          <StyledCardMedia image={delfin} title="Hala Delfin" />
-          <CardContent style={{ marginLeft: 'auto' }}>
-            <Typography gutterBottom variant="h4">
-              Gliwice Delfin
-            </Typography>
-            <Typography
-              gutterBottom
-              color="textPrimary"
-              variant="h5"
-              style={{ fontWeight: 700 }}>
-              24.03.2021 18:30
-            </Typography>
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              gutterBottom
-              style={{ marginTop: '10px', marginBottom: '20px' }}>
-              Ilość wolnych miejsc: 12/24
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              ul. Warszawska 35, Gliwice
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="large" color="primary">
-            Zapisz się
-          </Button>
-          <StylednavLink to={`${url}/składy/${id}`}>
-            <Button size="large" color="primary">
-              Składy
-            </Button>
-          </StylednavLink>
-        </CardActions>
-      </StyledCard>
-      <StyledCard>
-        <CardActionArea>
-          <StyledCardMedia image={delfin} title="Hala Delfin" />
-          <CardContent style={{ marginLeft: 'auto' }}>
-            <Typography gutterBottom variant="h4">
-              Gliwice Delfin
-            </Typography>
-            <Typography
-              gutterBottom
-              color="textPrimary"
-              variant="h5"
-              style={{ fontWeight: 700 }}>
-              27.03.2021 15:30
-            </Typography>
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              gutterBottom
-              style={{ marginTop: '10px', marginBottom: '20px' }}>
-              Ilość wolnych miejsc: 23/24
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              ul. Warszawska 35, Gliwice
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="large" color="primary">
-            Zapisz się
-          </Button>
-          <StylednavLink to={`${url}/składy/${id}`}>
-            <Button size="large" color="primary">
-              Składy
-            </Button>
-          </StylednavLink>
-        </CardActions>
-      </StyledCard>
-      <StyledCard>
-        <CardActionArea>
-          <StyledCardMedia image={chorzowskaImage} title="Hala Chorzowska" />
-          <CardContent style={{ marginLeft: 'auto' }}>
-            <Typography gutterBottom variant="h4">
-              Gliwice Chorzowska
-            </Typography>
-            <Typography
-              gutterBottom
-              color="textPrimary"
-              variant="h5"
-              style={{ fontWeight: 700 }}>
-              16.03.2021 21:30
-            </Typography>
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              gutterBottom
-              style={{ marginTop: '10px', marginBottom: '20px' }}>
-              Ilość wolnych miejsc: 6/36
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              ul. Chorzowska 5, Gliwice
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="large" color="primary">
-            Zapisz się
-          </Button>
-          <StylednavLink to={`${url}/składy/${id}`}>
-            <Button size="large" color="primary">
-              Składy
-            </Button>
-          </StylednavLink>
-        </CardActions>
-      </StyledCard>
-      <StyledCard>
-        <CardActionArea>
-          <StyledCardMedia image={delfin} title="Hala Delfin" />
-          <CardContent style={{ marginLeft: 'auto' }}>
-            <Typography gutterBottom variant="h4">
-              Gliwice Delfin
-            </Typography>
-            <Typography
-              gutterBottom
-              color="textPrimary"
-              variant="h5"
-              style={{ fontWeight: 700 }}>
-              24.03.2021 18:30
-            </Typography>
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              gutterBottom
-              style={{ marginTop: '10px', marginBottom: '20px' }}>
-              Ilość wolnych miejsc: 12/24
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              ul. Warszawska 35, Gliwice
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="large" color="primary">
-            Zapisz się
-          </Button>
-          <StylednavLink to={`${url}/składy/${id}`}>
-            <Button size="large" color="primary">
-              Składy
-            </Button>
-          </StylednavLink>
-        </CardActions>
-      </StyledCard>
-      <StyledCard>
-        <CardActionArea>
-          <StyledCardMedia image={delfin} title="Hala Delfin" />
-          <CardContent style={{ marginLeft: 'auto' }}>
-            <Typography gutterBottom variant="h4">
-              Gliwice Delfin
-            </Typography>
-            <Typography
-              gutterBottom
-              color="textPrimary"
-              variant="h5"
-              style={{ fontWeight: 700 }}>
-              27.03.2021 15:30
-            </Typography>
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              gutterBottom
-              style={{ marginTop: '10px', marginBottom: '20px' }}>
-              Ilość wolnych miejsc: 23/24
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              ul. Warszawska 35, Gliwice
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="large" color="primary">
-            Zapisz się
-          </Button>
-          <StylednavLink to={`${url}/składy/${id}`}>
-            <Button size="large" color="primary">
-              Składy
-            </Button>
-          </StylednavLink>
-        </CardActions>
-      </StyledCard>
+      {props.data.map((game) => {
+        return (
+          <StyledCard key={game.id}>
+            <CardActionArea>
+              <StyledCardMedia image={chorzowskaImage} title={game.name} />
+              <CardContent style={{ marginLeft: 'auto' }}>
+                <Typography variant="h4">{`${game.name}`}</Typography>
+                <Typography
+                  gutterBottom
+                  color="textPrimary"
+                  variant="h5"
+                  style={{ fontWeight: 700 }}>
+                  {`${game.city}`}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="textSecondary"
+                  style={{ marginTop: '5px' }}>
+                  Poziom: {game.level}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="textSecondary"
+                  gutterBottom
+                  style={{ marginTop: '5px' }}>
+                  Ilość wolnych miejsc: {`${game.freePlaces}/${game.places}`}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="textSecondary"
+                  gutterBottom
+                  style={{ marginTop: '5px' }}>
+                  Cena: {`${game.price} zł/os.`}
+                </Typography>
+                <Typography variant="h6" color="textSecondary" component="p">
+                  {`${game.street}, ${game.city}`}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="large" color="primary">
+                Zapisz się
+              </Button>
+              <StylednavLink to={`${url}/składy/${id}`}>
+                <Button size="large" color="primary">
+                  Składy
+                </Button>
+              </StylednavLink>
+            </CardActions>
+          </StyledCard>
+        )
+      })}
     </>
   )
 }

@@ -5,14 +5,19 @@ import {
   StyledTitle,
   StyledTitleTypography
 } from '../../Assets/Styles/GlobalStyles'
+import { useContext } from 'react'
+import ReducerContext from '../../context/ReducerContext'
 
 const StartGames = () => {
+  const context = useContext(ReducerContext)
+  const { gamesData } = context.state
+
   return (
     <StyledContainer maxWidth="lg">
       <StyledTitle>
         <StyledTitleTypography variant="h4">Dostępne gry</StyledTitleTypography>
       </StyledTitle>
-      <Games></Games>
+      <Games data={gamesData}></Games>
     </StyledContainer>
   )
 }
