@@ -14,7 +14,7 @@ const GamesList = (props) => {
     width: 95%;
     margin: 10px auto;
     padding: 0 10px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+    box-shadow: ${({ theme }) => theme.palette.shadow.main};
     @media (min-width: 600px) {
       width: none;
       min-width: 200px;
@@ -47,9 +47,11 @@ const GamesList = (props) => {
       flex-direction: row;
     }
   `
+
+  const data = props.data
   return (
     <>
-      {props.data.map((game, index) => {
+      {data.map((game, index) => {
         return (
           <Wrapper key={game.id}>
             <StyledGrid item xs={12} sm={6} style={{ display: 'flex' }}>

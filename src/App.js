@@ -23,6 +23,7 @@ import {
   responsiveFontSizes
 } from '@material-ui/core/styles'
 import Profile from './pages/Profile/Profile'
+import AddGame from './pages/AddGame/AddGame'
 
 let theme = createMuiTheme({
   typography: {
@@ -59,9 +60,9 @@ let theme = createMuiTheme({
     }
   },
   palette: {
-    background: {
-      default: '#ffffff'
-    },
+    // background: {
+    //   default: '#ffffff'
+    // },
     primary: {
       light: '#003c77',
       main: '#002046',
@@ -77,6 +78,12 @@ let theme = createMuiTheme({
     mainGradient: {
       main: 'linear-gradient(to right, #002046, #004c8b)',
       darken: 'linear-gradient(to right, #021b79, #0575e6)'
+    },
+    grey: {
+      main: '#fafafa'
+    },
+    shadow: {
+      main: 'rgba(0, 0, 0, 0.1) -4px 9px 25px -6px'
     }
   }
 })
@@ -96,6 +103,7 @@ function App() {
           <Route path="/gry/składy/:id" component={GameComposition} />
           <Route path="/gry" component={StartGames} />
           <Route path="/dodaj-gracza" component={AddPlayersToGame} />
+          <Route path="/dodaj-gre" component={AddGame} />
           {/* <Route path="/zaloguj" component={} />
           <Route path="/rejestracja" component={Register} /> */}
           <Route path="/" exact component={Home} />

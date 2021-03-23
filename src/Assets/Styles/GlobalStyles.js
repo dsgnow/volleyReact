@@ -11,7 +11,7 @@ export const StyledContainer = styled.div`
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-evenly;
-  background-color: #fafafa;
+  background-color: white;
 
   @media (min-width: 800px) {
     width: 90%;

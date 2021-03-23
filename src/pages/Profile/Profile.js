@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import { StyledContainer as Container } from '../../Assets/Styles/GlobalStyles'
 import { ProfileDetails } from './ProfileDetails/ProfileDetails'
 import AssignedGames from './AssignedGames/AssignedGames'
+import AddedGames from './AddedGames/AddedGames'
 import useStateStorage from '../../hooks/useStateStorage'
 
 export default function Profile() {
@@ -74,7 +75,7 @@ export default function Profile() {
       </StyledContainer>
       <Switch>
         <Route path={`${path}/gry-udział`} component={AssignedGames} />
-        <Route path={`${path}/gry-dodane`} component={Test} />
+        <Route path={`${path}/gry-dodane`} component={AddedGames} />
         <Route path={`${path}`} component={ProfileDetails} />
       </Switch>
     </>

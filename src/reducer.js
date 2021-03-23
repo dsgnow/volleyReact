@@ -217,7 +217,9 @@ export const intialState = {
       places: 24,
       freePlaces: 12,
       level: 'amatorski',
-      price: 10
+      price: 10,
+      players: [],
+      reserve: []
     },
     {
       id: 2,
@@ -229,7 +231,23 @@ export const intialState = {
       places: 12,
       freePlaces: 10,
       level: 'amatorski',
-      price: 15
+      price: 15,
+      players: [],
+      reserve: []
+    },
+    {
+      id: 3,
+      name: 'ZSOE',
+      city: 'Zabrze',
+      street: 'Nowa 22',
+      date: '29.03.2021',
+      time: '16:30',
+      places: 12,
+      freePlaces: 4,
+      level: 'amatorski',
+      price: 15,
+      players: [],
+      reserve: []
     }
   ]
 }

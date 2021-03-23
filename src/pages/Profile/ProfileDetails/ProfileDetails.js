@@ -17,7 +17,7 @@ import * as yup from 'yup'
 const StyledContainer = styled(Container)`
   display: flex;
   flex-direction: column;
-  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+  /* box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px; */
   background-color: white;
   padding: 10px;
   @media (min-width: 600px) {

@@ -12,7 +12,7 @@ export const StyledTableContainer = styled(TableContainer)`
   width: 100%;
   margin: 5px auto;
   padding: 25px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+  background-color: #fafafa;
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;
@@ -27,7 +27,7 @@ export const StyledTableContainer = styled(TableContainer)`
 `
 
 export const StyledSearchBar = styled(SearchBar)`
-  box-shadow: rgba(149, 157, 165, 0.2) 0 4px 12px;
+  box-shadow: ${({ theme }) => theme.palette.shadow.main};
   margin-bottom: 30px;
   width: 100%;
   margin-left: auto;
@@ -49,7 +49,7 @@ export const StyledPaper = styled(Paper)`
   width: 90%;
   margin: 20px auto;
   padding: 25px 10px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+  box-shadow: ${({ theme }) => theme.palette.shadow.main};
   @media (min-width: 800px) {
     width: 60%;
     margin: 40px auto;

@@ -26,23 +26,25 @@ const StyledTypography = styled(Typography)`
   }
 `
 
-const AssignedGames = () => {
+const AddedGames = () => {
   const context = useContext(ReducerContext)
   const { gamesData } = context.state
 
   return (
     <StyledContainer>
       {gamesData.length > 0 ? (
-        <StyledTypography variant="h5">Aktywne gry</StyledTypography>
+        <StyledTypography variant="h5">Twoje gry</StyledTypography>
       ) : (
-        <StyledTypography variant="h5">Brak aktywnych gier</StyledTypography>
+        <StyledTypography variant="h5">
+          Nie dodałeś jeszcze żadnych gier
+        </StyledTypography>
       )}
       <GamesList
         data={gamesData}
-        buttonAction="remove"
-        tooltip="zrezygnuj"></GamesList>
+        buttonAction="edit"
+        tooltip="edytuj"></GamesList>
     </StyledContainer>
   )
 }
 
-export default AssignedGames
+export default AddedGames
