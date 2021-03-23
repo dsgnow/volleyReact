@@ -1,16 +1,16 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import { useState } from 'react'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import IconButton from '@material-ui/core/IconButton'
-import MenuItem from '@material-ui/core/MenuItem'
+import {
+  Typography,
+  FormControlLabel,
+  Switch,
+  MenuItem
+} from '@material-ui/core'
 import styled from 'styled-components'
 import {
-  StyledContainer,
+  StyledContainer as Container,
   StyledTitle,
   StyledTitleTypography
 } from '../../Assets/Styles/GlobalStyles'
@@ -18,13 +18,17 @@ import {
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
+const StyledContainer = styled(Container)`
+  justify-content: flex-start;
+`
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
   @media (min-width: 600px) {
     max-width: 60%;
-    padding: 30px;
+    padding: 30px 80px;
   }
 `
 
@@ -65,7 +69,9 @@ let validationSchema = yup.object().shape({
   timeEnd: yup.string().required('To pole jest wymagane..'),
   places: yup.number().required('To pole jest wymagane..'),
   level: yup.string().required('To pole jest wymagane..'),
-  price: yup.number().required('To pole jest wymagane..')
+  price: yup.number().required('To pole jest wymagane..'),
+  amountOfRotation: yup.number().required('To pole jest wymagane..'),
+  rotationTime: yup.string().required('To pole jest wymagane..')
 })
 
 const AddGame = () => {
@@ -79,13 +85,17 @@ const AddGame = () => {
       timeEnd: '22:00',
       places: '',
       level: '',
-      price: ''
+      price: '',
+      autoSquads: false,
+      amountOfRotation: 1,
+      rotationTime: '20:00'
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2))
     }
   })
+  console.log(formik.initialValues)
 
   return (
     <StyledContainer>
@@ -238,6 +248,70 @@ const AddGame = () => {
               />
             </Grid>
           </Grid>
+          <Grid item xs={12} sm={12}>
+            <FormControlLabel
+              control={
+                <Switch
+                  autoSquads={formik.values.autoSquads}
+                  onChange={formik.handleChange}
+                  name="autoSquads"
+                  color="primary"
+                />
+              }
+              label="Automatycznie wybierz składy"
+            />
+          </Grid>
+          {formik.values.autoSquads && (
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  error={
+                    formik.touched.amountOfRotation &&
+                    Boolean(formik.errors.amountOfRotation)
+                  }
+                  helperText={
+                    formik.touched.amountOfRotation &&
+                    formik.errors.amountOfRotation
+                  }
+                  variant="outlined"
+                  type="number"
+                  fullWidth
+                  value={formik.values.amountOfRotation}
+                  onChange={formik.handleChange}
+                  id="amountOfRotation"
+                  label="Ilość rotacji"
+                  size="small"
+                  name="amountOfRotation"
+                />
+              </Grid>
+              {[...Array(formik.values.amountOfRotation)].map((item, index) => {
+                formik.initialValues.rotationTime1 = '00:00'
+                return (
+                  <Grid key="index" item xs={6} sm={3}>
+                    <TextField
+                      error={
+                        formik.touched.rotationTime &&
+                        Boolean(formik.errors.rotationTime)
+                      }
+                      helperText={
+                        formik.touched.rotationTime &&
+                        formik.errors.rotationTime
+                      }
+                      variant="outlined"
+                      fullWidth
+                      value={formik.values.rotationTime}
+                      onChange={formik.handleChange}
+                      id={`rotationTime${index + 1}`}
+                      size="small"
+                      type="time"
+                      label={`Godzina rotacji ${index + 1}`}
+                      name={`rotationTime${index + 1}`}
+                    />
+                  </Grid>
+                )
+              })}
+            </Grid>
+          )}
           <StyledButton
             type="submit"
             fullWidth
