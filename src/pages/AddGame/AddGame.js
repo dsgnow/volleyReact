@@ -14,8 +14,16 @@ import {
   StyledTitle,
   StyledTitleTypography
 } from '../../Assets/Styles/GlobalStyles'
+import DateFnsUtils from '@date-io/date-fns' // choose your lib
+import {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+  MuiPickersUtilsProvider
+} from '@material-ui/pickers'
+import plLocale from 'date-fns/locale/pl'
 
-import { useFormik } from 'formik'
+import { useFormik, Field } from 'formik'
 import * as yup from 'yup'
 
 const StyledContainer = styled(Container)`
@@ -61,17 +69,18 @@ let validationSchema = yup.object().shape({
   name: yup.string().required('To pole jest wymagane..'),
   city: yup.string().required('To pole jest wymagane..'),
   street: yup.string().required('To pole jest wymagane..'),
-  date: yup
-    .date()
-    .required('To pole jest wymagane..')
-    .min(today, 'Data nie może być w przeszłości'),
   timeStart: yup.string().required('To pole jest wymagane..'),
   timeEnd: yup.string().required('To pole jest wymagane..'),
   places: yup.number().required('To pole jest wymagane..'),
   level: yup.string().required('To pole jest wymagane..'),
   price: yup.number().required('To pole jest wymagane..'),
-  amountOfRotation: yup.number().required('To pole jest wymagane..'),
-  rotationTime: yup.string().required('To pole jest wymagane..')
+  // rotationTime1: yup.string().required('To pole jest wymagane..'),
+  rotationTime2: yup.string().required('To pole jest wymagane..'),
+  rotationTime3: yup.string().required('To pole jest wymagane..'),
+  rotationTime1: yup.string().when('rotationTime2', {
+    is: '00:00',
+    then: yup.string().required('Nie może być 00')
+  })
 })
 
 const AddGame = () => {
@@ -80,15 +89,16 @@ const AddGame = () => {
       name: '',
       city: '',
       street: '',
-      date: today,
-      timeStart: '20:00',
-      timeEnd: '22:00',
+      date: new Date(),
+      timeStart: '21:30',
+      timeEnd: '03:00',
       places: '',
       level: '',
       price: '',
       autoSquads: false,
-      amountOfRotation: 1,
-      rotationTime: '20:00'
+      rotationTime1: '00:00',
+      rotationTime2: '01:00',
+      rotationTime3: '02:00'
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -152,7 +162,7 @@ const AddGame = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              {/* <TextField
                 error={formik.touched.date && Boolean(formik.errors.date)}
                 helperText={formik.touched.date && formik.errors.date}
                 variant="outlined"
@@ -164,7 +174,15 @@ const AddGame = () => {
                 type="date"
                 name="date"
                 label="Data"
-              />
+              /> */}
+              <MuiPickersUtilsProvider locale={plLocale} utils={DateFnsUtils}>
+                <DateTimePicker
+                  label="DateTimePicker"
+                  inputVariant="outlined"
+                  value={formik.values.date}
+                  onChange={formik.handleChange}
+                />
+              </MuiPickersUtilsProvider>
             </Grid>
             <Grid item xs={6} sm={3}>
               <TextField
@@ -258,54 +276,34 @@ const AddGame = () => {
                   color="primary"
                 />
               }
-              label="Automatycznie wybierz składy"
+              label="Dodaj ponowne wybranie składów"
             />
           </Grid>
           {formik.values.autoSquads && (
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={3}>
-                <TextField
-                  error={
-                    formik.touched.amountOfRotation &&
-                    Boolean(formik.errors.amountOfRotation)
-                  }
-                  helperText={
-                    formik.touched.amountOfRotation &&
-                    formik.errors.amountOfRotation
-                  }
-                  variant="outlined"
-                  type="number"
-                  fullWidth
-                  value={formik.values.amountOfRotation}
-                  onChange={formik.handleChange}
-                  id="amountOfRotation"
-                  label="Ilość rotacji"
-                  size="small"
-                  name="amountOfRotation"
-                />
-              </Grid>
-              {[...Array(formik.values.amountOfRotation)].map((item, index) => {
-                formik.initialValues.rotationTime1 = '00:00'
+              {[...Array(3)].map((item, index) => {
+                let rotationName = `rotationTime${index + 1}`
+                console.log(rotationName)
                 return (
-                  <Grid key="index" item xs={6} sm={3}>
+                  <Grid key={index} item xs={6} sm={3}>
                     <TextField
                       error={
-                        formik.touched.rotationTime &&
-                        Boolean(formik.errors.rotationTime)
+                        formik.touched[rotationName] &&
+                        Boolean(formik.errors[rotationName])
                       }
                       helperText={
-                        formik.touched.rotationTime &&
-                        formik.errors.rotationTime
+                        formik.touched[rotationName] &&
+                        formik.errors[rotationName]
                       }
                       variant="outlined"
                       fullWidth
-                      value={formik.values.rotationTime}
+                      value={formik.values[rotationName]}
                       onChange={formik.handleChange}
-                      id={`rotationTime${index + 1}`}
+                      id={rotationName}
                       size="small"
                       type="time"
-                      label={`Godzina rotacji ${index + 1}`}
-                      name={`rotationTime${index + 1}`}
+                      label={`Rotacja ${index + 1}`}
+                      name={rotationName}
                     />
                   </Grid>
                 )
