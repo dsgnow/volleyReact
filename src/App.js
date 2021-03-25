@@ -1,12 +1,7 @@
 import { useReducer, Suspense } from 'react'
 import { reducer, intialState } from './reducer'
 import ReducerContext from './context/ReducerContext'
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import './App.css'
 import Header from '../src/components/Header/Header'

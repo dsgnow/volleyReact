@@ -8,7 +8,7 @@ import {
   IconButton
 } from '@material-ui/core'
 import styled from 'styled-components'
-import { NavLink, useRouteMatch } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const navLinks = [
   { title: `gry`, path: `/gry` },

@@ -16,6 +16,25 @@ const StyledContainer = styled(Container)`
     flex-direction: row;
   }
 `
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  width: 95%;
+  margin: 10px auto;
+  padding: 0 10px;
+  box-shadow: ${({ theme }) => theme.palette.shadow.main};
+  @media (min-width: 1000px) {
+    width: none;
+    min-width: 200px;
+    max-width: 45%;
+    margin: 20px auto 20px 0;
+  }
+`
 const StyledTypography = styled(Typography)`
   width: 100%;
   margin-bottom: 20px;
@@ -37,10 +56,17 @@ const AssignedGames = () => {
       ) : (
         <StyledTypography variant="h5">Brak aktywnych gier</StyledTypography>
       )}
-      <GamesList
-        data={gamesData}
-        buttonAction="remove"
-        tooltip="zrezygnuj"></GamesList>
+      {gamesData.map((game, index) => {
+        return (
+          <Wrapper key={game.id}>
+            <GamesList
+              index={index}
+              data={game}
+              buttonAction="remove"
+              tooltip="zrezygnuj"></GamesList>
+          </Wrapper>
+        )
+      })}
     </StyledContainer>
   )
 }

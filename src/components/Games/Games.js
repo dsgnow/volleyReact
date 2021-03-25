@@ -1,14 +1,15 @@
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
-import chorzowskaImage from '../../Assets/Images/halachorzowska.jpg'
-import delfin from '../../Assets/Images/delfin.jpeg'
+import {
+  Button,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Card,
+  CardActionArea,
+  Typography,
+  Box
+} from '@material-ui/core'
 import { NavLink, useRouteMatch } from 'react-router-dom'
 
 const StyledCard = styled(Card)`
@@ -27,15 +28,27 @@ const StyledCard = styled(Card)`
 
 const StyledCardMedia = styled(CardMedia)`
   height: 140px;
+  background-color: ${({ theme }) => theme.palette.primary.main};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const StylednavLink = styled(NavLink)`
   text-decoration: none;
 `
 
+const CardMediaHeader = styled(Typography)`
+  color: white;
+`
+
 export default function MediaCard(props) {
   const { url } = useRouteMatch()
   const id = '1'
+
+  MediaCard.propTypes = {
+    data: PropTypes.array.isRequired
+  }
 
   return (
     <>
@@ -43,15 +56,25 @@ export default function MediaCard(props) {
         return (
           <StyledCard key={game.id}>
             <CardActionArea>
-              <StyledCardMedia image={chorzowskaImage} title={game.name} />
+              <StyledCardMedia title={game.name}>
+                <CardMediaHeader variant="h4">{`${game.city} ${game.name}`}</CardMediaHeader>
+              </StyledCardMedia>
               <CardContent style={{ marginLeft: 'auto' }}>
-                <Typography variant="h4">{`${game.city} ${game.name}`}</Typography>
                 <Typography
                   gutterBottom
                   color="textPrimary"
                   variant="h5"
                   style={{ fontWeight: 700 }}>
-                  {`${game.date} ${game.time}`}
+                  {`${game.dateStart}`}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="textSecondary"
+                  style={{ marginTop: '5px' }}>
+                  Czas trwania:
+                  <Box fontWeight="fontWeightBold" display="inline" m={1}>
+                    {`${game.gameTime}min.`}
+                  </Box>
                 </Typography>
                 <Typography
                   variant="h6"

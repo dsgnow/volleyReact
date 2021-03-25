@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Container, Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 
 export const StyledContainer = styled.div`
   width: 95%;

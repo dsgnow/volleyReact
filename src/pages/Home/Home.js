@@ -2,6 +2,7 @@ import { Typography } from '@material-ui/core'
 import styled from 'styled-components'
 import volleyballPlayer from '../../Assets/Images/siatkarka.png'
 import Button from '../../UI/Button/Button'
+import { useHistory } from 'react-router-dom'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -86,6 +87,13 @@ const StyledButton = styled(Button)`
 `
 
 const Home = () => {
+  const history = useHistory()
+
+  const routeChange = () => {
+    let path = `gry`
+    history.push(path)
+  }
+
   return (
     <>
       <StyledContainer>
@@ -105,6 +113,7 @@ const Home = () => {
               size="large"
               variant="contained"
               title="Dostępne mecze"
+              onClick={routeChange}
               color="secondary"></StyledButton>
           </WrapTexts>
         </Wrapper>

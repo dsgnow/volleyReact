@@ -1,8 +1,4 @@
-import React from 'react'
-import GamePlayersTable from '../../components/Tables/GamePlayersListTable'
-import styled from 'styled-components'
-import { StyledTableContainer } from '../../components/Tables/Table/TableStyled'
-import { Typography } from '@material-ui/core'
+import React, { Fragment } from 'react'
 import Table from '../../components/Tables/Table/Table'
 import {
   StyledContainer,
@@ -17,7 +13,8 @@ const tableData = [
     skill: 36,
     players:
       'Damian Czapla, Michał (od P. Ważnego), Dawid (od P. Ważnego), Łukasz Wróblewski, Grzegorz Sołtysiak, Monika Szablińska',
-    playersCount: 6
+    playersCount: 6,
+    rotationTime: '21:30'
   },
   {
     id: 2,
@@ -25,7 +22,8 @@ const tableData = [
     skill: 38,
     players:
       'Wojtek Spalik, Rafał Kurkowski, Marcin Bosman, Michał Morawiec, Kamil Wiża, Magda Staniczek',
-    playersCount: 6
+    playersCount: 6,
+    rotationTime: '00:00'
   },
   {
     id: 3,
@@ -33,7 +31,8 @@ const tableData = [
     skill: 41,
     players:
       'Damian Kita, Przemysław Ważny, Patryk Kacprzycki, Michał Soblik, Ania Klemczak, Basia Lark',
-    playersCount: 6
+    playersCount: 6,
+    rotationTime: '01:00'
   },
   {
     id: 4,
@@ -41,7 +40,8 @@ const tableData = [
     skill: 38,
     players:
       'MRa Ra, Damian Dmowski, Mateusz Szołtysek, Piotr Stachowicz, Iza Ćwiertnia, Aśka Grochowina',
-    playersCount: 6
+    playersCount: 6,
+    rotationTime: '02:00'
   }
 ]
 
@@ -54,17 +54,21 @@ const AddPlayersToGame = () => {
           Gliwice Chorzowska, 16.03.2021, 21:30
         </StyledTitleTypography>
       </StyledTitle>
-      <Table
-        label={'Pierwsza rotacja'}
-        tableHeaders={['grupa', 'gracze']}
-        columns={['name', 'players']}
-        filteredColumn={'players'}
-        title={'Pierwsza rotacja'}
-        data={[tableData[0]]}
-        handleClick={(playerId) => addPlayer(playerId)}
-        buttonColor={'primary'}
-        rowsPerPageOnStart={[1, 6, 12]}
-      />
+      {tableData.map((data, index) => {
+        return (
+          <Fragment key={data.id}>
+            <Table
+              label={`${index + 1}. Rotacja / ${data.rotationTime}`}
+              tableHeaders={['grupa', 'gracze']}
+              columns={['name', 'players']}
+              filteredColumn={'players'}
+              title={`${index + 1}. Rotacja / ${data.rotationTime}`}
+              data={[data]}
+              rowsPerPageOnStart={[1, 6, 12]}
+            />
+          </Fragment>
+        )
+      })}
     </StyledContainer>
   )
 }

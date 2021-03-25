@@ -66,8 +66,6 @@ export default function CustomPaginationActionsTable(props) {
   }, [rowsData])
 
   useEffect(() => {
-    console.log(props.autorows)
-
     if (props.autorows) {
       setRowsPerPage(rows.length)
       setPage(0)
@@ -78,14 +76,14 @@ export default function CustomPaginationActionsTable(props) {
     title: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     tableHeaders: PropTypes.array.isRequired,
-    buttonColor: PropTypes.string.isRequired,
+    buttonColor: PropTypes.string,
     buttonTitle: PropTypes.string,
     columns: PropTypes.array.isRequired,
     rowsPerPageOnStart: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
-    handleClick: PropTypes.func.isRequired,
+    handleClick: PropTypes.func,
     filteredColumn: PropTypes.string.isRequired,
-    autorows: PropTypes.string.isRequired
+    autorows: PropTypes.bool
   }
 
   return (

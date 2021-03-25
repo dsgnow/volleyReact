@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import {
   useLocation,
   Switch,
@@ -15,12 +15,24 @@ import AssignedGames from './AssignedGames/AssignedGames'
 import AddedGames from './AddedGames/AddedGames'
 import useStateStorage from '../../hooks/useStateStorage'
 
+const StyledContainer = styled(Container)`
+  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+  background-color: white;
+  border-radius: unset;
+`
+
+const StyledTabs = styled(Tabs)``
+
+const StyledTab = styled(Tab)`
+  font-weight: 700;
+  font-size: 0.7rem;
+  @media (min-width: 600px) {
+    font-size: 0.9rem;
+  }
+`
+
 export default function Profile() {
   const { path, url } = useRouteMatch()
-
-  const Test = () => {
-    return <div>Hello</div>
-  }
 
   const [value, setValue] = useStateStorage('actualPage', 0)
 
@@ -30,22 +42,6 @@ export default function Profile() {
     console.log(newValue)
     setValue(newValue)
   }
-
-  const StyledContainer = styled(Container)`
-    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
-    background-color: white;
-    border-radius: unset;
-  `
-
-  const StyledTabs = styled(Tabs)``
-
-  const StyledTab = styled(Tab)`
-    font-weight: 700;
-    font-size: 0.7rem;
-    @media (min-width: 600px) {
-      font-size: 0.9rem;
-    }
-  `
 
   useEffect(() => {
     location.pathname == '/profil' && setValue(0)

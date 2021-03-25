@@ -1,5 +1,4 @@
 import Games from '../../components/Games/Games'
-import styled from 'styled-components'
 import {
   StyledContainer,
   StyledTitle,

@@ -1,7 +1,5 @@
-import { useContext } from 'react'
 import styled from 'styled-components'
 import { Typography } from '@material-ui/core'
-import ReducerContext from '../../context/ReducerContext'
 import Navbar from '../../UI/Navigation/Navbar'
 import headerImage from '../../Assets/Images/headerImage3.png'
 

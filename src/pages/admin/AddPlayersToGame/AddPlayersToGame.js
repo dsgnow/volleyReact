@@ -2,34 +2,31 @@ import React from 'react'
 import GamePlayersTable from '../../../components/Tables/GamePlayersListTable'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
-import Container from '@material-ui/core/Container'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import styled from 'styled-components'
-import { StyledTableContainer } from '../../../components/Tables/Table/TableStyled'
-import { Typography } from '@material-ui/core'
 import {
   StyledContainer,
   StyledTitle,
   StyledTitleTypography
 } from '../../../Assets/Styles/GlobalStyles'
 
+const StyledFormControl = styled(FormControl)`
+  margin: ${({ theme }) => theme.spacing(1)};
+  min-width: 150px;
+  width: 40%;
+  margin: 40px auto 0;
+  ${({ theme }) => `
+${theme.breakpoints.up('sm')} {
+    margin: 60px auto 0;
+`}
+`
+
 const AddPlayersToGame = () => {
   const [selectValue, setSelectValue] = React.useState('')
   const handleChange = (event) => {
     setSelectValue(event.target.value)
   }
-
-  const StyledFormControl = styled(FormControl)`
-    margin: ${({ theme }) => theme.spacing(1)};
-    min-width: 150px;
-    width: 40%;
-    margin: 40px auto 0;
-    ${({ theme }) => `
-    ${theme.breakpoints.up('sm')} {
-        margin: 60px auto 0;
-    `}
-  `
 
   return (
     <StyledContainer style={{ flexDirection: 'column' }}>
