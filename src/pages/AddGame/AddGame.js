@@ -106,14 +106,14 @@ const AddGame = () => {
       city: '',
       street: '',
       dateStart: new Date(),
-      dateEnd: addHours(new Date(), 4),
+      dateEnd: new Date(),
       places: '',
       level: '',
       price: '',
       autoSquads: false,
-      rotationTime1: addHours(new Date(), 1),
-      rotationTime2: addHours(new Date(), 2),
-      rotationTime3: addHours(new Date(), 3)
+      rotationTime1: new Date(),
+      rotationTime2: new Date(),
+      rotationTime3: new Date()
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -129,56 +129,56 @@ const AddGame = () => {
         <StyledTitleTypography variant="h4">Dodaj grę</StyledTitleTypography>
       </StyledTitle>
       <Wrapper>
-        <StyledTypography variant="h5">Nowa gra</StyledTypography>
-        <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                error={touched.name && Boolean(errors.name)}
-                helperText={touched.name && errors.name}
-                autoComplete="name"
-                name="name"
-                variant="outlined"
-                fullWidth
-                value={values.name}
-                onChange={handleChange}
-                id="name"
-                label="Nazwa hali"
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                error={touched.city && Boolean(errors.city)}
-                helperText={touched.city && errors.city}
-                variant="outlined"
-                fullWidth
-                value={values.city}
-                onChange={handleChange}
-                id="city"
-                label="Miasto"
-                size="small"
-                name="city"
-                autoComplete="address-level2"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                error={touched.street && Boolean(errors.street)}
-                helperText={touched.street && errors.street}
-                variant="outlined"
-                fullWidth
-                value={values.street}
-                onChange={handleChange}
-                id="street"
-                label="Ulica"
-                size="small"
-                name="street"
-                autoComplete="street-address"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <MuiPickersUtilsProvider locale={plLocale} utils={LocalizedUtils}>
+        <MuiPickersUtilsProvider locale={plLocale} utils={LocalizedUtils}>
+          <StyledTypography variant="h5">Nowa gra</StyledTypography>
+          <form onSubmit={formik.handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  error={touched.name && Boolean(errors.name)}
+                  helperText={touched.name && errors.name}
+                  autoComplete="name"
+                  name="name"
+                  variant="outlined"
+                  fullWidth
+                  value={values.name}
+                  onChange={handleChange}
+                  id="name"
+                  label="Nazwa hali"
+                  size="small"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  error={touched.city && Boolean(errors.city)}
+                  helperText={touched.city && errors.city}
+                  variant="outlined"
+                  fullWidth
+                  value={values.city}
+                  onChange={handleChange}
+                  id="city"
+                  label="Miasto"
+                  size="small"
+                  name="city"
+                  autoComplete="address-level2"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  error={touched.street && Boolean(errors.street)}
+                  helperText={touched.street && errors.street}
+                  variant="outlined"
+                  fullWidth
+                  value={values.street}
+                  onChange={handleChange}
+                  id="street"
+                  label="Ulica"
+                  size="small"
+                  name="street"
+                  autoComplete="street-address"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <DateTimePicker
                   error={touched.dateStart && Boolean(errors.dateStart)}
                   helperText={touched.dateStart && errors.dateStart}
@@ -205,15 +205,12 @@ const AddGame = () => {
                     )
                   }}
                 />
-              </MuiPickersUtilsProvider>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <MuiPickersUtilsProvider locale={plLocale} utils={LocalizedUtils}>
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <DateTimePicker
                   error={touched.dateEnd && Boolean(errors.dateEnd)}
                   helperText={touched.dateEnd && errors.dateEnd}
-                  minDateTime={values.dateStart}
-                  placeholder={addHours(new Date(), 1)}
+                  minDate={values.dateStart}
                   size="small"
                   fullWidth
                   label="Data zakończenia"
@@ -237,83 +234,79 @@ const AddGame = () => {
                   }}
                   onChange={(e) => setFieldValue('dateEnd', e)}
                 />
-              </MuiPickersUtilsProvider>
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField
-                size="small"
-                error={touched.level && Boolean(errors.level)}
-                helperText={touched.level && errors.level}
-                fullWidth
-                id="level"
-                name="level"
-                select
-                label="Poziom"
-                value={values.level}
-                onChange={handleChange}
-                variant="outlined">
-                <MenuItem value="Rekreacyjny">Rekreacyjny</MenuItem>
-                <MenuItem value="Amatorski">Amatorski</MenuItem>
-                <MenuItem value="Profesjonalny">Profesjonalny</MenuItem>
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField
-                error={touched.places && Boolean(errors.places)}
-                helperText={touched.places && errors.places}
-                variant="outlined"
-                type="number"
-                fullWidth
-                value={values.places}
-                onChange={handleChange}
-                id="places"
-                label="Ilość miejsc"
-                size="small"
-                name="places"
-                autoComplete="places"
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField
-                error={touched.price && Boolean(errors.price)}
-                helperText={touched.price && errors.price}
-                variant="outlined"
-                type="number"
-                fullWidth
-                value={values.price}
-                onChange={handleChange}
-                id="price"
-                label="Cena za osobę"
-                size="small"
-                name="price"
-                autoComplete="price"
-              />
-            </Grid>
-          </Grid>
-          <Grid item xs={12} sm={12} style={{ margin: '20px 0' }}>
-            <FormControlLabel
-              control={
-                <Switch
-                  autoSquads={values.autoSquads}
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  size="small"
+                  error={touched.level && Boolean(errors.level)}
+                  helperText={touched.level && errors.level}
+                  fullWidth
+                  id="level"
+                  name="level"
+                  select
+                  label="Poziom"
+                  value={values.level}
                   onChange={handleChange}
-                  name="autoSquads"
-                  color="primary"
+                  variant="outlined">
+                  <MenuItem value="Rekreacyjny">Rekreacyjny</MenuItem>
+                  <MenuItem value="Amatorski">Amatorski</MenuItem>
+                  <MenuItem value="Profesjonalny">Profesjonalny</MenuItem>
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  error={touched.places && Boolean(errors.places)}
+                  helperText={touched.places && errors.places}
+                  variant="outlined"
+                  type="number"
+                  fullWidth
+                  value={values.places}
+                  onChange={handleChange}
+                  id="places"
+                  label="Ilość miejsc"
+                  size="small"
+                  name="places"
+                  autoComplete="places"
                 />
-              }
-              label="Dodaj ponowne wybranie składów"
-            />
-          </Grid>
-          {values.autoSquads && (
-            <Grid container spacing={2}>
-              {[...Array(3)].map((item, index) => {
-                let rotationName = `rotationTime${index + 1}`
-                let beforeRotationName = `rotationTime${index}`
-                console.log(index, rotationName)
-                return (
-                  <Grid key={index} item xs={12} sm={6}>
-                    <MuiPickersUtilsProvider
-                      locale={plLocale}
-                      utils={LocalizedUtils}>
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  error={touched.price && Boolean(errors.price)}
+                  helperText={touched.price && errors.price}
+                  variant="outlined"
+                  type="number"
+                  fullWidth
+                  value={values.price}
+                  onChange={handleChange}
+                  id="price"
+                  label="Cena za osobę"
+                  size="small"
+                  name="price"
+                  autoComplete="price"
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={12} style={{ margin: '20px 0' }}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    autoSquads={values.autoSquads}
+                    onChange={handleChange}
+                    name="autoSquads"
+                    color="primary"
+                  />
+                }
+                label="Dodaj ponowne wybranie składów"
+              />
+            </Grid>
+            {values.autoSquads && (
+              <Grid container spacing={2}>
+                {[...Array(3)].map((item, index) => {
+                  let rotationName = `rotationTime${index + 1}`
+                  let beforeRotationName = `rotationTime${index}`
+                  console.log(index, rotationName)
+                  return (
+                    <Grid key={index} item xs={12} sm={6}>
                       <DateTimePicker
                         error={
                           touched[rotationName] && Boolean(errors[rotationName])
@@ -321,12 +314,12 @@ const AddGame = () => {
                         helperText={
                           touched[rotationName] && errors[rotationName]
                         }
-                        minDateTime={
+                        minDate={
                           index === 0
                             ? values.dateStart
                             : values[beforeRotationName]
                         }
-                        maxDateTime={values.dateEnd}
+                        maxDate={values.dateEnd}
                         size="small"
                         fullWidth
                         label={`Rotacja${index + 1}`}
@@ -350,20 +343,20 @@ const AddGame = () => {
                         }}
                         onChange={(e) => setFieldValue(rotationName, e)}
                       />
-                    </MuiPickersUtilsProvider>
-                  </Grid>
-                )
-              })}
-            </Grid>
-          )}
-          <StyledButton
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary">
-            Dodaj
-          </StyledButton>
-        </form>
+                    </Grid>
+                  )
+                })}
+              </Grid>
+            )}
+            <StyledButton
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary">
+              Dodaj
+            </StyledButton>
+          </form>
+        </MuiPickersUtilsProvider>
       </Wrapper>
     </StyledContainer>
   )
