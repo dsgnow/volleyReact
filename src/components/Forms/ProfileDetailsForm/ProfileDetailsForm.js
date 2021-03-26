@@ -10,9 +10,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import styled from 'styled-components'
 import { StyledContainer as Container } from '../../../Assets/Styles/GlobalStyles'
-
-import { useFormik } from 'formik'
-import * as yup from 'yup'
+import PropTypes from 'prop-types'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -54,19 +52,8 @@ const StyledTypography = styled(Typography)`
   }
 `
 
-let validationSchema = yup.object().shape({
-  firstName: yup.string().required('To pole jest wymagane..'),
-  lastName: yup.string().required('To pole jest wymagane..'),
-  level: yup.string().required('To pole jest wymagane..'),
-  email: yup.string().email().required('To pole jest wymagane..'),
-  password: yup
-    .string()
-    .min(6, 'Hasło jest za krótkie.')
-    .max(20, 'Hasło jest za długie.')
-    .required('To pole jest wymagane..')
-})
-
-export const ProfileDetails = () => {
+const ProfileDetailsForm = (props) => {
+  const formik = props.formik
   const [visiblyPassword, setVisiblyPassword] = useState(false)
 
   const handleClickShowPassword = () => {
@@ -79,24 +66,10 @@ export const ProfileDetails = () => {
 
   let levels = Array.apply(null, { length: 10 }).map(Number.call, Number)
 
-  const formik = useFormik({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      level: '',
-      email: '',
-      password: ''
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
-    }
-  })
-
   return (
     <StyledContainer>
       <Wrapper>
-        <StyledTypography variant="h5">Aktualne dane</StyledTypography>
+        <StyledTypography variant="h5">{props.tittle}</StyledTypography>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -206,10 +179,18 @@ export const ProfileDetails = () => {
             fullWidth
             variant="contained"
             color="primary">
-            Aktualizuj
+            {props.buttonTittle}
           </StyledButton>
         </form>
       </Wrapper>
     </StyledContainer>
   )
 }
+
+ProfileDetailsForm.propTypes = {
+  formik: PropTypes.object.isRequired,
+  buttonTittle: PropTypes.string.isRequired,
+  tittle: PropTypes.string.isRequired
+}
+
+export default ProfileDetailsForm

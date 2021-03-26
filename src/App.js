@@ -17,7 +17,7 @@ import {
   ThemeProvider as MuiThemeProvider,
   responsiveFontSizes
 } from '@material-ui/core/styles'
-import Profile from './pages/Profile/Profile'
+import Profile from './pages/Profile/Profile/Profile'
 import AddGame from './pages/AddGame/AddGame'
 
 let theme = createMuiTheme({

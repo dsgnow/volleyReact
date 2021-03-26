@@ -4,25 +4,6 @@ import { Typography, Grid, Tooltip, IconButton } from '@material-ui/core'
 import CancelPresentationOutlinedIcon from '@material-ui/icons/CancelPresentationOutlined'
 import ListOutlinedIcon from '@material-ui/icons/ListOutlined'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-content: space-around;
-  align-items: center;
-  padding: 10px 0;
-  width: 95%;
-  margin: 10px auto;
-  padding: 0 10px;
-  box-shadow: ${({ theme }) => theme.palette.shadow.main};
-  @media (min-width: 1000px) {
-    width: none;
-    min-width: 200px;
-    max-width: 45%;
-    margin: 20px auto 20px 0;
-  }
-`
-
 const BoldTypography = styled(Typography)`
   font-weight: 700;
   font-size: 0.8rem;
@@ -94,7 +75,9 @@ const GamesList = (props) => {
 GamesList.propTypes = {
   tooltip: PropTypes.string.isRequired,
   buttonAction: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  clickHandler: PropTypes.func,
+  index: PropTypes.number
 }
 
 export default GamesList

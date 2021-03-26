@@ -58,7 +58,7 @@ const AddGameForm = (props) => {
   return (
     <Wrapper>
       <MuiPickersUtilsProvider locale={plLocale} utils={LocalizedUtils}>
-        <StyledTypography variant="h5">Nowa gra</StyledTypography>
+        <StyledTypography variant="h5">{props.tittle}</StyledTypography>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -279,7 +279,7 @@ const AddGameForm = (props) => {
             fullWidth
             variant="contained"
             color="primary">
-            Dodaj
+            {props.buttonTittle}
           </StyledButton>
         </form>
       </MuiPickersUtilsProvider>
@@ -287,7 +287,9 @@ const AddGameForm = (props) => {
   )
 }
 AddGameForm.propTypes = {
-  formik: PropTypes.object.isRequired
+  formik: PropTypes.object.isRequired,
+  buttonTittle: PropTypes.string.isRequired,
+  tittle: PropTypes.string.isRequired
 }
 
 export default AddGameForm
