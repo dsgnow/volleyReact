@@ -15,6 +15,7 @@ const navLinks = [
   { title: `dodaj grę`, path: `/dodaj-gre` },
   { title: `dodaj gracza`, path: `/dodaj-gracza` },
   { title: `profil`, path: `/profil` },
+  { title: `logowanie`, path: `/logowanie` },
   { title: `wyloguj`, path: `/wyloguj` }
 ]
 

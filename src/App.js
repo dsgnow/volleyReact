@@ -1,7 +1,14 @@
-import { useReducer, Suspense } from 'react'
+import { useReducer, Suspense, useState, useEffect } from 'react'
 import { reducer, intialState } from './reducer'
 import ReducerContext from './context/ReducerContext'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  useLocation,
+  Switch,
+  Route,
+  NavLink,
+  useRouteMatch
+} from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import './App.css'
 import Header from '../src/components/Header/Header'
@@ -19,6 +26,8 @@ import {
 } from '@material-ui/core/styles'
 import Profile from './pages/Profile/Profile/Profile'
 import AddGame from './pages/AddGame/AddGame'
+import Login from './pages/Login/Login'
+import Register from './pages/Register/Register'
 
 let theme = createMuiTheme({
   typography: {
@@ -82,7 +91,6 @@ let theme = createMuiTheme({
     }
   }
 })
-
 theme = responsiveFontSizes(theme)
 
 function App() {
@@ -99,8 +107,8 @@ function App() {
           <Route path="/gry" component={StartGames} />
           <Route path="/dodaj-gracza" component={AddPlayersToGame} />
           <Route path="/dodaj-gre" component={AddGame} />
-          {/* <Route path="/zaloguj" component={} />
-          <Route path="/rejestracja" component={Register} /> */}
+          <Route path="/logowanie" component={Login} />
+          <Route path="/rejestracja" component={Register} />
           <Route path="/" exact component={Home} />
           <Route component={NotFound} />
         </Switch>

@@ -5,7 +5,10 @@ import {
   StyledTitleTypography
 } from '../../Assets/Styles/GlobalStyles'
 import AddGameForm from '../../components/Forms/AddGameForm/AddGameForm'
-import { validationSchema } from '../../components/Forms/AddGameForm/validationSchema'
+import {
+  validationSchema,
+  initialValues
+} from '../../components/Forms/AddGameForm/validationSchema'
 import { useFormik } from 'formik'
 
 const StyledContainer = styled(Container)`
@@ -14,20 +17,7 @@ const StyledContainer = styled(Container)`
 
 const AddGame = () => {
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      city: '',
-      street: '',
-      dateStart: null,
-      dateEnd: null,
-      places: '',
-      level: '',
-      price: '',
-      autoSquads: false,
-      rotationTime1: null,
-      rotationTime2: null,
-      rotationTime3: null
-    },
+    initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       alert('DODANIE  DO BAZY', JSON.stringify(values, null, 2))
