@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import { useState } from 'react'
-import { Button, Link, TextField, Grid, Typography } from '@material-ui/core'
+import { Button, TextField, Grid, Typography } from '@material-ui/core'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import IconButton from '@material-ui/core/IconButton'
@@ -38,11 +38,6 @@ const StyledButton = styled(Button)`
   @media (min-width: 600px) {
     width: 30%;
   }
-`
-
-const StyledLink = styled(Link)`
-  text-align: left;
-  align-self: left;
 `
 
 const StyledTypography = styled(Typography)`

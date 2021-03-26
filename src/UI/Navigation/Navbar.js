@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
+import Drawer from './Drawer'
 
 const navLinks = [
   { title: `gry`, path: `/gry` },
@@ -27,10 +28,24 @@ const StyledAppBar = styled(AppBar)`
   position: fixed;
   top: 0;
   background-image: ${({ theme }) => theme.palette.mainGradient.main};
-  ${({ theme }) => `
-   ${theme.breakpoints.up('sm')} {
-       display: flex
-   `}
+  @media (min-width: 600px) {
+    display: flex;
+  }
+`
+
+const Wrapper = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  @media (min-width: 600px) {
+    display: none;
+  }
+`
+
+const StyledDrawer = styled(Drawer)`
+  margin: 300px;
+  padding: 300px;
 `
 
 const NavbarDisplayFlex = styled(Container)`
@@ -52,6 +67,9 @@ const RouterNavLink = styled(NavLink)`
 const Navbar = () => {
   return (
     <>
+      <Wrapper>
+        <StyledDrawer></StyledDrawer>
+      </Wrapper>
       <StyledAppBar position="static">
         <Toolbar>
           <NavbarDisplayFlex>

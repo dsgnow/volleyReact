@@ -49,7 +49,7 @@ const WrapHeaderTexts = styled.div`
 
 const Header = () => {
   return (
-    <>
+    <div style={{ position: 'relative' }}>
       <Navbar />
       <StyledHeader>
         <HeaderImage src={headerImage} alt="" />
@@ -65,7 +65,7 @@ const Header = () => {
           </HeaderText>
         </WrapHeaderTexts>
       </StyledHeader>
-    </>
+    </div>
   )
 }
 
