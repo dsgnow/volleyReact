@@ -2,12 +2,17 @@ export const reducer = (state, action) => {
   switch (action.type) {
     case 'changePlayersAssignedToGame':
       return { ...state, playersAssignedToGame: action.value }
+    case 'login':
+      return { ...state, user: action.user }
+    case 'logout':
+      return { ...state, user: null }
     default:
       throw new Error('Nie ma takiej akcji: ' + action.type)
   }
 }
 
 export const intialState = {
+  user: JSON.parse(window.localStorage.getItem('token-data')) ?? null,
   allPlayers: [
     {
       id: '1',

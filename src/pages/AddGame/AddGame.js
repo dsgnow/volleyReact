@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import {
   StyledContainer as Container,
@@ -10,21 +11,32 @@ import {
   initialValues
 } from '../../components/Forms/AddGameForm/validationSchema'
 import { useFormik } from 'formik'
+import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
+import axios from '../../axios'
 
 const StyledContainer = styled(Container)`
   justify-content: flex-start;
 `
 
 const AddGame = () => {
+  const [loading, setLoading] = useState(false)
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert('DODANIE  DO BAZY', JSON.stringify(values, null, 2))
+    onSubmit: async (values) => {
+      setLoading(true)
+      const res = await axios.post('/games.json', { ...values })
+      await sleep(500)
+      console.log(res)
+      setLoading(false)
     }
   })
 
-  return (
+  return loading ? (
+    <LoadingIcon />
+  ) : (
     <StyledContainer>
       <StyledTitle>
         <StyledTitleTypography variant="h4">Dodaj grę</StyledTitleTypography>

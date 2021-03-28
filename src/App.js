@@ -1,7 +1,9 @@
 import { useReducer, Suspense } from 'react'
 import { reducer, intialState } from './reducer'
 import ReducerContext from './context/ReducerContext'
+import AuthContext from './context/authContext'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import AuthenticatedRoute from './hoc/AuthenticatedRoute'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import './App.css'
 import Header from '../src/components/Header/Header'
@@ -95,11 +97,14 @@ function App() {
       {/* <ErrorBoundary> */}
       <Suspense fallback={<p>Ładowanie...</p>}>
         <Switch>
-          <Route path="/profil" component={Profile} />
+          <AuthenticatedRoute path="/profil" component={Profile} />
           <Route path="/gry/składy/:id" component={GameComposition} />
           <Route path="/gry" component={StartGames} />
-          <Route path="/dodaj-gracza" component={AddPlayersToGame} />
-          <Route path="/dodaj-gre" component={AddGame} />
+          <AuthenticatedRoute
+            path="/dodaj-gracza"
+            component={AddPlayersToGame}
+          />
+          <AuthenticatedRoute path="/dodaj-gre" component={AddGame} />
           <Route path="/logowanie" component={Login} />
           <Route path="/rejestracja" component={Register} />
           <Route path="/" exact component={Home} />
@@ -113,18 +118,25 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <MuiThemeProvider theme={theme}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <ReducerContext.Provider
-              value={{
-                state: state,
-                dispatch: dispatch
-              }}>
-              <Layout header={header} content={content} />
-            </ReducerContext.Provider>
-          </ThemeProvider>
-        </MuiThemeProvider>
+        <AuthContext.Provider
+          value={{
+            user: state.user,
+            login: (user) => dispatch({ type: 'login', user }),
+            logout: () => dispatch({ type: 'logout' })
+          }}>
+          <MuiThemeProvider theme={theme}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <ReducerContext.Provider
+                value={{
+                  state: state,
+                  dispatch: dispatch
+                }}>
+                <Layout header={header} content={content} />
+              </ReducerContext.Provider>
+            </ThemeProvider>
+          </MuiThemeProvider>
+        </AuthContext.Provider>
       </Router>
     </div>
   )
