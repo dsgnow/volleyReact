@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import Button from '@material-ui/core/Button'
 import List from '@material-ui/core/List'
@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
 
 const Wrapper = styled.div`
   margin: 10px;
@@ -37,7 +38,11 @@ const RouterNavLink = styled(NavLink)`
 `
 
 const Drawer = () => {
-  const [state, setState] = React.useState({
+  const [auth, setAuth] = useAuth()
+  const logout = () => {
+    setAuth(false)
+  }
+  const [state, setState] = useState({
     right: false
   })
 
@@ -54,12 +59,12 @@ const Drawer = () => {
   }
 
   const navLinks = [
-    { title: `gry`, path: `/gry` },
-    { title: `dodaj grę`, path: `/dodaj-gre` },
-    { title: `dodaj gracza`, path: `/dodaj-gracza` },
-    { title: `profil`, path: `/profil` },
-    { title: `logowanie`, path: `/logowanie` },
-    { title: `wyloguj`, path: `/wyloguj` }
+    { title: `gry`, path: `/gry`, authRequired: false },
+    { title: `dodaj grę`, path: `/dodaj-gre`, authRequired: true },
+    { title: `dodaj gracza`, path: `/dodaj-gracza`, authRequired: true },
+    { title: `profil`, path: `/profil`, authRequired: true },
+    { title: `logowanie`, path: `/logowanie`, authRequired: false },
+    { title: `wyloguj`, path: `/`, authRequired: true }
   ]
 
   const list = (anchor) => (
@@ -70,12 +75,25 @@ const Drawer = () => {
       <StyledListHead></StyledListHead>
       <Divider />
       <StyledList component="nav" aria-labelledby="main navigation">
-        {navLinks.map(({ title, path }) => (
-          <RouterNavLink exact to={path} key={title}>
-            <StyledListItem button>
-              <ListItemText primary={title} />
-            </StyledListItem>
-          </RouterNavLink>
+        {navLinks.map(({ title, path, authRequired }) => (
+          <div key={title}>
+            {auth && title !== 'logowanie' ? (
+              <RouterNavLink exact to={path}>
+                <StyledListItem
+                  button
+                  onClick={title === 'wyloguj' ? logout : null}>
+                  <ListItemText primary={title} />
+                </StyledListItem>
+              </RouterNavLink>
+            ) : null}
+            {!auth && !authRequired ? (
+              <RouterNavLink exact to={path}>
+                <StyledListItem button>
+                  <ListItemText primary={title} />
+                </StyledListItem>
+              </RouterNavLink>
+            ) : null}
+          </div>
         ))}
       </StyledList>
     </WrapList>
