@@ -61,16 +61,17 @@ export const validationSchema = yup.object().shape({
 })
 
 export const initialValues = {
-  name: '',
-  city: '',
-  street: '',
-  dateStart: null,
-  dateEnd: null,
-  places: '',
-  level: '',
-  price: '',
-  autoSquads: false,
-  rotationTime1: null,
-  rotationTime2: null,
-  rotationTime3: null
+  active: true,
+  name: 'ZSOE',
+  city: 'Gliwice',
+  street: 'Chorzowska',
+  dateStart: new Date(),
+  dateEnd: new Date(),
+  places: '24',
+  level: 'Amatorski',
+  price: '10',
+  autoSquads: true,
+  rotationTime1: new Date(),
+  rotationTime2: new Date(),
+  rotationTime3: new Date()
 }

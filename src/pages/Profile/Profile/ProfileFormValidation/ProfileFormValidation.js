@@ -9,7 +9,6 @@ import LoadingIcon from '../../../../UI/LoadingIcon/LoadingIcon'
 import axiosAuth from '../../../../axios-auth'
 import axios from '../../../../axios'
 import useAuth from '../../../../hooks/useAuth'
-import { useHistory } from 'react-router-dom'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 
@@ -49,11 +48,12 @@ const ProfileFormValidation = () => {
         })
 
         res.status === 200 &&
-          (await axios.patch(`users/${auth.userId}.json`, {
-            displayName: `${values.firstName} ${values.lastName}`,
+          (await axios.patch(`users/${res.data.localId}.json`, {
+            firstName: values.firstName,
+            lastName: values.lastName,
             userLevel: values.level,
             email: values.email,
-            userId: auth.userId
+            userId: res.data.localId
           }))
 
         setMessageType('success')
@@ -72,6 +72,9 @@ const ProfileFormValidation = () => {
             break
           case 'WEAK_PASSWORD':
             setMessage('Hasło musi mieć minimum 6 znaków.')
+            break
+          case 'EMAIL_EXISTS':
+            setMessage('Podany email jest już zajęty.')
             break
           default:
             setMessage(ex.response.data.error.message)

@@ -13,6 +13,9 @@ import {
 import { useFormik } from 'formik'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import axios from '../../axios'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
+import formatDistanceStrict from 'date-fns/formatDistanceStrict'
 
 const StyledContainer = styled(Container)`
   justify-content: flex-start;
@@ -20,16 +23,46 @@ const StyledContainer = styled(Container)`
 
 const AddGame = () => {
   const [loading, setLoading] = useState(false)
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+  const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('')
+  const [open, setOpen] = useState(false)
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpen(false)
+  }
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
+
     onSubmit: async (values) => {
       setLoading(true)
-      const res = await axios.post('/games.json', { ...values })
-      await sleep(500)
-      console.log(res)
+
+      const gameTime = formatDistanceStrict(values.dateStart, values.dateEnd, {
+        unit: 'minute'
+      }).slice(0, -8)
+
+      try {
+        const res = await axios.post('/games.json', {
+          ...values,
+          gameTime: gameTime,
+          rotations: '',
+          freePlaces: values.places,
+          players: '',
+          reserve: ''
+        })
+
+        setMessageType('success')
+        setOpen(true)
+        setMessage('Pomyślnie dodano nową grę!')
+      } catch (ex) {
+        setOpen(true)
+        setMessageType('warning')
+        setMessage(ex.response.data.error.message)
+      }
       setLoading(false)
     }
   })
@@ -37,15 +70,28 @@ const AddGame = () => {
   return loading ? (
     <LoadingIcon />
   ) : (
-    <StyledContainer>
-      <StyledTitle>
-        <StyledTitleTypography variant="h4">Dodaj grę</StyledTitleTypography>
-      </StyledTitle>
-      <AddGameForm
-        formik={formik}
-        buttonTittle={'Dodaj'}
-        tittle={'Nowa gra'}></AddGameForm>
-    </StyledContainer>
+    <>
+      {message && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={handleClose}
+            severity={messageType}>
+            {message}
+          </MuiAlert>
+        </Snackbar>
+      )}
+      <StyledContainer>
+        <StyledTitle>
+          <StyledTitleTypography variant="h4">Dodaj grę</StyledTitleTypography>
+        </StyledTitle>
+        <AddGameForm
+          formik={formik}
+          buttonTittle={'Dodaj'}
+          tittle={'Nowa gra'}></AddGameForm>
+      </StyledContainer>
+    </>
   )
 }
 

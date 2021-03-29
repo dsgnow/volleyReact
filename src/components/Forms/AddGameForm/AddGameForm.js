@@ -37,12 +37,17 @@ const StyledButton = styled(Button)`
 `
 
 const StyledTypography = styled(Typography)`
-  margin-bottom: 20px;
+  font-weight: 700;
   text-align: center;
   @media (min-width: 600px) {
-    margin-bottom: 30px;
     text-align: left;
   }
+`
+
+const StyledSwitchGrid = styled(Grid)`
+  margin: 20px 0;
+  padding: 0;
+  text-align: left;
 `
 class LocalizedUtils extends DateFnsUtils {
   getDatePickerHeaderText(date) {
@@ -61,6 +66,21 @@ const AddGameForm = (props) => {
         <StyledTypography variant="h5">{props.tittle}</StyledTypography>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
+            <StyledSwitchGrid item xs={12} sm={6}>
+              <FormControlLabel
+                label="Aktywna"
+                control={
+                  <Switch
+                    value={values.active}
+                    checked={values.active}
+                    onChange={handleChange}
+                    name="active"
+                    id="active"
+                    color="primary"
+                  />
+                }
+              />
+            </StyledSwitchGrid>
             <Grid item xs={12}>
               <TextField
                 error={touched.name && Boolean(errors.name)}
@@ -214,11 +234,12 @@ const AddGameForm = (props) => {
               />
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} style={{ margin: '20px 0' }}>
+          <StyledSwitchGrid item xs={12} sm={6}>
             <FormControlLabel
               control={
                 <Switch
                   value={values.autoSquads}
+                  checked={values.autoSquads}
                   onChange={handleChange}
                   name="autoSquads"
                   id="autoSquads"
@@ -227,7 +248,7 @@ const AddGameForm = (props) => {
               }
               label="Dodaj ponowne wybranie składów"
             />
-          </Grid>
+          </StyledSwitchGrid>
           {values.autoSquads && (
             <Grid container spacing={2}>
               {[...Array(3)].map((item, index) => {

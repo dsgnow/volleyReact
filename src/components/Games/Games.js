@@ -11,6 +11,7 @@ import {
   Box
 } from '@material-ui/core'
 import { NavLink, useRouteMatch } from 'react-router-dom'
+import { parseISO, format } from 'date-fns'
 
 const StyledCard = styled(Card)`
   width: 315px;
@@ -32,6 +33,7 @@ const StyledCardMedia = styled(CardMedia)`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 `
 
 const StylednavLink = styled(NavLink)`
@@ -57,7 +59,7 @@ export default function MediaCard(props) {
           <StyledCard key={game.id}>
             <CardActionArea>
               <StyledCardMedia title={game.name}>
-                <CardMediaHeader variant="h4">{`${game.city} ${game.name}`}</CardMediaHeader>
+                <CardMediaHeader variant="h4">{`${game.city}, ${game.name}`}</CardMediaHeader>
               </StyledCardMedia>
               <CardContent style={{ marginLeft: 'auto' }}>
                 <Typography
@@ -65,7 +67,7 @@ export default function MediaCard(props) {
                   color="textPrimary"
                   variant="h5"
                   style={{ fontWeight: 700 }}>
-                  {`${game.dateStart}`}
+                  {`${format(parseISO(game.dateStart), 'dd.MM.yyyy hh:mm')}`}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -73,7 +75,7 @@ export default function MediaCard(props) {
                   style={{ marginTop: '5px' }}>
                   Czas trwania:
                   <Box fontWeight="fontWeightBold" display="inline" m={1}>
-                    {`${game.gameTime}min.`}
+                    {`${game.gameTime} min.`}
                   </Box>
                 </Typography>
                 <Typography

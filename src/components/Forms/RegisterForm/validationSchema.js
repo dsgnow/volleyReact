@@ -1,6 +1,9 @@
 import * as yup from 'yup'
 
 export const validationSchema = yup.object().shape({
+  firstName: yup.string().required('To pole jest wymagane..'),
+  lastName: yup.string().required('To pole jest wymagane..'),
+  level: yup.string().required('To pole jest wymagane..'),
   email: yup
     .string()
     .email('Wpisz poprawny email')
@@ -22,6 +25,9 @@ export const validationSchema = yup.object().shape({
 })
 
 export const initialValues = {
+  firstName: 'Piotr',
+  lastName: 'Stachowicz',
+  level: 6,
   email: 'nades90@gmail.com',
   password: 'supertajne123',
   confirmPassword: 'supertajne123'

@@ -48,9 +48,10 @@ const Register = () => {
         res.status === 200 &&
           (await axios.put(`users/${res.data.localId}.json`, {
             email: values.email,
-            userLevel: '',
+            userLevel: values.level,
             adminLevel: '',
-            displayName: '',
+            firstName: values.firstName,
+            lastName: values.lastName,
             userId: res.data.localId
           }))
 

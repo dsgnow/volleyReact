@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { StyledContainer as Container } from '../../../Assets/Styles/GlobalStyles'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
+import MenuItem from '@material-ui/core/MenuItem'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -67,12 +68,72 @@ const RegisterForm = (props) => {
     history.push(path)
   }
 
+  let levels = Array.apply(null, { length: 10 }).map(Number.call, Number)
+
   return (
     <StyledContainer>
       <Wrapper>
         <StyledTypography variant="h5">{props.tittle}</StyledTypography>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                error={
+                  formik.touched.firstName && Boolean(formik.errors.firstName)
+                }
+                helperText={formik.touched.firstName && formik.errors.firstName}
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                fullWidth
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
+                id="firstName"
+                label="Imię"
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                error={
+                  formik.touched.lastName && Boolean(formik.errors.lastName)
+                }
+                helperText={formik.touched.lastName && formik.errors.lastName}
+                variant="outlined"
+                fullWidth
+                value={formik.values.lastName}
+                onChange={formik.handleChange}
+                id="lastName"
+                label="Nazwisko"
+                size="small"
+                name="lastName"
+                autoComplete="lname"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                error={formik.touched.level && Boolean(formik.errors.level)}
+                helperText={formik.touched.level && formik.errors.level}
+                fullWidth
+                size="small"
+                id="level"
+                name="level"
+                select
+                label="Poziom"
+                value={formik.values.level}
+                onChange={formik.handleChange}
+                variant="outlined">
+                {levels.map((arrLevel) => {
+                  return (
+                    <MenuItem
+                      key={arrLevel + 1}
+                      value={(arrLevel + 1).toString()}>
+                      {arrLevel + 1}
+                    </MenuItem>
+                  )
+                })}
+              </TextField>
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 error={formik.touched.email && Boolean(formik.errors.email)}
