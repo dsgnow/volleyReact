@@ -82,7 +82,7 @@ const ProfileDetailsForm = (props) => {
                 name="firstName"
                 variant="outlined"
                 fullWidth
-                value={formik.values.name}
+                value={formik.values.firstName}
                 onChange={formik.handleChange}
                 id="firstName"
                 label="Imię"

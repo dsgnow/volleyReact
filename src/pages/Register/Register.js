@@ -6,16 +6,28 @@ import {
 } from '../../components/Forms/RegisterForm/validationSchema'
 import { useFormik } from 'formik'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
-import axios from '../../axios-auth'
+import axiosAuth from '../../axios-auth'
+import axios from '../../axios'
 import useAuth from '../../hooks/useAuth'
 import { useHistory } from 'react-router-dom'
+import React from 'react'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
 const Register = () => {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [auth, setAuth] = useAuth()
+  const [error, setError] = useState('')
+  const [open, setOpen] = useState(false)
 
-  console.log(auth)
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
 
   if (auth) {
     history.push('/')
@@ -27,21 +39,42 @@ const Register = () => {
     onSubmit: async (values) => {
       setLoading(true)
       try {
-        const res = await axios.post('accounts:signUp', {
+        const res = await axiosAuth.post('accounts:signUp', {
           email: values.email,
           password: values.password,
           returnSecureToken: true
         })
+
+        res.status === 200 &&
+          (await axios.put(`users/${res.data.localId}.json`, {
+            email: values.email,
+            userLevel: '',
+            adminLevel: '',
+            displayName: '',
+            userId: res.data.localId
+          }))
+
         setAuth({
           email: res.data.email,
           token: res.data.idToken,
           userId: res.data.localId
         })
-        history.push('/')
       } catch (ex) {
-        console.log(ex.response)
+        setOpen(true)
+        switch (ex.response.data.error.message) {
+          case 'EMAIL_EXISTS':
+            setError('adres e-mail jest już używany przez inne konto.')
+            break
+          case 'TOO_MANY_ATTEMPTS_TRY_LATER':
+            setError(
+              'Zablokowaliśmy wszystkie żądania z tego urządzenia z powodu nietypowej aktywności. Spróbuj ponownie później.'
+            )
+            break
+          default:
+            setError(ex.response.data.error.message)
+        }
       }
-      setTimeout(function () {}, 3000)
+
       setLoading(false)
     }
   })
@@ -50,6 +83,17 @@ const Register = () => {
     <LoadingIcon />
   ) : (
     <>
+      {error && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={handleClose}
+            severity="warning">
+            {error}
+          </MuiAlert>
+        </Snackbar>
+      )}
       <RegisterForm
         formik={formik}
         buttonTittle={'Zarejestruj się'}
