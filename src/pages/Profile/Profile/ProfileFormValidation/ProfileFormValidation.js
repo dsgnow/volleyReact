@@ -63,9 +63,9 @@ const ProfileFormValidation = () => {
         setOpen(true)
         setMessageType('warning')
         switch (ex.response.data.error.message) {
-          case 'CREDENTIAL_TOO_OLD_LOGIN_AGAIN' ||
-            'TOKEN_EXPIRED' ||
-            'INVALID_ID_TOKEN':
+          case 'CREDENTIAL_TOO_OLD_LOGIN_AGAIN':
+          case 'TOKEN_EXPIRED':
+          case 'INVALID_ID_TOKEN':
             setMessage(
               'Twoje poświadczenie wygasło. Zaloguj się ponownie do aplikacji.'
             )
