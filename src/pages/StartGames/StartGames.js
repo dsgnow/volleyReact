@@ -27,7 +27,7 @@ const StartGames = () => {
       const newGames = objectToArrayWithId(res.data)
       setGames(newGames)
     } catch (ex) {
-      console.log(ex.response)
+      setError(ex.response.data.error.message)
     }
     setLoading(false)
   }

@@ -1,9 +1,14 @@
 import { StyledContainer as Container } from '../../../Assets/Styles/GlobalStyles'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import ReducerContext from '../../../context/ReducerContext'
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import GamesList from '../../../components/Games/GamesList'
+import axios from '../../../axios'
+import { objectToArrayWithId } from '../../../helpers/objects'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
+import LoadingIcon from '../../../UI/LoadingIcon/LoadingIcon'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -47,27 +52,67 @@ const StyledTypography = styled(Typography)`
 
 const AssignedGames = () => {
   const context = useContext(ReducerContext)
-  const { gamesData } = context.state
+  const [games, setGames] = useState([])
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [open, setOpen] = useState(false)
 
-  return (
-    <StyledContainer>
-      {gamesData.length > 0 ? (
-        <StyledTypography variant="h5">Aktywne gry</StyledTypography>
-      ) : (
-        <StyledTypography variant="h5">Brak aktywnych gier</StyledTypography>
+  const fetchGames = async () => {
+    try {
+      const res = await axios.get('/games.json')
+      const newGames = objectToArrayWithId(res.data)
+      setGames(newGames)
+    } catch (ex) {
+      setError(ex.response.data.error.message)
+    }
+    setLoading(false)
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpen(false)
+  }
+
+  useEffect(() => {
+    fetchGames()
+  }, [])
+
+  return loading ? (
+    <LoadingIcon />
+  ) : (
+    <>
+      {error && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={handleClose}
+            severity="warning">
+            {error}
+          </MuiAlert>
+        </Snackbar>
       )}
-      {gamesData.map((game, index) => {
-        return (
-          <Wrapper key={game.id}>
-            <GamesList
-              index={index}
-              data={game}
-              buttonAction="remove"
-              tooltip="zrezygnuj"></GamesList>
-          </Wrapper>
-        )
-      })}
-    </StyledContainer>
+      <StyledContainer>
+        {games.length > 0 ? (
+          <StyledTypography variant="h5">Aktywne gry</StyledTypography>
+        ) : (
+          <StyledTypography variant="h5">Brak aktywnych gier</StyledTypography>
+        )}
+        {games.map((game, index) => {
+          return (
+            <Wrapper key={game.id}>
+              <GamesList
+                index={index}
+                data={game}
+                buttonAction="remove"
+                tooltip="zrezygnuj"></GamesList>
+            </Wrapper>
+          )
+        })}
+      </StyledContainer>
+    </>
   )
 }
 

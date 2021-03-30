@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Typography, Grid, Tooltip, IconButton } from '@material-ui/core'
 import CancelPresentationOutlinedIcon from '@material-ui/icons/CancelPresentationOutlined'
 import ListOutlinedIcon from '@material-ui/icons/ListOutlined'
+import { parseISO, format } from 'date-fns'
 
 const BoldTypography = styled(Typography)`
   font-weight: 700;
@@ -40,7 +41,10 @@ const GamesList = (props) => {
         }`}</BoldTypography>
       </StyledGrid>
       <StyledGrid item xs={3} sm={3}>
-        <StyledTypography variant="h6">{`${data.dateStart}`}</StyledTypography>
+        <StyledTypography variant="h6">{`${format(
+          parseISO(data.dateStart),
+          'dd.MM.yyyy hh:mm'
+        )}`}</StyledTypography>
       </StyledGrid>
       <StyledGrid item xs={6} sm={3}>
         {buttonAction === 'remove' ? (
