@@ -11,6 +11,7 @@ import axios from '../../../../axios'
 import useAuth from '../../../../hooks/useAuth'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
+import { addHours, parseISO, format, formatISO } from 'date-fns'
 
 const ProfileFormValidation = () => {
   const [loading, setLoading] = useState(false)
@@ -39,12 +40,6 @@ const ProfileFormValidation = () => {
           password: values.password,
           email: values.email,
           returnSecureToken: true
-        })
-
-        setAuth({
-          email: res.data.email,
-          token: res.data.idToken,
-          userId: res.data.localId
         })
 
         res.status === 200 &&

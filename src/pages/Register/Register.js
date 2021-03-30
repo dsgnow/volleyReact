@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom'
 import React from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
+import { addHours, formatISO } from 'date-fns'
 
 const Register = () => {
   const history = useHistory()
@@ -32,6 +33,8 @@ const Register = () => {
   if (auth) {
     history.push('/')
   }
+
+  const localStorageLifeTime = addHours(new Date(), 1)
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -58,7 +61,8 @@ const Register = () => {
         setAuth({
           email: res.data.email,
           token: res.data.idToken,
-          userId: res.data.localId
+          userId: res.data.localId,
+          expiryDate: formatISO(localStorageLifeTime)
         })
       } catch (ex) {
         setOpen(true)

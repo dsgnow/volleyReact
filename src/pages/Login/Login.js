@@ -11,6 +11,7 @@ import useAuth from '../../hooks/useAuth'
 import { useHistory } from 'react-router-dom'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
+import { addHours, formatISO } from 'date-fns'
 
 const Login = () => {
   const history = useHistory()
@@ -42,10 +43,13 @@ const Login = () => {
           password: values.password,
           returnSecureToken: true
         })
+
+        const localStorageLifeTime = addHours(new Date(), 1)
         setAuth({
           email: res.data.email,
           token: res.data.idToken,
-          userId: res.data.localId
+          userId: res.data.localId,
+          expiryDate: formatISO(localStorageLifeTime)
         })
         history.push('/')
       } catch (ex) {
