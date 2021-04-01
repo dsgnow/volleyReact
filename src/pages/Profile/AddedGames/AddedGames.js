@@ -11,6 +11,7 @@ import { objectToArrayWithId } from '../../../helpers/objects'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import LoadingIcon from '../../../UI/LoadingIcon/LoadingIcon'
+import { fetchAllGames, fetchGameById } from '../../../services/gameService'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -70,8 +71,6 @@ const StyledTypography = styled(Typography)`
 `
 
 const AddedGames = () => {
-  const context = useContext(ReducerContext)
-  const { gamesData } = context.state
   const selectForm = useRef()
   const [initialValues, setInitialValues] = useState(defaultInitialValues)
   const [games, setGames] = useState([])
@@ -79,18 +78,26 @@ const AddedGames = () => {
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
 
-  const editGame = (gameId) => {
-    selectForm.current.scrollIntoView({ block: 'start', behavior: 'smooth' })
-    setInitialValues({
-      ...initialValues,
-      name: `Pobranie danych gry o id: ${gameId}`,
-      dateStart: new Date()
-    })
+  const editGame = async (gameId) => {
+    setLoading(true)
+
+    try {
+      selectForm.current.scrollIntoView({ block: 'start', behavior: 'smooth' })
+      const res = await fetchGameById(gameId)
+      const fetchedGame = objectToArrayWithId(res.data)
+
+      setInitialValues({
+        ...fetchedGame[0]
+      })
+    } catch (ex) {
+      setError(ex.response.data.error.message)
+    }
+    setLoading(false)
   }
 
   const fetchGames = async () => {
     try {
-      const res = await axios.get('/games.json')
+      const res = await fetchAllGames()
       const newGames = objectToArrayWithId(res.data)
       setGames(newGames)
     } catch (ex) {

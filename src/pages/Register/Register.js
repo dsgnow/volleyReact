@@ -14,6 +14,7 @@ import React from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import { addHours, formatISO } from 'date-fns'
+import { signUp, addNewUser } from '../../services/accountService'
 
 const Register = () => {
   const history = useHistory()
@@ -42,14 +43,15 @@ const Register = () => {
     onSubmit: async (values) => {
       setLoading(true)
       try {
-        const res = await axiosAuth.post('accounts:signUp', {
+        const res = await signUp({
           email: values.email,
           password: values.password,
           returnSecureToken: true
         })
 
         res.status === 200 &&
-          (await axios.put(`users/${res.data.localId}.json`, {
+          (await addNewUser({
+            path: `users/${res.data.localId}.json`,
             email: values.email,
             userLevel: values.level,
             adminLevel: '',

@@ -9,6 +9,7 @@ import { objectToArrayWithId } from '../../../helpers/objects'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import LoadingIcon from '../../../UI/LoadingIcon/LoadingIcon'
+import { fetchAllGames } from '../../../services/gameService'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -59,7 +60,7 @@ const AssignedGames = () => {
 
   const fetchGames = async () => {
     try {
-      const res = await axios.get('/games.json')
+      const res = await fetchAllGames()
       const newGames = objectToArrayWithId(res.data)
       setGames(newGames)
     } catch (ex) {

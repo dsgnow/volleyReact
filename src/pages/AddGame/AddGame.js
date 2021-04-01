@@ -12,10 +12,10 @@ import {
 } from '../../components/Forms/AddGameForm/validationSchema'
 import { useFormik } from 'formik'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
-import axios from '../../axios'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import formatDistanceStrict from 'date-fns/formatDistanceStrict'
+import { addGame } from '../../services/gameService'
 
 const StyledContainer = styled(Container)`
   justify-content: flex-start;
@@ -46,10 +46,9 @@ const AddGame = () => {
       }).slice(0, -8)
 
       try {
-        const res = await axios.post('/games.json', {
+        await addGame({
           ...values,
           gameTime: gameTime,
-          rotations: '',
           freePlaces: values.places,
           players: '',
           reserve: ''

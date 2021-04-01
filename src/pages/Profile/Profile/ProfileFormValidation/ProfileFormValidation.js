@@ -12,6 +12,7 @@ import useAuth from '../../../../hooks/useAuth'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import { addHours, parseISO, format, formatISO } from 'date-fns'
+import { updateAccount, updateUser } from '../../../../services/accountService'
 
 const ProfileFormValidation = () => {
   const [loading, setLoading] = useState(false)
@@ -34,16 +35,25 @@ const ProfileFormValidation = () => {
       setLoading(true)
 
       try {
-        const res = await axiosAuth.post('accounts:update', {
+        // const res = await axiosAuth.post('accounts:update', {
+        //   idToken: auth.token,
+        //   displayName: `${values.firstName} ${values.lastName}`,
+        //   password: values.password,
+        //   email: values.email,
+        //   returnSecureToken: true
+        // })
+
+        const res = await updateAccount({
           idToken: auth.token,
-          displayName: `${values.firstName} ${values.lastName}`,
+          displayName: values.firstName,
           password: values.password,
           email: values.email,
           returnSecureToken: true
         })
 
         res.status === 200 &&
-          (await axios.patch(`users/${res.data.localId}.json`, {
+          (await updateUser({
+            path: `users/${res.data.localId}.json`,
             firstName: values.firstName,
             lastName: values.lastName,
             userLevel: values.level,

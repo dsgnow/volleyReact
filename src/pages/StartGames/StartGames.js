@@ -4,18 +4,14 @@ import {
   StyledTitle,
   StyledTitleTypography
 } from '../../Assets/Styles/GlobalStyles'
-import { useContext, useState, useEffect } from 'react'
-import ReducerContext from '../../context/ReducerContext'
-import axios from '../../axios'
+import { useState, useEffect } from 'react'
 import { objectToArrayWithId } from '../../helpers/objects'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
+import { fetchAllGames } from '../../services/gameService'
 
 const StartGames = () => {
-  const context = useContext(ReducerContext)
-
-  const { gamesData } = context.state
   const [games, setGames] = useState([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
@@ -23,7 +19,7 @@ const StartGames = () => {
 
   const fetchGames = async () => {
     try {
-      const res = await axios.get('/games.json')
+      const res = await fetchAllGames()
       const newGames = objectToArrayWithId(res.data)
       setGames(newGames)
     } catch (ex) {
