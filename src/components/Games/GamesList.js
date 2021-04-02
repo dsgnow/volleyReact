@@ -43,7 +43,7 @@ const GamesList = (props) => {
       <StyledGrid item xs={3} sm={3}>
         <StyledTypography variant="h6">{`${format(
           parseISO(data.dateStart),
-          'dd.MM.yyyy hh:mm'
+          'dd.MM.yyyy HH:mm'
         )}`}</StyledTypography>
       </StyledGrid>
       <StyledGrid item xs={6} sm={3}>

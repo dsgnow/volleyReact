@@ -67,7 +67,7 @@ export default function MediaCard(props) {
                   color="textPrimary"
                   variant="h5"
                   style={{ fontWeight: 700 }}>
-                  {`${format(parseISO(game.dateStart), 'dd.MM.yyyy hh:mm')}`}
+                  {`${format(parseISO(game.dateStart), 'dd.MM.yyyy HH:mm')}`}
                 </Typography>
                 <Typography
                   variant="h6"
