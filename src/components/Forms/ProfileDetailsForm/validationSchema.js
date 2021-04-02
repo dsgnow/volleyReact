@@ -9,13 +9,12 @@ export const validationSchema = yup.object().shape({
     .string()
     .min(6, 'Hasło jest za krótkie.')
     .max(20, 'Hasło jest za długie.')
-    .required('To pole jest wymagane..')
 })
 
 export const initialValues = {
-  firstName: 'Piotr',
-  lastName: 'Stachowicz',
-  level: '6',
-  email: 'ptr.stachowicz@gmail.com',
-  password: 'supertajne123'
+  firstName: '',
+  lastName: '',
+  level: '',
+  email: '',
+  password: ''
 }

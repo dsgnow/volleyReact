@@ -7,7 +7,7 @@ import LoadingIcon from '../../../../UI/LoadingIcon/LoadingIcon'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import formatDistanceStrict from 'date-fns/formatDistanceStrict'
-import parseISO from 'date-fns/parseISO'
+import { parseISO, isValid } from 'date-fns'
 import { updateGame } from '../../../../services/gameService'
 
 const AddGameFormValidation = (props) => {
@@ -29,18 +29,23 @@ const AddGameFormValidation = (props) => {
 
     onSubmit: async (values) => {
       setLoading(true)
+      console.log(isValid(values.dateStart))
 
       const gameTime = formatDistanceStrict(
-        parseISO(values.dateStart),
-        parseISO(values.dateEnd),
+        !isValid(values.dateStart)
+          ? parseISO(values.dateStart)
+          : values.dateStart,
+        !isValid(values.dateEnd) ? parseISO(values.dateEnd) : values.dateEnd,
         {
           unit: 'minute'
         }
       ).slice(0, -8)
 
       try {
+        console.log(values)
         await updateGame({
-          ...values
+          ...values,
+          gameTime: gameTime
         })
 
         setMessageType('success')

@@ -1,25 +1,53 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ProfileDetailsForm from '../../../../components/Forms/ProfileDetailsForm/ProfileDetailsForm'
 import {
   validationSchema,
-  initialValues
+  initialValues as defaultInitialValues
 } from '../../../../components/Forms/ProfileDetailsForm/validationSchema'
 import { useFormik } from 'formik'
 import LoadingIcon from '../../../../UI/LoadingIcon/LoadingIcon'
-import axiosAuth from '../../../../axios-auth'
-import axios from '../../../../axios'
 import useAuth from '../../../../hooks/useAuth'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
-import { addHours, parseISO, format, formatISO } from 'date-fns'
 import { updateAccount, updateUser } from '../../../../services/accountService'
+import { objectToArrayWithId } from '../../../../helpers/objects'
+import { fetchUserById } from '../../../../services/accountService'
 
 const ProfileFormValidation = () => {
   const [loading, setLoading] = useState(false)
+  const [initialValues, setInitialValues] = useState(defaultInitialValues)
   const [auth, setAuth] = useAuth()
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('')
   const [open, setOpen] = useState(false)
+  const [error, setError] = useState('')
+  const [tets, setTest] = useState('')
+
+  const fetchData = async () => {
+    setLoading(true)
+
+    try {
+      const res = await fetchUserById(auth.userId)
+      const fetchedUser = objectToArrayWithId(res.data)
+
+      setInitialValues({
+        firstName: fetchedUser[0].firstName,
+        lastName: fetchedUser[0].lastName,
+        level: fetchedUser[0].userLevel,
+        email: fetchedUser[0].email,
+        password: ''
+      })
+    } catch (ex) {
+      setOpen(true)
+      setMessageType('warning')
+      setMessage(ex.response.data.error.message)
+    }
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -29,27 +57,22 @@ const ProfileFormValidation = () => {
   }
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       setLoading(true)
 
       try {
-        // const res = await axiosAuth.post('accounts:update', {
-        //   idToken: auth.token,
-        //   displayName: `${values.firstName} ${values.lastName}`,
-        //   password: values.password,
-        //   email: values.email,
-        //   returnSecureToken: true
-        // })
-
-        const res = await updateAccount({
+        let updateData = {
           idToken: auth.token,
           displayName: values.firstName,
-          password: values.password,
           email: values.email,
           returnSecureToken: true
-        })
+        }
+
+        values.password && (updateData.password = values.password)
+        const res = await updateAccount(updateData)
 
         res.status === 200 &&
           (await updateUser({
@@ -84,7 +107,6 @@ const ProfileFormValidation = () => {
           default:
             setMessage(ex.response.data.error.message)
         }
-        console.log(ex.response)
       }
       setLoading(false)
     }

@@ -155,7 +155,7 @@ const ProfileDetailsForm = (props) => {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 name="password"
-                label="Hasło"
+                label="Nowe hasło"
                 size="small"
                 type={visiblyPassword ? 'text' : 'password'}
                 id="password"

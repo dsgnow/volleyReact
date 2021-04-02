@@ -30,3 +30,8 @@ export const addNewUser = (data) => {
   })
   return res
 }
+
+export const fetchUserById = (data) => {
+  const res = axios.get(`/users.json?orderBy="$key"&equalTo="${data}"`, {})
+  return res
+}
