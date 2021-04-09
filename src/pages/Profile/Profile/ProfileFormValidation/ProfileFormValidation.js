@@ -16,12 +16,10 @@ import { fetchUserById } from '../../../../services/accountService'
 const ProfileFormValidation = () => {
   const [loading, setLoading] = useState(false)
   const [initialValues, setInitialValues] = useState(defaultInitialValues)
-  const [auth, setAuth] = useAuth()
+  const [auth] = useAuth()
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('')
   const [open, setOpen] = useState(false)
-  const [error, setError] = useState('')
-  const [tets, setTest] = useState('')
 
   const fetchData = async () => {
     setLoading(true)

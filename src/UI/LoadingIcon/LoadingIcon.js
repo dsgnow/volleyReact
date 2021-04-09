@@ -1,5 +1,6 @@
 import { CircularProgress, Container } from '@material-ui/core'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -13,4 +14,8 @@ export default function LoadingIcon(props) {
       <CircularProgress size={props.size} />
     </StyledContainer>
   )
+}
+
+LoadingIcon.propTypes = {
+  size: PropTypes.string
 }

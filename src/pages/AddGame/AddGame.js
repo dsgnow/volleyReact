@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import {
   StyledContainer as Container,
@@ -16,6 +16,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import formatDistanceStrict from 'date-fns/formatDistanceStrict'
 import { addGame } from '../../services/gameService'
+import useAuth from '../../hooks/useAuth'
 
 const StyledContainer = styled(Container)`
   justify-content: flex-start;
@@ -26,6 +27,7 @@ const AddGame = () => {
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('')
   const [open, setOpen] = useState(false)
+  const [auth] = useAuth()
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -50,8 +52,12 @@ const AddGame = () => {
           ...values,
           gameTime: gameTime,
           freePlaces: values.places,
-          players: '',
-          reserve: ''
+          players: [
+            { name: 'Piotr', id: 'NHLDER' },
+            { name: 'Adam', id: 'NHLDER' }
+          ],
+          reserve: '',
+          addedBy: auth.userId
         })
 
         setMessageType('success')

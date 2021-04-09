@@ -1,15 +1,14 @@
 import { StyledContainer as Container } from '../../../Assets/Styles/GlobalStyles'
-import { useContext, useState, useEffect } from 'react'
-import ReducerContext from '../../../context/ReducerContext'
+import { useState, useEffect } from 'react'
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import GamesList from '../../../components/Games/GamesList'
-import axios from '../../../axios'
 import { objectToArrayWithId } from '../../../helpers/objects'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import LoadingIcon from '../../../UI/LoadingIcon/LoadingIcon'
-import { fetchAllGames } from '../../../services/gameService'
+import { fetchGameByUserTakesPart } from '../../../services/gameService'
+import useAuth from '../../../hooks/useAuth'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -52,15 +51,15 @@ const StyledTypography = styled(Typography)`
 `
 
 const AssignedGames = () => {
-  const context = useContext(ReducerContext)
   const [games, setGames] = useState([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
+  const [auth] = useAuth()
 
   const fetchGames = async () => {
     try {
-      const res = await fetchAllGames()
+      const res = await fetchGameByUserTakesPart(auth.userId)
       const newGames = objectToArrayWithId(res.data)
       setGames(newGames)
     } catch (ex) {

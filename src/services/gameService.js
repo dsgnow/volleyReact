@@ -1,4 +1,3 @@
-import axiosAuth from '../axios-auth'
 import axios from '../axios'
 
 const allGames = '/games.json'
@@ -19,6 +18,16 @@ export const updateGame = (data) => {
 
 export const fetchAllGames = () => {
   const res = axios.get(allGames, {})
+  return res
+}
+
+export const fetchGameByUserAdded = (data) => {
+  const res = axios.get(`${allGames}?orderBy="addedBy"&equalTo="${data}"`, {})
+  return res
+}
+
+export const fetchGameByUserTakesPart = (data) => {
+  const res = axios.get(`${allGames}?orderBy="players/id"&equalTo=9999`, {})
   return res
 }
 

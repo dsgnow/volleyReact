@@ -9,12 +9,14 @@ import MuiAlert from '@material-ui/lab/Alert'
 import formatDistanceStrict from 'date-fns/formatDistanceStrict'
 import { parseISO, isValid } from 'date-fns'
 import { updateGame } from '../../../../services/gameService'
+import useAuth from '../../../../hooks/useAuth'
 
 const AddGameFormValidation = (props) => {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('')
   const [open, setOpen] = useState(false)
+  const [auth] = useAuth()
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -45,7 +47,8 @@ const AddGameFormValidation = (props) => {
         console.log(values)
         await updateGame({
           ...values,
-          gameTime: gameTime
+          gameTime: gameTime,
+          addedBy: auth.userId
         })
 
         setMessageType('success')

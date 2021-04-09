@@ -6,8 +6,6 @@ import {
 } from '../../components/Forms/RegisterForm/validationSchema'
 import { useFormik } from 'formik'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
-import axiosAuth from '../../axios-auth'
-import axios from '../../axios'
 import useAuth from '../../hooks/useAuth'
 import { useHistory } from 'react-router-dom'
 import React from 'react'
