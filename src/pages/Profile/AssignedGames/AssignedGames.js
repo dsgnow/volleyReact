@@ -59,9 +59,16 @@ const AssignedGames = () => {
 
   const fetchGames = async () => {
     try {
-      const res = await fetchGameByUserTakesPart(auth.userId)
+      const res = await fetchGameByUserTakesPart()
       const newGames = objectToArrayWithId(res.data)
-      setGames(newGames)
+
+      const filterByUser = newGames.filter(
+        (game) =>
+          game.players &&
+          (game.list = game.players.filter((el) => el.id == auth.userId)).length
+      )
+
+      setGames(filterByUser)
     } catch (ex) {
       setError(ex.response.data.error.message)
     }

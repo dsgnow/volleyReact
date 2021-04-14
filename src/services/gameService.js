@@ -17,7 +17,7 @@ export const updateGame = (data) => {
 }
 
 export const fetchAllGames = () => {
-  const res = axios.get(allGames, {})
+  const res = axios.get(`${allGames}?orderBy="active"&equalTo=true`, {})
   return res
 }
 
@@ -26,12 +26,27 @@ export const fetchGameByUserAdded = (data) => {
   return res
 }
 
-export const fetchGameByUserTakesPart = (data) => {
-  const res = axios.get(`${allGames}?orderBy="players/id"&equalTo=9999`, {})
+export const fetchGameByUserTakesPart = () => {
+  const res = fetchAllGames()
   return res
 }
 
 export const fetchGameById = (data) => {
   const res = axios.get(`${allGames}?orderBy="$key"&equalTo="${data}"`, {})
+  return res
+}
+
+export const fetchPlayers = (data) => {
+  const res = axios.get(`games\\${data}\\players.json`, {
+    ...data
+  })
+  return res
+}
+
+export const addPlayerToGame = (id, data) => {
+  console.log(data)
+  const res = axios.patch(`games\\${id}.json`, {
+    ...data
+  })
   return res
 }

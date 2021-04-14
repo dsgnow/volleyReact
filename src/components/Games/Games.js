@@ -12,6 +12,12 @@ import {
 } from '@material-ui/core'
 import { NavLink, useRouteMatch } from 'react-router-dom'
 import { parseISO, format } from 'date-fns'
+import useAuth from '../../hooks/useAuth'
+import { addPlayerToGame, fetchPlayers } from '../../services/gameService'
+import { useState } from 'react'
+import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
 const StyledCard = styled(Card)`
   width: 315px;
@@ -34,6 +40,7 @@ const StyledCardMedia = styled(CardMedia)`
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding: 20px;
 `
 
 const StylednavLink = styled(NavLink)`
@@ -45,15 +52,74 @@ const CardMediaHeader = styled(Typography)`
 `
 
 export default function MediaCard(props) {
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('')
+  const [open, setOpen] = useState(false)
   const { url } = useRouteMatch()
-  const id = '1'
+  const id = 1
+  const [auth] = useAuth()
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpen(false)
+  }
+
+  const addPlayer = async (gameId, userId) => {
+    setLoading(true)
+    const resPlayers = await fetchPlayers(gameId)
+    try {
+      let players = resPlayers.data
+      const newPlayer = {
+        id: userId,
+        name: 'Test dodania usera'
+      }
+      players.length ? players.push(newPlayer) : (players = [newPlayer])
+      await addPlayerToGame(gameId, {
+        players: players
+      })
+      setMessageType('success')
+      setOpen(true)
+      setMessage('Pomyślnie dodano do gry!')
+    } catch (ex) {
+      console.log(ex)
+      setOpen(true)
+      setMessageType('warning')
+      setMessage(ex.response.data.error.message)
+    }
+    setLoading(false)
+  }
+
+  const removePlayer = (gameId, userId) => {
+    console.log(gameId, userId)
+  }
 
   MediaCard.propTypes = {
     data: PropTypes.array.isRequired
   }
 
-  return (
+  // const filterByUser = props.data.filter(
+  //   (game) =>
+  //     (game.list = game.players.filter((el) => el.id == auth.userId)).length
+  // )
+
+  return loading ? (
+    <LoadingIcon />
+  ) : (
     <>
+      {message && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={handleClose}
+            severity={messageType}>
+            {message}
+          </MuiAlert>
+        </Snackbar>
+      )}
       {props.data.map((game) => {
         return (
           <StyledCard key={game.id}>
@@ -110,9 +176,22 @@ export default function MediaCard(props) {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="large" color="primary">
-                Zapisz się
-              </Button>
+              {game.players &&
+              game.players.filter((el) => el.id == auth.userId).length ? (
+                <Button
+                  size="large"
+                  color="primary"
+                  onClick={() => removePlayer(game.id, auth.userId)}>
+                  Zrezygnuj
+                </Button>
+              ) : (
+                <Button
+                  size="large"
+                  color="primary"
+                  onClick={() => addPlayer(game.id, auth.userId)}>
+                  Zapisz się
+                </Button>
+              )}
               <StylednavLink to={`${url}/składy/${id}`}>
                 <Button size="large" color="primary">
                   Składy

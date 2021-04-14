@@ -52,10 +52,7 @@ const AddGame = () => {
           ...values,
           gameTime: gameTime,
           freePlaces: values.places,
-          players: [
-            { name: 'Piotr', id: 'NHLDER' },
-            { name: 'Adam', id: 'NHLDER' }
-          ],
+          players: [{}],
           reserve: '',
           addedBy: auth.userId
         })
