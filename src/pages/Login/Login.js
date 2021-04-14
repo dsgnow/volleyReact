@@ -43,7 +43,6 @@ const Login = () => {
           password: values.password,
           returnSecureToken: true
         })
-
         const localStorageLifeTime = addHours(new Date(), 1)
         setAuth({
           email: res.data.email,

@@ -51,8 +51,6 @@ const AddGame = () => {
         await addGame({
           ...values,
           gameTime: gameTime,
-          freePlaces: values.places,
-          players: [{}],
           reserve: '',
           addedBy: auth.userId
         })

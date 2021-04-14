@@ -43,8 +43,14 @@ export const fetchPlayers = (data) => {
   return res
 }
 
-export const addPlayerToGame = (id, data) => {
-  console.log(data)
+export const fetchPlayersOnReserve = (data) => {
+  const res = axios.get(`games\\${data}\\reserve.json`, {
+    ...data
+  })
+  return res
+}
+
+export const updatePlayersInGame = (id, data) => {
   const res = axios.patch(`games\\${id}.json`, {
     ...data
   })
