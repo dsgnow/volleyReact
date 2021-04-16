@@ -98,8 +98,11 @@ function App() {
       <Suspense fallback={<p>Ładowanie...</p>}>
         <Switch>
           <AuthenticatedRoute path="/profil" component={Profile} />
-          <Route path="/gry/składy/:id" component={GameComposition} />
-          <Route path="/gry" component={StartGames} />
+          <AuthenticatedRoute
+            path="/gry/składy/:id"
+            component={GameComposition}
+          />
+          <AuthenticatedRoute path="/gry" component={StartGames} />
           <AuthenticatedRoute
             path="/dodaj-gracza"
             component={AddPlayersToGame}
