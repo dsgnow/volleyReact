@@ -31,7 +31,7 @@ const StyledGrid = styled(Grid)`
 `
 
 const GamesList = (props) => {
-  const { tooltip, buttonAction, data, index } = props
+  const { tooltip, buttonAction, data, index, removePlayer } = props
 
   return (
     <>
@@ -53,7 +53,8 @@ const GamesList = (props) => {
               // onClick={() => props.clickHandler(data.id)}
               remove={data.id}
               edge="end"
-              aria-label={tooltip}>
+              aria-label={tooltip}
+              onClick={removePlayer}>
               <CancelPresentationOutlinedIcon
                 color="secondary"
                 fontSize="large"
@@ -77,6 +78,7 @@ const GamesList = (props) => {
 }
 
 GamesList.propTypes = {
+  removePlayer: PropTypes.func,
   tooltip: PropTypes.string.isRequired,
   buttonAction: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,

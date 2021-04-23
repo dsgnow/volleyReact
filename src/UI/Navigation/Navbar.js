@@ -70,7 +70,6 @@ const Navbar = () => {
   const logout = () => {
     setAuth(false)
   }
-  console.log(auth)
 
   return (
     <>

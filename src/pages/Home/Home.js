@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import volleyballPlayer from '../../Assets/Images/siatkarka.png'
 import Button from '../../UI/Button/Button'
 import { useHistory } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -88,9 +89,9 @@ const StyledButton = styled(Button)`
 
 const Home = () => {
   const history = useHistory()
+  const [auth] = useAuth()
 
-  const routeChange = () => {
-    let path = `gry`
+  const routeChange = (path) => {
     history.push(path)
   }
 
@@ -109,12 +110,21 @@ const Home = () => {
               sapiente eum suscipit, beatae nobis sit ex sint assumenda.
               Voluptatum, repudiandae quaerat.
             </StyledDescription>
-            <StyledButton
-              size="large"
-              variant="contained"
-              title="Dostępne mecze"
-              onClick={routeChange}
-              color="secondary"></StyledButton>
+            {auth ? (
+              <StyledButton
+                size="large"
+                variant="contained"
+                title="Dostępne mecze"
+                onClick={() => routeChange('gry')}
+                color="secondary"></StyledButton>
+            ) : (
+              <StyledButton
+                size="large"
+                variant="contained"
+                title="Zaloguj się"
+                onClick={() => routeChange('logowanie')}
+                color="secondary"></StyledButton>
+            )}
           </WrapTexts>
         </Wrapper>
         <WrapImages>

@@ -155,15 +155,27 @@ export default function MediaCard(props) {
       const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
       let playersOnReserve = resPlayersOnReserve.data
 
-      players
-        ? (players = players.filter((el) => el.id !== auth.userId))
-        : (players = [{}])
+      const resGameDetails = await fetchGameById(gameId)
+      const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
+      const gamePlaces = gameDetails.places
 
-      playersOnReserve
-        ? (playersOnReserve = playersOnReserve.filter(
-            (el) => el.id !== auth.userId
-          ))
-        : (playersOnReserve = [{}])
+      if (playersOnReserve && gamePlaces >= players.length) {
+        players.push(playersOnReserve[0])
+        playersOnReserve = playersOnReserve.filter(
+          (el) => el.id !== playersOnReserve[0].id
+        )
+        players = players.filter((el) => el.id !== auth.userId)
+      } else {
+        players
+          ? (players = players.filter((el) => el.id !== auth.userId))
+          : (players = [{}])
+
+        playersOnReserve
+          ? (playersOnReserve = playersOnReserve.filter(
+              (el) => el.id !== auth.userId
+            ))
+          : (playersOnReserve = [{}])
+      }
 
       await updatePlayersInGame(gameId, {
         players: players,

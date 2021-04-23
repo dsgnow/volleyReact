@@ -9,6 +9,12 @@ import MuiAlert from '@material-ui/lab/Alert'
 import LoadingIcon from '../../../UI/LoadingIcon/LoadingIcon'
 import { fetchGameByUserTakesPart } from '../../../services/gameService'
 import useAuth from '../../../hooks/useAuth'
+import {
+  updatePlayersInGame,
+  fetchPlayers,
+  fetchGameById,
+  fetchPlayersOnReserve
+} from '../../../services/gameService'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -53,9 +59,15 @@ const StyledTypography = styled(Typography)`
 const AssignedGames = () => {
   const [games, setGames] = useState([])
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('')
   const [auth] = useAuth()
+
+  useEffect(() => {
+    fetchGames()
+  }, [loading])
 
   const fetchGames = async () => {
     try {
@@ -64,15 +76,66 @@ const AssignedGames = () => {
 
       const filterByUser = newGames.filter(
         (game) =>
-          game.players &&
-          (game.list = game.players.filter((el) => el.id == auth.userId)).length
+          (game.players &&
+            (game.list = game.players.filter((el) => el.id == auth.userId))
+              .length) ||
+          (game.reserve &&
+            (game.list = game.reserve.filter((el) => el.id == auth.userId))
+              .length)
       )
 
       setGames(filterByUser)
     } catch (ex) {
       setError(ex.response.data.error.message)
     }
-    setLoading(false)
+  }
+
+  const removePlayer = async (gameId) => {
+    setLoading(true)
+
+    try {
+      const resPlayers = await fetchPlayers(gameId)
+      let players = resPlayers.data
+
+      const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
+      let playersOnReserve = resPlayersOnReserve.data
+
+      const resGameDetails = await fetchGameById(gameId)
+      const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
+      const gamePlaces = gameDetails.places
+
+      if (playersOnReserve && gamePlaces >= players.length) {
+        players.push(playersOnReserve[0])
+        playersOnReserve = playersOnReserve.filter(
+          (el) => el.id !== playersOnReserve[0].id
+        )
+        players = players.filter((el) => el.id !== auth.userId)
+      } else {
+        players
+          ? (players = players.filter((el) => el.id !== auth.userId))
+          : (players = [{}])
+
+        playersOnReserve
+          ? (playersOnReserve = playersOnReserve.filter(
+              (el) => el.id !== auth.userId
+            ))
+          : (playersOnReserve = [{}])
+      }
+
+      await updatePlayersInGame(gameId, {
+        players: players,
+        reserve: playersOnReserve
+      })
+      setMessageType('success')
+      setOpen(true)
+      setMessage('Pomyślnie zrezygnowałeś z gry!')
+    } catch (ex) {
+      setOpen(true)
+      setMessageType('warning')
+      setMessage(ex.response.data.error.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleClose = (event, reason) => {
@@ -82,22 +145,18 @@ const AssignedGames = () => {
     setOpen(false)
   }
 
-  useEffect(() => {
-    fetchGames()
-  }, [])
-
   return loading ? (
     <LoadingIcon />
   ) : (
     <>
-      {error && (
+      {message && (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <MuiAlert
             elevation={6}
             variant="filled"
             onClose={handleClose}
-            severity="warning">
-            {error}
+            severity={messageType}>
+            {message}
           </MuiAlert>
         </Snackbar>
       )}
@@ -114,6 +173,7 @@ const AssignedGames = () => {
                 index={index}
                 data={game}
                 buttonAction="remove"
+                removePlayer={() => removePlayer(game.id, auth.userId)}
                 tooltip="zrezygnuj"></GamesList>
             </Wrapper>
           )
