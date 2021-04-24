@@ -8,7 +8,8 @@ import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import formatDistanceStrict from 'date-fns/formatDistanceStrict'
 import { parseISO, isValid } from 'date-fns'
-import { updateGame } from '../../../../services/gameService'
+import { updateGame, fetchGameById } from '../../../../services/gameService'
+import { objectToArrayWithId } from '../../../../helpers/objects'
 import useAuth from '../../../../hooks/useAuth'
 
 const AddGameFormValidation = (props) => {
@@ -31,7 +32,6 @@ const AddGameFormValidation = (props) => {
 
     onSubmit: async (values) => {
       setLoading(true)
-      console.log(isValid(values.dateStart))
 
       const gameTime = formatDistanceStrict(
         !isValid(values.dateStart)
@@ -43,10 +43,56 @@ const AddGameFormValidation = (props) => {
         }
       ).slice(0, -8)
 
+      let playersInGame
+      let reserve
+
       try {
-        console.log(values)
+        const resOldGame = await fetchGameById(values.id)
+        let oldGame = objectToArrayWithId(resOldGame.data)[0]
+
+        if (oldGame.players && oldGame.players.length > values.places) {
+          let playersToReserve = oldGame.players.slice(values.places)
+          playersInGame = oldGame.players.slice(0, values.places)
+          reserve = oldGame.reserve
+            ? oldGame.reserve.push(playersToReserve)
+            : playersToReserve
+          console.log(playersInGame, reserve)
+        } else if (
+          oldGame.players &&
+          oldGame.players.length < values.places &&
+          oldGame.reserve
+        ) {
+          const numberOfReservePlayersToPush =
+            oldGame.players.length - values.places
+          const playersToGame = oldGame.reserve.slice(
+            0,
+            numberOfReservePlayersToPush
+          )
+          reserve = oldGame.reserve.slice(numberOfReservePlayersToPush)
+          playersInGame = oldGame.players
+            ? oldGame.players.push(playersToGame)
+            : playersToGame
+          console.log(playersInGame, reserve)
+        } else if (!oldGame.players && oldGame.reserve && values.places > 0) {
+          const numberOfReservePlayersToPush = values.places
+          const playersToGame = oldGame.reserve.slice(
+            0,
+            numberOfReservePlayersToPush
+          )
+          reserve = oldGame.reserve.slice(numberOfReservePlayersToPush)
+          playersInGame = playersToGame
+          console.log(playersInGame, reserve)
+        } else {
+          reserve = oldGame.reserve
+          console.log(oldGame.players)
+          playersInGame = oldGame.players
+          console.log(playersInGame, reserve)
+        }
+
         await updateGame({
           ...values,
+          players: playersInGame,
+          reserve: reserve,
           gameTime: gameTime,
           addedBy: auth.userId
         })

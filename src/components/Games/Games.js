@@ -159,7 +159,7 @@ export default function MediaCard(props) {
       const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
       const gamePlaces = gameDetails.places
 
-      if (playersOnReserve && gamePlaces >= players.length) {
+      if (playersOnReserve && players && gamePlaces >= players.length) {
         players.push(playersOnReserve[0])
         playersOnReserve = playersOnReserve.filter(
           (el) => el.id !== playersOnReserve[0].id
@@ -187,7 +187,8 @@ export default function MediaCard(props) {
     } catch (ex) {
       setOpen(true)
       setMessageType('warning')
-      setMessage(ex.response.data.error.message)
+      // setMessage(ex.response.data.error.message)
+      console.log(ex)
     } finally {
       setLoading(false)
     }

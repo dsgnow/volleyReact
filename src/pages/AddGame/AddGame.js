@@ -52,6 +52,7 @@ const AddGame = () => {
           ...values,
           gameTime: gameTime,
           reserve: '',
+          players: '',
           addedBy: auth.userId
         })
 

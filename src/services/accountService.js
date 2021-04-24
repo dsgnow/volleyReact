@@ -25,7 +25,7 @@ export const updateUser = (data) => {
 }
 
 export const addNewUser = (data) => {
-  const res = axios.post(data.path, {
+  const res = axios.put(data.path, {
     ...data
   })
   return res
