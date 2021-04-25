@@ -8,7 +8,8 @@ import {
   Card,
   CardActionArea,
   Typography,
-  Box
+  Box,
+  Snackbar
 } from '@material-ui/core'
 import { NavLink, useRouteMatch } from 'react-router-dom'
 import { parseISO, format } from 'date-fns'
@@ -24,8 +25,8 @@ import {
 import { fetchUserById } from '../../services/accountService'
 import { useState, useEffect, useReducer } from 'react'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
-import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
+import Prompt from '../../UI/Prompt/Prompt'
 
 const StyledCard = styled(Card)`
   width: 315px;
@@ -68,6 +69,9 @@ export default function MediaCard(props) {
   const { url } = useRouteMatch()
   const id = 1
   const [auth] = useAuth()
+  const [openPrompt, setOpenPrompt] = useState(false)
+  const [promptList, setPropmptList] = useState(['Brak godzin do rotacji'])
+  const [selectedValue, setSelectedValue] = useState(null)
 
   useEffect(() => {
     fetchGames()
@@ -92,6 +96,11 @@ export default function MediaCard(props) {
     setOpen(false)
   }
 
+  const handlePromptClose = (value) => {
+    setOpenPrompt(false)
+    setSelectedValue(value)
+  }
+
   const addPlayer = async (gameId, userId) => {
     setLoading(true)
 
@@ -110,6 +119,21 @@ export default function MediaCard(props) {
       const userDetails = objectToArrayWithId(resUserDetails.data)[0]
       const userName = userDetails.firstName
       const userLastName = userDetails.lastName
+
+      let resCheckPlayerEndTime = () => {
+        setOpenPrompt(true)
+        setPropmptList([
+          gameDetails.rotationTime1,
+          gameDetails.rotationTime2,
+          gameDetails.rotationTime3
+        ])
+
+        return selectedValue
+      }
+
+      const checkPlayerEndTime = await resCheckPlayerEndTime()
+
+      console.log(checkPlayerEndTime)
 
       const newPlayer = {
         id: userId,
@@ -139,7 +163,8 @@ export default function MediaCard(props) {
     } catch (ex) {
       setOpen(true)
       setMessageType('warning')
-      setMessage(ex.response.data.error.message)
+      // setMessage(ex.response.data.error.message)
+      console.log(ex)
     } finally {
       setLoading(false)
     }
@@ -218,6 +243,13 @@ export default function MediaCard(props) {
           </MuiAlert>
         </Snackbar>
       )}
+      <Prompt
+        selectedValue={selectedValue}
+        open={openPrompt}
+        onClose={handlePromptClose}
+        list={promptList}
+      />
+
       {games.map((game) => {
         return (
           <StyledCard key={game.id}>
