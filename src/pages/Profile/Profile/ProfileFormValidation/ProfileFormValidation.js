@@ -32,7 +32,7 @@ const ProfileFormValidation = () => {
       setInitialValues({
         firstName: fetchedUser[0].firstName,
         lastName: fetchedUser[0].lastName,
-        level: fetchedUser[0].userLevel,
+        level: Number(fetchedUser[0].userLevel),
         email: fetchedUser[0].email,
         password: ''
       })
@@ -78,7 +78,7 @@ const ProfileFormValidation = () => {
             path: `users/${res.data.localId}.json`,
             firstName: values.firstName,
             lastName: values.lastName,
-            userLevel: values.level,
+            userLevel: Number(values.level),
             email: values.email,
             userId: res.data.localId
           }))

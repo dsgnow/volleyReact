@@ -136,9 +136,13 @@ const AddGameForm = (props) => {
                 label="Data rozpoczęcia"
                 inputVariant="outlined"
                 name={'dateStart'}
-                value={values.dateStart}
+                value={
+                  values.dateStart
+                    ? values.dateStart.slice(0, -5)
+                    : values.dateStart
+                }
                 clearable
-                format="d MMM yyyy HH:mm"
+                format="d MMM yyyy HH:mm:ss"
                 disablePast={true}
                 ampm={false}
                 clearLabel="wyczyść"
@@ -165,7 +169,9 @@ const AddGameForm = (props) => {
                 label="Data zakończenia"
                 inputVariant="outlined"
                 name={'dateEnd'}
-                value={values.dateEnd}
+                value={
+                  values.dateEnd ? values.dateEnd.slice(0, -5) : values.dateEnd
+                }
                 clearable
                 format="d MMM yyyy HH:mm"
                 disablePast={true}

@@ -41,10 +41,9 @@ const GamesList = (props) => {
         }`}</BoldTypography>
       </StyledGrid>
       <StyledGrid item xs={3} sm={3}>
-        <StyledTypography variant="h6">{`${format(
-          parseISO(data.dateStart),
-          'dd.MM.yyyy HH:mm'
-        )}`}</StyledTypography>
+        <StyledTypography variant="h6">{`${data.dateStart
+          .slice(0, -8)
+          .replace('T', ' ')}`}</StyledTypography>
       </StyledGrid>
       <StyledGrid item xs={6} sm={3}>
         {buttonAction === 'remove' ? (

@@ -27,6 +27,7 @@ import { useState, useEffect, useReducer } from 'react'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import MuiAlert from '@material-ui/lab/Alert'
 import Prompt from '../../UI/Prompt/Prompt'
+import calcSquads from '../../helpers/calcSquads'
 
 const StyledCard = styled(Card)`
   width: 315px;
@@ -111,11 +112,13 @@ export default function MediaCard(props) {
     const resGameDetails = await fetchGameById(gameId)
     const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
     setOpenPrompt(true)
-    setPropmptList([
-      gameDetails.rotationTime1,
-      gameDetails.rotationTime2,
-      gameDetails.rotationTime3
-    ])
+    gameDetails.autoSquads
+      ? setPropmptList([
+          gameDetails.rotationTime1,
+          gameDetails.rotationTime2,
+          gameDetails.rotationTime3
+        ])
+      : setPropmptList([gameDetails.rotationTime1])
   }
 
   const addPlayer = async (gameId, userId, selectedTimeValue) => {
@@ -141,7 +144,12 @@ export default function MediaCard(props) {
       const newPlayer = {
         id: userId,
         name: `${userName} ${userLastName}`,
-        endTime: selectedTimeValue
+        endTime: selectedTimeValue,
+        skill:
+          userDetails.adminLevel != ''
+            ? Number(userDetails.adminLevel)
+            : Number(userDetails.userLevel),
+        info: ''
       }
 
       players ? players.push(newPlayer) : (players = [newPlayer])
@@ -153,6 +161,7 @@ export default function MediaCard(props) {
         await updatePlayersInGame(gameId, {
           players: players
         })
+        calcSquads(gameId)
         setMessageType('success')
         setOpen(true)
         setMessage('Pomyślnie dołączyłeś do gry!')

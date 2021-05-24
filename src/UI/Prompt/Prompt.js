@@ -18,7 +18,7 @@ export default function Prompt(props) {
   const dates = list
 
   const handleClose = () => {
-    onClose(selectedValue)
+    alert('Wybierz opcję')
   }
 
   const handleListItemClick = (value) => {
