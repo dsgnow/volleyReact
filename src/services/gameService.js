@@ -10,6 +10,7 @@ export const addGame = (data) => {
 }
 
 export const updateGame = (data) => {
+  console.log(data)
   const res = axios.patch(`games\\${data.id}.json`, {
     ...data
   })

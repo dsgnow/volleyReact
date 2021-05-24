@@ -72,8 +72,11 @@ export default function MediaCard(props) {
   const [openPrompt, setOpenPrompt] = useState(false)
   const [promptList, setPropmptList] = useState(['Brak godzin do rotacji'])
   const [selectedValue, setSelectedValue] = useState(null)
+  const [actualGameId, setActualGameId] = useState(null)
+  const [actualUserId, setActualUserId] = useState(null)
 
   useEffect(() => {
+    setActualUserId(auth.userId)
     fetchGames()
   }, [loading])
 
@@ -96,13 +99,28 @@ export default function MediaCard(props) {
     setOpen(false)
   }
 
-  const handlePromptClose = (value) => {
+  const handlePromptClose = (selectedTimeValue) => {
+    setSelectedValue(selectedTimeValue)
+    console.log(selectedTimeValue)
     setOpenPrompt(false)
-    setSelectedValue(value)
+    addPlayer(actualGameId, actualUserId, selectedTimeValue)
   }
 
-  const addPlayer = async (gameId, userId) => {
+  const handleOpenPrompt = async (gameId) => {
+    setActualGameId(gameId)
+    const resGameDetails = await fetchGameById(gameId)
+    const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
+    setOpenPrompt(true)
+    setPropmptList([
+      gameDetails.rotationTime1,
+      gameDetails.rotationTime2,
+      gameDetails.rotationTime3
+    ])
+  }
+
+  const addPlayer = async (gameId, userId, selectedTimeValue) => {
     setLoading(true)
+    selectedTimeValue ? selectedTimeValue : (selectedTimeValue = false)
 
     try {
       const resGameDetails = await fetchGameById(gameId)
@@ -120,24 +138,10 @@ export default function MediaCard(props) {
       const userName = userDetails.firstName
       const userLastName = userDetails.lastName
 
-      let resCheckPlayerEndTime = () => {
-        setOpenPrompt(true)
-        setPropmptList([
-          gameDetails.rotationTime1,
-          gameDetails.rotationTime2,
-          gameDetails.rotationTime3
-        ])
-
-        return selectedValue
-      }
-
-      const checkPlayerEndTime = await resCheckPlayerEndTime()
-
-      console.log(checkPlayerEndTime)
-
       const newPlayer = {
         id: userId,
-        name: `${userName} ${userLastName}`
+        name: `${userName} ${userLastName}`,
+        endTime: selectedTimeValue
       }
 
       players ? players.push(newPlayer) : (players = [newPlayer])
@@ -189,15 +193,15 @@ export default function MediaCard(props) {
         playersOnReserve = playersOnReserve.filter(
           (el) => el.id !== playersOnReserve[0].id
         )
-        players = players.filter((el) => el.id !== auth.userId)
+        players = players.filter((el) => el.id !== actualUserId)
       } else {
         players
-          ? (players = players.filter((el) => el.id !== auth.userId))
+          ? (players = players.filter((el) => el.id !== actualUserId))
           : (players = [{}])
 
         playersOnReserve
           ? (playersOnReserve = playersOnReserve.filter(
-              (el) => el.id !== auth.userId
+              (el) => el.id !== actualUserId
             ))
           : (playersOnReserve = [{}])
       }
@@ -225,7 +229,7 @@ export default function MediaCard(props) {
 
   // const filterByUser = props.data.filter(
   //   (game) =>
-  //     (game.list = game.players.filter((el) => el.id == auth.userId)).length
+  //     (game.list = game.players.filter((el) => el.id == actualUserId)).length
   // )
 
   return loading ? (
@@ -243,16 +247,17 @@ export default function MediaCard(props) {
           </MuiAlert>
         </Snackbar>
       )}
-      <Prompt
-        selectedValue={selectedValue}
-        open={openPrompt}
-        onClose={handlePromptClose}
-        list={promptList}
-      />
 
       {games.map((game) => {
         return (
           <StyledCard key={game.id}>
+            <Prompt
+              selectedValue={selectedValue}
+              open={openPrompt}
+              onClose={handlePromptClose}
+              list={promptList}
+              gameId={game.id}
+            />
             <CardActionArea>
               <StyledCardMedia title={game.name}>
                 <CardMediaHeader variant="h4">{`${game.city}, ${game.name}`}</CardMediaHeader>
@@ -263,7 +268,7 @@ export default function MediaCard(props) {
                   color="textPrimary"
                   variant="h5"
                   style={{ fontWeight: 700 }}>
-                  {`${format(parseISO(game.dateStart), 'dd.MM.yyyy HH:mm')}`}
+                  {`${game.dateStart.slice(0, -8).replace('T', ' ')}`}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -313,20 +318,22 @@ export default function MediaCard(props) {
             </CardActionArea>
             <CardActions>
               {(game.players &&
-                game.players.filter((el) => el.id == auth.userId).length) ||
+                game.players.filter((el) => el.id == actualUserId).length) ||
               (game.reserve &&
-                game.reserve.filter((el) => el.id == auth.userId).length) ? (
+                game.reserve.filter((el) => el.id == actualUserId).length) ? (
                 <Button
                   size="large"
                   color="primary"
-                  onClick={() => removePlayer(game.id, auth.userId)}>
+                  onClick={() => removePlayer(game.id, actualUserId)}>
                   Zrezygnuj
                 </Button>
               ) : (
                 <Button
                   size="large"
                   color="primary"
-                  onClick={() => addPlayer(game.id, auth.userId)}>
+                  onClick={() => {
+                    handleOpenPrompt(game.id)
+                  }}>
                   Zapisz się
                 </Button>
               )}

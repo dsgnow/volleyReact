@@ -10,7 +10,7 @@ import {
 import styled from 'styled-components'
 import DateFnsUtils from '@date-io/date-fns' // choose your lib
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
-import { format } from 'date-fns'
+import { format, parseISO, formatISO } from 'date-fns'
 import plLocale from 'date-fns/locale/pl'
 import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined'
 import { IconButton, InputAdornment } from '@material-ui/core'
@@ -127,6 +127,7 @@ const AddGameForm = (props) => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
+              {console.log(values.dateStart)}
               <DateTimePicker
                 error={touched.dateStart && Boolean(errors.dateStart)}
                 helperText={touched.dateStart && errors.dateStart}

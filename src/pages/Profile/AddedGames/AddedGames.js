@@ -14,6 +14,7 @@ import {
   fetchGameById
 } from '../../../services/gameService'
 import useAuth from '../../../hooks/useAuth'
+import { parseISO, format } from 'date-fns'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -88,10 +89,10 @@ const AddedGames = () => {
       selectForm.current.scrollIntoView({ block: 'start', behavior: 'smooth' })
       const res = await fetchGameById(gameId)
       const fetchedGame = objectToArrayWithId(res.data)
-
       setInitialValues({
         ...fetchedGame[0]
       })
+      console.log(initialValues)
     } catch (ex) {
       setError(ex.response.data.error.message)
     }

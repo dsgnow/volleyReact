@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
+import { parseISO, format } from 'date-fns'
 
 const StyledTimerIcon = styled(TimerIcon)`
   margin-right: 10px;
@@ -34,7 +35,7 @@ export default function Prompt(props) {
         {dates.map((date) => (
           <ListItem button onClick={() => handleListItemClick(date)} key={date}>
             <StyledTimerIcon />
-            <ListItemText primary={date} />
+            <ListItemText primary={date.slice(0, -5).replace('T', ' ')} />
           </ListItem>
         ))}
       </List>

@@ -56,7 +56,6 @@ const AddGameFormValidation = (props) => {
           reserve = oldGame.reserve
             ? oldGame.reserve.push(playersToReserve)
             : playersToReserve
-          console.log(playersInGame, reserve)
         } else if (
           oldGame.players &&
           oldGame.players.length < values.places &&
@@ -72,7 +71,6 @@ const AddGameFormValidation = (props) => {
           playersInGame = oldGame.players
             ? oldGame.players.push(playersToGame)
             : playersToGame
-          console.log(playersInGame, reserve)
         } else if (!oldGame.players && oldGame.reserve && values.places > 0) {
           const numberOfReservePlayersToPush = values.places
           const playersToGame = oldGame.reserve.slice(
@@ -81,12 +79,9 @@ const AddGameFormValidation = (props) => {
           )
           reserve = oldGame.reserve.slice(numberOfReservePlayersToPush)
           playersInGame = playersToGame
-          console.log(playersInGame, reserve)
         } else {
           reserve = oldGame.reserve
-          console.log(oldGame.players)
           playersInGame = oldGame.players
-          console.log(playersInGame, reserve)
         }
 
         await updateGame({
