@@ -88,6 +88,7 @@ const AddGame = () => {
           <StyledTitleTypography variant="h4">Dodaj grę</StyledTitleTypography>
         </StyledTitle>
         <AddGameForm
+          hide={false}
           formik={formik}
           buttonTittle={'Dodaj'}
           tittle={'Nowa gra'}></AddGameForm>

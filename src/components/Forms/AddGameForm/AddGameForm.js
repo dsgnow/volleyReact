@@ -56,7 +56,7 @@ class LocalizedUtils extends DateFnsUtils {
 }
 
 const AddGameForm = (props) => {
-  const formik = props.formik
+  const { formik, hide } = props
 
   const { touched, handleChange, setFieldValue, errors, values } = formik
 
@@ -129,6 +129,7 @@ const AddGameForm = (props) => {
             <Grid item xs={12} sm={6}>
               {console.log(isValid(values.dateStart))}
               <DateTimePicker
+                disabled={hide}
                 error={touched.dateStart && Boolean(errors.dateStart)}
                 helperText={touched.dateStart && errors.dateStart}
                 size="small"
@@ -161,6 +162,7 @@ const AddGameForm = (props) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <DateTimePicker
+                disabled={hide}
                 error={touched.dateEnd && Boolean(errors.dateEnd)}
                 helperText={touched.dateEnd && errors.dateEnd}
                 minDate={values.dateStart}
@@ -212,6 +214,7 @@ const AddGameForm = (props) => {
             </Grid>
             <Grid item xs={12} sm={3}>
               <TextField
+                disabled={hide}
                 error={touched.places && Boolean(errors.places)}
                 helperText={touched.places && errors.places}
                 variant="outlined"
@@ -266,6 +269,7 @@ const AddGameForm = (props) => {
                 return (
                   <Grid key={index} item xs={12} sm={6}>
                     <DateTimePicker
+                      disabled={hide}
                       error={
                         touched[rotationName] && Boolean(errors[rotationName])
                       }
@@ -319,7 +323,8 @@ const AddGameForm = (props) => {
 AddGameForm.propTypes = {
   formik: PropTypes.object.isRequired,
   buttonTittle: PropTypes.string.isRequired,
-  tittle: PropTypes.string.isRequired
+  tittle: PropTypes.string.isRequired,
+  hide: PropTypes.bool
 }
 
 export default AddGameForm

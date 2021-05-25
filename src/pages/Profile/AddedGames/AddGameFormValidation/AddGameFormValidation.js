@@ -11,6 +11,7 @@ import { parseISO, isValid } from 'date-fns'
 import { updateGame, fetchGameById } from '../../../../services/gameService'
 import { objectToArrayWithId } from '../../../../helpers/objects'
 import useAuth from '../../../../hooks/useAuth'
+import calcSquads from '../../../../helpers/calcSquads'
 
 const AddGameFormValidation = (props) => {
   const [loading, setLoading] = useState(false)
@@ -50,36 +51,44 @@ const AddGameFormValidation = (props) => {
         const resOldGame = await fetchGameById(values.id)
         let oldGame = objectToArrayWithId(resOldGame.data)[0]
 
-        if (oldGame.players && oldGame.players.length > values.places) {
+        if (oldGame.players && oldGame.players.length >= values.places) {
           let playersToReserve = oldGame.players.slice(values.places)
           playersInGame = oldGame.players.slice(0, values.places)
           reserve = oldGame.reserve
             ? oldGame.reserve.push(playersToReserve)
             : playersToReserve
+          console.log('tutaj')
         } else if (
           oldGame.players &&
           oldGame.players.length < values.places &&
           oldGame.reserve
         ) {
+          console.log('tutaj')
           const numberOfReservePlayersToPush =
             oldGame.players.length - values.places
           const playersToGame = oldGame.reserve.slice(
             0,
-            numberOfReservePlayersToPush
+            Math.abs(numberOfReservePlayersToPush)
           )
-          reserve = oldGame.reserve.slice(numberOfReservePlayersToPush)
+          reserve = oldGame.reserve.slice(
+            Math.abs(numberOfReservePlayersToPush)
+          )
           playersInGame = oldGame.players
             ? oldGame.players.push(playersToGame)
             : playersToGame
         } else if (!oldGame.players && oldGame.reserve && values.places > 0) {
+          console.log('tutaj')
           const numberOfReservePlayersToPush = values.places
           const playersToGame = oldGame.reserve.slice(
             0,
-            numberOfReservePlayersToPush
+            Math.abs(numberOfReservePlayersToPush)
           )
-          reserve = oldGame.reserve.slice(numberOfReservePlayersToPush)
+          reserve = oldGame.reserve.slice(
+            Math.abs(numberOfReservePlayersToPush)
+          )
           playersInGame = playersToGame
         } else {
+          console.log('tutaj')
           reserve = oldGame.reserve
           playersInGame = oldGame.players
         }
@@ -91,7 +100,7 @@ const AddGameFormValidation = (props) => {
           gameTime: gameTime,
           addedBy: auth.userId
         })
-
+        // await calcSquads(values.id)
         setMessageType('success')
         setOpen(true)
         setMessage('Pomyślnie nadpisano grę!')
@@ -121,6 +130,7 @@ const AddGameFormValidation = (props) => {
         </Snackbar>
       )}
       <AddGameForm
+        hide={true}
         formik={formik}
         buttonTittle={'Edytuj'}
         tittle={'Edytuj grę'}></AddGameForm>
