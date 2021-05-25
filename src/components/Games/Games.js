@@ -219,6 +219,7 @@ export default function MediaCard(props) {
         players: players,
         reserve: playersOnReserve
       })
+      calcSquads(gameId)
       setMessageType('success')
       setOpen(true)
       setMessage('Pomyślnie zrezygnowałeś z gry!')
@@ -346,7 +347,7 @@ export default function MediaCard(props) {
                   Zapisz się
                 </Button>
               )}
-              <StylednavLink to={`${url}/składy/${id}`}>
+              <StylednavLink to={`${url}/składy/${game.id}`}>
                 <Button size="large" color="primary">
                   Składy
                 </Button>

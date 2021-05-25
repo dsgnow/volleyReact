@@ -17,6 +17,14 @@ export const updateGame = (data) => {
   return res
 }
 
+export const updateGameById = (id, data) => {
+  console.log(data)
+  const res = axios.patch(`games\\${id}.json`, {
+    ...data
+  })
+  return res
+}
+
 export const fetchAllGames = () => {
   const res = axios.get(`${allGames}?orderBy="active"&equalTo=true`, {})
   return res

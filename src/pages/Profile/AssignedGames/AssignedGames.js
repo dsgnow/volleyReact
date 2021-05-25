@@ -15,6 +15,7 @@ import {
   fetchGameById,
   fetchPlayersOnReserve
 } from '../../../services/gameService'
+import calcSquads from '../../../helpers/calcSquads'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -126,6 +127,7 @@ const AssignedGames = () => {
         players: players,
         reserve: playersOnReserve
       })
+      calcSquads(gameId)
       setMessageType('success')
       setOpen(true)
       setMessage('Pomyślnie zrezygnowałeś z gry!')

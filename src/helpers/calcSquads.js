@@ -1,8 +1,9 @@
-import { fetchGameById } from '../services/gameService'
+import { fetchGameById, updateGameById } from '../services/gameService'
 import { objectToArrayWithId } from '../helpers/objects'
 
 const calcSquads = (gameId) => {
   let groups = []
+  let allGroups = []
   let gameDetails = []
 
   const getGameDetails = async () => {
@@ -74,7 +75,8 @@ const calcSquads = (gameId) => {
             name: `grupa ${i + 1}`,
             skill: 0,
             players: '',
-            playersCount: 0
+            playersCount: 0,
+            rotationTime: ''
           }
         }
       }
@@ -151,7 +153,14 @@ const calcSquads = (gameId) => {
       createGroups(bestGroupsNumber)
       assignPlayersToGroups(malePlayersPlayingUntilTheGivenTime)
       assignPlayersToGroups(femalePlayersPlayingUntilTheGivenTime)
-      console.log(groups)
+      groups[indexOfGroupToPush].rotationTime = gameEndTimes[indexOfGameEndTime]
+        .slice(0, -8)
+        .replace('T', ' ')
+      allGroups.push(groups)
+    })
+
+    await updateGameById(gameId, {
+      squads: allGroups
     })
   }
 

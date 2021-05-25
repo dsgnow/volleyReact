@@ -90,6 +90,7 @@ theme = responsiveFontSizes(theme)
 
 function App() {
   const [state, dispatch] = useReducer(reducer, intialState)
+  const regex = '(.{20,20})'
 
   const header = <Header />
   const content = (
@@ -99,7 +100,7 @@ function App() {
         <Switch>
           <AuthenticatedRoute path="/profil" component={Profile} />
           <AuthenticatedRoute
-            path="/gry/składy/:id"
+            path={`/gry/składy/:id${regex}`}
             component={GameComposition}
           />
           <AuthenticatedRoute path="/gry" component={StartGames} />
