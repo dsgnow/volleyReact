@@ -50,12 +50,6 @@ const calcSquads = (gameId) => {
         )
       }
 
-      const filterFemalePlayersPlayingUntilTheGivenTime = (gameEndTime) => {
-        femalePlayersPlayingUntilTheGivenTime = players.filter(
-          (player) => player.endTime >= gameEndTime && player.gender == 'female'
-        )
-      }
-
       const calcBestNumberOfGroups = (allPlayers) => {
         if (allPlayers > 30) {
           bestGroupsNumber = 6
