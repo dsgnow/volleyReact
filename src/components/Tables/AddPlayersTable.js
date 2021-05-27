@@ -1,29 +1,75 @@
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import ReducerContext from '../../context/ReducerContext'
 import Table from '../Tables/Table/Table'
 import PropTypes from 'prop-types'
-import cloneDeep from 'lodash/cloneDeep'
+import { fetchAllPlayers } from '../../services/gameService'
+import { objectToArrayWithId } from '../../helpers/objects'
+import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
+import { Snackbar } from '@material-ui/core'
+import MuiAlert from '@material-ui/lab/Alert'
 
 const AddPlayersTable = (props) => {
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [allPlayers, setAllPlayers] = useState(null)
+  const [messageType, setMessageType] = useState('')
+  const [open, setOpen] = useState(false)
   const context = useContext(ReducerContext)
-  const { allPlayers } = context.state
-  const tableData = cloneDeep(allPlayers)
+
+  useEffect(() => {
+    fetchPlayers()
+  }, [])
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpen(false)
+  }
+
+  const fetchPlayers = async () => {
+    setLoading(true)
+    try {
+      const res = await fetchAllPlayers()
+      const allPlayers = objectToArrayWithId(res.data)
+      setAllPlayers(allPlayers)
+      console.log(objectToArrayWithId(res.data))
+    } catch (ex) {
+      setOpen(true)
+      setMessageType('warning')
+      setMessage('Nie można pobrać danych użytkowników')
+    }
+    setLoading(false)
+  }
 
   const addPlayer = (e) => {
-    const filteredPlayer = allPlayers.filter((player) => player.id === e)
+    const filteredPlayer = allPlayers.filter((player) => player.userId === e)
     props.addPlayer(filteredPlayer)
   }
 
-  return (
+  return loading ? (
+    <LoadingIcon />
+  ) : (
     <>
+      {message && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={handleClose}
+            severity={messageType}>
+            {message}
+          </MuiAlert>
+        </Snackbar>
+      )}
       <Table
         autorows={false}
         label={'Dodaj zawodników do gry'}
         tableHeaders={['gracz', 'dodaj']}
-        columns={['name']}
-        filteredColumn={'name'}
+        columns={['firstName']}
+        filteredColumn={'firstName'}
         title={'Dodaj gracza'}
-        data={tableData}
+        data={allPlayers ? allPlayers : []}
         handleClick={(playerId) => addPlayer(playerId)}
         buttonTitle={'Dodaj gracza'}
         buttonColor={'primary'}

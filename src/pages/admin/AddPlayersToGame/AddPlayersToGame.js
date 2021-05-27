@@ -1,61 +1,45 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import GamePlayersTable from '../../../components/Tables/GamePlayersListTable'
-import InputLabel from '@material-ui/core/InputLabel'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import styled from 'styled-components'
-import {
-  StyledContainer,
-  StyledTitle,
-  StyledTitleTypography
-} from '../../../Assets/Styles/GlobalStyles'
-
-const StyledFormControl = styled(FormControl)`
-  margin: ${({ theme }) => theme.spacing(1)};
-  min-width: 150px;
-  width: 40%;
-  margin: 40px auto 0;
-  ${({ theme }) => `
-${theme.breakpoints.up('sm')} {
-    margin: 60px auto 0;
-`}
-`
+import { StyledContainer } from '../../../Assets/Styles/GlobalStyles'
+import { fetchAllGames, fetchGameById } from '../../../services/gameService'
+import LoadingIcon from '../../../UI/LoadingIcon/LoadingIcon'
+import { Snackbar } from '@material-ui/core'
+import MuiAlert from '@material-ui/lab/Alert'
 
 const AddPlayersToGame = () => {
-  const [selectValue, setSelectValue] = React.useState('')
-  const handleChange = (event) => {
-    setSelectValue(event.target.value)
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [games, setGames] = useState(null)
+  const [messageType, setMessageType] = useState('')
+  const [open, setOpen] = useState(false)
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpen(false)
   }
 
-  return (
-    <StyledContainer style={{ flexDirection: 'column' }}>
-      <StyledTitle>
-        <StyledTitleTypography variant="h4">
-          Wybierz grę i dodaj gracza
-        </StyledTitleTypography>
-      </StyledTitle>
-      <StyledFormControl variant="outlined">
-        <InputLabel id="select game">Wybierz grę</InputLabel>
-        <Select
-          labelId="Wybierz grę"
-          id="demo-simple-select-outlined"
-          value={selectValue}
-          onChange={handleChange}
-          label="Wybierz grę">
-          <MenuItem value="">
-            <em>Brak</em>
-          </MenuItem>
-          <MenuItem value={'dodaj id Gry1'}>
-            Gliwice Chorzowska, 16.03.2021, 21:30
-          </MenuItem>
-          <MenuItem value={'dodaj id Gry'}>
-            Gliwice Delfin, 24.03.2021, 18:30
-          </MenuItem>
-        </Select>
-      </StyledFormControl>
-      <GamePlayersTable />
-    </StyledContainer>
+  return loading ? (
+    <LoadingIcon />
+  ) : (
+    <>
+      {message && (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={handleClose}
+            severity={messageType}>
+            {message}
+          </MuiAlert>
+        </Snackbar>
+      )}
+      <StyledContainer style={{ flexDirection: 'column' }}>
+        <GamePlayersTable />
+      </StyledContainer>
+      ))
+    </>
   )
 }
 

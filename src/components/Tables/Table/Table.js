@@ -20,6 +20,7 @@ import {
 
 export default function CustomPaginationActionsTable(props) {
   const rowsData = props.data
+  console.log(props.data)
 
   const [rows, setRows] = useState(rowsData)
   const [searched, setSearched] = useState('')

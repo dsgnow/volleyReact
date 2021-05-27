@@ -52,6 +52,11 @@ export const fetchPlayers = (data) => {
   return res
 }
 
+export const fetchAllPlayers = () => {
+  const res = axios.get(`users.json`, {})
+  return res
+}
+
 export const fetchPlayersOnReserve = (data) => {
   const res = axios.get(`games\\${data}\\reserve.json`, {
     ...data
