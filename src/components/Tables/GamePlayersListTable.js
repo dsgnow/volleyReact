@@ -33,8 +33,8 @@ ${theme.breakpoints.up('sm')} {
 `
 
 const GamePlayersTable = (props) => {
-  const [selectValue, setSelectValue] = useState('')
-  const [selectedGame, setSelectedGame] = useState('')
+  const [selectedGameId, setSelectedGameId] = useState('')
+  const [selectedGamePlayers, setSelectedGamePlayers] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [games, setGames] = useState(null)
@@ -59,9 +59,23 @@ const GamePlayersTable = (props) => {
     setLoading(false)
   }
 
+  const getSelectedGameData = async (selectedGameId) => {
+    setLoading(true)
+    try {
+      const res = await fetchGameById(selectedGameId)
+      const selectedGamePlayers = objectToArrayWithId(res.data)
+      setSelectedGamePlayers(selectedGamePlayers[0].players)
+    } catch (ex) {
+      setOpen(true)
+      setMessageType('warning')
+      setMessage('Nie można pobrać tej gry')
+    }
+    setLoading(false)
+  }
+
   const handleChange = (event) => {
-    setSelectValue(event.target.value)
-    // getSelectedGameData(event.target.value)
+    setSelectedGameId(event.target.value)
+    getSelectedGameData(event.target.value)
   }
 
   const handleClose = (event, reason) => {
@@ -70,46 +84,15 @@ const GamePlayersTable = (props) => {
     }
     setOpen(false)
   }
-  const context = useContext(ReducerContext)
 
-  const changePlayersAssignedToGame = (e) => {
-    context.dispatch({ type: 'changePlayersAssignedToGame', value: e })
+  const tableData = selectedGamePlayers
+
+  const addPlayerToGame = (playerId, gameId) => {
+    console.log(playerId, gameId)
   }
 
-  const [playersStorage, setPlayersStorage] = useStateStorage('players', null)
-
-  let { playersAssignedToGame } = context.state.playersAssignedToGame
-
-  const tableData = cloneDeep(playersStorage)
-
-  const addPlayer = (newPlayer) => {
-    let checkIfPlayerExist
-    playersStorage
-      ? (checkIfPlayerExist = playersStorage.filter(
-          (el) => el.id === newPlayer[0].id
-        ))
-      : (checkIfPlayerExist = [])
-
-    if (!checkIfPlayerExist.length > 0) {
-      if (playersStorage && !playersAssignedToGame) {
-        playersAssignedToGame = [...playersStorage, newPlayer[0]]
-      } else {
-        playersAssignedToGame = [
-          ...context.state.playersAssignedToGame,
-          newPlayer[0]
-        ]
-      }
-      setPlayersStorage(playersAssignedToGame)
-      changePlayersAssignedToGame(playersAssignedToGame)
-    }
-  }
-
-  const removePlayer = (playerId) => {
-    const filteredPlayer = playersStorage.filter(
-      (player) => player.id !== playerId
-    )
-    setPlayersStorage(filteredPlayer)
-    changePlayersAssignedToGame(filteredPlayer)
+  const removePlayer = (playerId, gameId) => {
+    console.log(playerId + gameId)
   }
 
   return loading ? (
@@ -132,13 +115,15 @@ const GamePlayersTable = (props) => {
           Wybierz grę i dodaj gracza
         </StyledTitleTypography>
       </StyledTitle>
-      <AddPlayersTable addPlayer={addPlayer} />
+      <AddPlayersTable
+        addPlayer={(playerId) => addPlayerToGame(playerId, selectedGameId)}
+      />
       <StyledFormControl variant="outlined">
         <InputLabel id="select game">Wybierz grę</InputLabel>
         <Select
           labelId="Wybierz grę"
           id="demo-simple-select-outlined"
-          value={selectValue}
+          value={selectedGameId}
           onChange={handleChange}
           label="Wybierz grę">
           <MenuItem value="">
@@ -162,7 +147,7 @@ const GamePlayersTable = (props) => {
         filteredColumn={'name'}
         title={'Gracze dodani do gry'}
         data={tableData ? tableData : []}
-        handleClick={(playerId) => removePlayer(playerId)}
+        handleClick={(playerId) => removePlayer(playerId, selectedGameId)}
         buttonTitle={'Usuń gracza'}
         buttonColor={'secondary'}
         rowsPerPageOnStart={[3, 12, 24]}

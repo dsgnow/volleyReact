@@ -38,7 +38,6 @@ const AddPlayersToGame = () => {
       <StyledContainer style={{ flexDirection: 'column' }}>
         <GamePlayersTable />
       </StyledContainer>
-      ))
     </>
   )
 }

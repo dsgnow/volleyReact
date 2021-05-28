@@ -27,7 +27,6 @@ import { useState, useEffect, useReducer } from 'react'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import MuiAlert from '@material-ui/lab/Alert'
 import Prompt from '../../UI/Prompt/Prompt'
-import calcSquads from '../../helpers/calcSquads'
 
 const StyledCard = styled(Card)`
   width: 315px;
@@ -72,7 +71,7 @@ export default function MediaCard(props) {
   const [auth] = useAuth()
   const [openPrompt, setOpenPrompt] = useState(false)
   const [promptList, setPropmptList] = useState(['Brak godzin do rotacji'])
-  const [selectedValue, setSelectedValue] = useState(null)
+  const [selectedEndTimePlaying, setSelectedEndTimePlaying] = useState(null)
   const [actualGameId, setActualGameId] = useState(null)
   const [actualUserId, setActualUserId] = useState(null)
 
@@ -101,7 +100,7 @@ export default function MediaCard(props) {
   }
 
   const handlePromptClose = (selectedTimeValue) => {
-    setSelectedValue(selectedTimeValue)
+    setSelectedEndTimePlaying(selectedTimeValue)
     console.log(selectedTimeValue)
     setOpenPrompt(false)
     addPlayer(actualGameId, actualUserId, selectedTimeValue)
@@ -161,7 +160,6 @@ export default function MediaCard(props) {
         await updatePlayersInGame(gameId, {
           players: players
         })
-        calcSquads(gameId)
         setMessageType('success')
         setOpen(true)
         setMessage('Pomyślnie dołączyłeś do gry!')
@@ -219,7 +217,6 @@ export default function MediaCard(props) {
         players: players,
         reserve: playersOnReserve
       })
-      calcSquads(gameId)
       setMessageType('success')
       setOpen(true)
       setMessage('Pomyślnie zrezygnowałeś z gry!')
@@ -262,7 +259,7 @@ export default function MediaCard(props) {
         return (
           <StyledCard key={game.id}>
             <Prompt
-              selectedValue={selectedValue}
+              selectedEndTimePlaying={selectedEndTimePlaying}
               open={openPrompt}
               onClose={handlePromptClose}
               list={promptList}

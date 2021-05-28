@@ -33,18 +33,12 @@ const AddPlayersTable = (props) => {
       const res = await fetchAllPlayers()
       const allPlayers = objectToArrayWithId(res.data)
       setAllPlayers(allPlayers)
-      console.log(objectToArrayWithId(res.data))
     } catch (ex) {
       setOpen(true)
       setMessageType('warning')
       setMessage('Nie można pobrać danych użytkowników')
     }
     setLoading(false)
-  }
-
-  const addPlayer = (e) => {
-    const filteredPlayer = allPlayers.filter((player) => player.userId === e)
-    props.addPlayer(filteredPlayer)
   }
 
   return loading ? (
@@ -65,12 +59,12 @@ const AddPlayersTable = (props) => {
       <Table
         autorows={false}
         label={'Dodaj zawodników do gry'}
-        tableHeaders={['gracz', 'dodaj']}
-        columns={['firstName']}
-        filteredColumn={'firstName'}
+        tableHeaders={['imię', 'nazwisko', 'dodaj']}
+        columns={['firstName', 'lastName']}
+        filteredColumn={'lastName'}
         title={'Dodaj gracza'}
         data={allPlayers ? allPlayers : []}
-        handleClick={(playerId) => addPlayer(playerId)}
+        handleClick={(playerId) => props.addPlayer(playerId)}
         buttonTitle={'Dodaj gracza'}
         buttonColor={'primary'}
         rowsPerPageOnStart={[1, 6, 12]}
