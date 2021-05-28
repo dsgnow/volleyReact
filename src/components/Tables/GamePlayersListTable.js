@@ -1,11 +1,15 @@
-import { useContext, useState, useEffect } from 'react'
-import ReducerContext from '../../context/ReducerContext'
-import useStateStorage from '../../hooks/useStateStorage'
+import { useState, useEffect } from 'react'
 import Table from '../Tables/Table/Table'
-import cloneDeep from 'lodash/cloneDeep'
 import AddPlayersTable from '../Tables/AddPlayersTable'
-import { fetchAllGames, fetchGameById } from '../../services/gameService'
 import { objectToArrayWithId } from '../../helpers/objects'
+import {
+  updatePlayersInGame,
+  fetchPlayers,
+  fetchAllGames,
+  fetchGameById,
+  fetchPlayersOnReserve
+} from '../../services/gameService'
+import { fetchUserById } from '../../services/accountService'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import { Snackbar } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert'
@@ -16,10 +20,10 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import styled from 'styled-components'
 import {
-  StyledContainer,
   StyledTitle,
   StyledTitleTypography
 } from '../../Assets/Styles/GlobalStyles'
+import Prompt from '../../UI/Prompt/Prompt'
 
 const StyledFormControl = styled(FormControl)`
   margin: ${({ theme }) => theme.spacing(1)};
@@ -32,7 +36,7 @@ ${theme.breakpoints.up('sm')} {
 `}
 `
 
-const GamePlayersTable = (props) => {
+const GamePlayersTable = () => {
   const [selectedGameId, setSelectedGameId] = useState('')
   const [selectedGamePlayers, setSelectedGamePlayers] = useState('')
   const [loading, setLoading] = useState(false)
@@ -40,6 +44,11 @@ const GamePlayersTable = (props) => {
   const [games, setGames] = useState(null)
   const [messageType, setMessageType] = useState('')
   const [open, setOpen] = useState(false)
+  const [selectedEndTimePlaying, setSelectedEndTimePlaying] = useState(null)
+  const [openPrompt, setOpenPrompt] = useState(false)
+  const [promptList, setPropmptList] = useState(['Brak godzin do rotacji'])
+  const [actualGameId, setActualGameId] = useState(null)
+  const [playerIdToAdd, setPlayerIdToAdd] = useState(null)
 
   useEffect(() => {
     fetchGames()
@@ -85,15 +94,160 @@ const GamePlayersTable = (props) => {
     setOpen(false)
   }
 
+  const handlePromptClose = (selectedTimeValue) => {
+    setSelectedEndTimePlaying(selectedTimeValue)
+    setOpenPrompt(false)
+    addPlayer(actualGameId, playerIdToAdd, selectedTimeValue)
+  }
+
+  const handleOpenPrompt = async (playerId, gameId) => {
+    if (gameId) {
+      setActualGameId(gameId)
+      setPlayerIdToAdd(playerId)
+      const resGameDetails = await fetchGameById(gameId)
+      const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
+      setOpenPrompt(true)
+      gameDetails.autoSquads
+        ? setPropmptList([
+            gameDetails.rotationTime1,
+            gameDetails.rotationTime2,
+            gameDetails.rotationTime3
+          ])
+        : setPropmptList([gameDetails.rotationTime1])
+    } else {
+      setMessageType('warning')
+      setOpen(true)
+      setMessage('Wybierz grę!')
+    }
+  }
+
+  const addPlayer = async (gameId, userId, selectedTimeValue) => {
+    setLoading(true)
+    selectedTimeValue ? selectedTimeValue : (selectedTimeValue = false)
+
+    try {
+      const resGameDetails = await fetchGameById(gameId)
+      const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
+      const gamePlaces = gameDetails.places
+
+      const resPlayers = await fetchPlayers(gameId)
+      let players = resPlayers.data
+
+      const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
+      let playersOnReserve = resPlayersOnReserve.data
+
+      const resUserDetails = await fetchUserById(userId)
+      const userDetails = objectToArrayWithId(resUserDetails.data)[0]
+      const userName = userDetails.firstName
+      const userLastName = userDetails.lastName
+
+      const newPlayer = {
+        id: userId,
+        name: `${userName} ${userLastName}`,
+        endTime: selectedTimeValue,
+        skill:
+          userDetails.adminLevel != ''
+            ? Number(userDetails.adminLevel)
+            : Number(userDetails.userLevel),
+        info: ''
+      }
+
+      players ? players.push(newPlayer) : (players = [newPlayer])
+      playersOnReserve
+        ? playersOnReserve.push(newPlayer)
+        : (playersOnReserve = [newPlayer])
+
+      let checkPlayerAlreadyPlaying = resPlayers.data
+        ? resPlayers.data.filter((el) => el.id == userId).length > 0
+        : false
+
+      if (
+        players &&
+        !checkPlayerAlreadyPlaying &&
+        gamePlaces >= players.length
+      ) {
+        await updatePlayersInGame(gameId, {
+          players: players
+        })
+        getSelectedGameData(actualGameId)
+        setMessageType('success')
+        setOpen(true)
+        setMessage('Pomyślnie dodano do gry!')
+      } else if (!checkPlayerAlreadyPlaying && gamePlaces < players.length) {
+        await updatePlayersInGame(gameId, {
+          reserve: playersOnReserve
+        })
+        setMessageType('warning')
+        setOpen(true)
+        setMessage('Brak wolnych miejsc. Pomyślnie dodano na rezerwę.')
+      } else if (checkPlayerAlreadyPlaying) {
+        setMessageType('warning')
+        setOpen(true)
+        setMessage('Ten gracz już jest dodany do tej gry.')
+      }
+    } catch (ex) {
+      setOpen(true)
+      setMessageType('warning')
+      // setMessage(ex.response.data.error.message)
+      console.log(ex)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const removePlayer = async (playerId, gameId) => {
+    setActualGameId(gameId)
+    setPlayerIdToAdd(playerId)
+    setLoading(true)
+
+    try {
+      const resPlayers = await fetchPlayers(gameId)
+      let players = resPlayers.data
+
+      const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
+      let playersOnReserve = resPlayersOnReserve.data
+
+      const resGameDetails = await fetchGameById(gameId)
+      const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
+      const gamePlaces = gameDetails.places
+
+      if (playersOnReserve && players && gamePlaces >= players.length) {
+        players.push(playersOnReserve[0])
+        playersOnReserve = playersOnReserve.filter(
+          (el) => el.id !== playersOnReserve[0].id
+        )
+        players = players.filter((el) => el.id !== playerId)
+      } else {
+        players
+          ? (players = players.filter((el) => el.id !== playerId))
+          : (players = [{}])
+
+        playersOnReserve
+          ? (playersOnReserve = playersOnReserve.filter(
+              (el) => el.id !== playerId
+            ))
+          : (playersOnReserve = [{}])
+      }
+
+      await updatePlayersInGame(gameId, {
+        players: players,
+        reserve: playersOnReserve
+      })
+      getSelectedGameData(actualGameId)
+      setMessageType('success')
+      setOpen(true)
+      setMessage('Pomyślnie usunięto z gry!')
+    } catch (ex) {
+      setOpen(true)
+      setMessageType('warning')
+      setMessage('Nie udało się usunąć gracza z gry ;(')
+      console.log(ex)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const tableData = selectedGamePlayers
-
-  const addPlayerToGame = (playerId, gameId) => {
-    console.log(playerId, gameId)
-  }
-
-  const removePlayer = (playerId, gameId) => {
-    console.log(playerId + gameId)
-  }
 
   return loading ? (
     <LoadingIcon />
@@ -110,13 +264,20 @@ const GamePlayersTable = (props) => {
           </MuiAlert>
         </Snackbar>
       )}
+      <Prompt
+        selectedEndTimePlaying={selectedEndTimePlaying}
+        open={openPrompt}
+        onClose={handlePromptClose}
+        list={promptList}
+        gameId={selectedGameId}
+      />
       <StyledTitle>
         <StyledTitleTypography variant="h4">
           Wybierz grę i dodaj gracza
         </StyledTitleTypography>
       </StyledTitle>
       <AddPlayersTable
-        addPlayer={(playerId) => addPlayerToGame(playerId, selectedGameId)}
+        addPlayer={(playerId) => handleOpenPrompt(playerId, selectedGameId)}
       />
       <StyledFormControl variant="outlined">
         <InputLabel id="select game">Wybierz grę</InputLabel>
@@ -139,13 +300,16 @@ const GamePlayersTable = (props) => {
             })}
         </Select>
       </StyledFormControl>
+      {console.log(selectedGamePlayers)}
       <Table
         autorows={true}
         label={'Przypisani zawodnicy do gry'}
         tableHeaders={['gracz', 'skill', 'usuń']}
         columns={['name', 'skill']}
         filteredColumn={'name'}
-        title={'Gracze dodani do gry'}
+        title={`${
+          selectedGamePlayers ? `Gracze dodani do gry` : `Brak graczy`
+        }`}
         data={tableData ? tableData : []}
         handleClick={(playerId) => removePlayer(playerId, selectedGameId)}
         buttonTitle={'Usuń gracza'}

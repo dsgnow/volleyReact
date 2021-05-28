@@ -14,7 +14,6 @@ import {
   fetchGameById
 } from '../../../services/gameService'
 import useAuth from '../../../hooks/useAuth'
-import { parseISO, format } from 'date-fns'
 
 const StyledContainer = styled(Container)`
   display: flex;

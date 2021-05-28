@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect } from 'react'
-import ReducerContext from '../../context/ReducerContext'
+import { useState, useEffect } from 'react'
 import Table from '../Tables/Table/Table'
 import PropTypes from 'prop-types'
 import { fetchAllPlayers } from '../../services/gameService'
@@ -14,7 +13,6 @@ const AddPlayersTable = (props) => {
   const [allPlayers, setAllPlayers] = useState(null)
   const [messageType, setMessageType] = useState('')
   const [open, setOpen] = useState(false)
-  const context = useContext(ReducerContext)
 
   useEffect(() => {
     fetchPlayers()

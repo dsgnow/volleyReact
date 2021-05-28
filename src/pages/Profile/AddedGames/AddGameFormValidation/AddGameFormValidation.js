@@ -11,7 +11,6 @@ import { parseISO, isValid } from 'date-fns'
 import { updateGame, fetchGameById } from '../../../../services/gameService'
 import { objectToArrayWithId } from '../../../../helpers/objects'
 import useAuth from '../../../../hooks/useAuth'
-import calcSquads from '../../../../helpers/calcSquads'
 
 const AddGameFormValidation = (props) => {
   const [loading, setLoading] = useState(false)

@@ -59,7 +59,6 @@ const StyledTypography = styled(Typography)`
 
 const AssignedGames = () => {
   const [games, setGames] = useState([])
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState('')
@@ -87,7 +86,7 @@ const AssignedGames = () => {
 
       setGames(filterByUser)
     } catch (ex) {
-      setError(ex.response.data.error.message)
+      console.log(ex)
     }
   }
 

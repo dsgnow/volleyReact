@@ -11,45 +11,7 @@ import { objectToArrayWithId } from '../../helpers/objects'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import MuiAlert from '@material-ui/lab/Alert'
 import { Snackbar } from '@material-ui/core'
-
-const tableData = [
-  {
-    id: 1,
-    name: 'grupa 1',
-    skill: 36,
-    players:
-      'Damian Czapla, Michał (od P. Ważnego), Dawid (od P. Ważnego), Łukasz Wróblewski, Grzegorz Sołtysiak, Monika Szablińska',
-    playersCount: 6,
-    rotationTime: '21:30'
-  },
-  {
-    id: 2,
-    name: 'grupa 2',
-    skill: 38,
-    players:
-      'Wojtek Spalik, Rafał Kurkowski, Marcin Bosman, Michał Morawiec, Kamil Wiża, Magda Staniczek',
-    playersCount: 6,
-    rotationTime: '00:00'
-  },
-  {
-    id: 3,
-    name: 'grupa 3',
-    skill: 41,
-    players:
-      'Damian Kita, Przemysław Ważny, Patryk Kacprzycki, Michał Soblik, Ania Klemczak, Basia Lark',
-    playersCount: 6,
-    rotationTime: '01:00'
-  },
-  {
-    id: 4,
-    name: 'grupa 4',
-    skill: 38,
-    players:
-      'MRa Ra, Damian Dmowski, Mateusz Szołtysek, Piotr Stachowicz, Iza Ćwiertnia, Aśka Grochowina',
-    playersCount: 6,
-    rotationTime: '02:00'
-  }
-]
+import calcSquads from '../../helpers/calcSquads'
 
 const AddPlayersToGame = () => {
   const { id } = useParams()
@@ -73,6 +35,7 @@ const AddPlayersToGame = () => {
 
   const fetchGame = async () => {
     try {
+      await calcSquads(id)
       const res = await fetchGameById(id)
       const actualGame = objectToArrayWithId(res.data)[0]
       setSquads(actualGame.squads)

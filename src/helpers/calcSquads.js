@@ -16,26 +16,7 @@ const calcSquads = (gameId) => {
       gameDetails.rotationTime3
     ]
 
-    let allPlayers = gameDetails.players
-
-    let allPlayers1 = [
-      {
-        id: '23',
-        name: 'Monika Szablińska',
-        skill: 1,
-        endTime: '2021-05-24T17:00:23.515Z',
-        info: '',
-        gender: 'male'
-      },
-      {
-        id: '7',
-        name: 'Grzegorz Gil',
-        skill: 8,
-        endTime: '2021-05-24T17:00:23.515Z',
-        info: '',
-        gender: 'male'
-      }
-    ]
+    let allPlayers = gameDetails.players ? gameDetails.players : [{}]
 
     gameEndTimes.forEach((gameEndTime, indexOfGameEndTime) => {
       let players = JSON.parse(JSON.stringify(allPlayers))
@@ -90,8 +71,6 @@ const calcSquads = (gameId) => {
               )
             )
 
-          console.log(indexOfMaxSkill)
-
           let indexOfName = allPlayers.findIndex(
             (x) => x.name === players[indexOfMaxSkill].name
           )
@@ -104,8 +83,6 @@ const calcSquads = (gameId) => {
               : (allPlayers[indexOfName].info += `, <br>Rotacja ${
                   indexOfGameEndTime + 1
                 } / Grupa: ${groups[indexOfGroupToPush].id}`)
-
-            // console.log(players[indexOfMaxSkill].name, groups[indexOfGroupToPush].name);
 
             groups[indexOfGroupToPush].playersCount++
 

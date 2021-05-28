@@ -6,14 +6,13 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
-import { parseISO, format } from 'date-fns'
 
 const StyledTimerIcon = styled(TimerIcon)`
   margin-right: 10px;
 `
 
 export default function Prompt(props) {
-  const { onClose, selectedValue, open, list } = props
+  const { onClose, open, list } = props
 
   const dates = list
 
@@ -46,6 +45,5 @@ export default function Prompt(props) {
 Prompt.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string,
   list: PropTypes.array
 }

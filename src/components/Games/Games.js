@@ -12,7 +12,6 @@ import {
   Snackbar
 } from '@material-ui/core'
 import { NavLink, useRouteMatch } from 'react-router-dom'
-import { parseISO, format } from 'date-fns'
 import useAuth from '../../hooks/useAuth'
 import { objectToArrayWithId } from '../../helpers/objects'
 import {
@@ -23,7 +22,7 @@ import {
   fetchPlayersOnReserve
 } from '../../services/gameService'
 import { fetchUserById } from '../../services/accountService'
-import { useState, useEffect, useReducer } from 'react'
+import { useState, useEffect } from 'react'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import MuiAlert from '@material-ui/lab/Alert'
 import Prompt from '../../UI/Prompt/Prompt'
@@ -67,7 +66,6 @@ export default function MediaCard(props) {
   const [messageType, setMessageType] = useState('')
   const [open, setOpen] = useState(false)
   const { url } = useRouteMatch()
-  const id = 1
   const [auth] = useAuth()
   const [openPrompt, setOpenPrompt] = useState(false)
   const [promptList, setPropmptList] = useState(['Brak godzin do rotacji'])
@@ -101,7 +99,6 @@ export default function MediaCard(props) {
 
   const handlePromptClose = (selectedTimeValue) => {
     setSelectedEndTimePlaying(selectedTimeValue)
-    console.log(selectedTimeValue)
     setOpenPrompt(false)
     addPlayer(actualGameId, actualUserId, selectedTimeValue)
   }

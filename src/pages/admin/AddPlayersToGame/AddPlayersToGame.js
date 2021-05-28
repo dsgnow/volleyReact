@@ -1,16 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import GamePlayersTable from '../../../components/Tables/GamePlayersListTable'
 import { StyledContainer } from '../../../Assets/Styles/GlobalStyles'
-import { fetchAllGames, fetchGameById } from '../../../services/gameService'
 import LoadingIcon from '../../../UI/LoadingIcon/LoadingIcon'
 import { Snackbar } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert'
 
 const AddPlayersToGame = () => {
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const [games, setGames] = useState(null)
-  const [messageType, setMessageType] = useState('')
+  const [loading] = useState(false)
+  const [message] = useState('')
+  const [messageType] = useState('')
   const [open, setOpen] = useState(false)
 
   const handleClose = (event, reason) => {
