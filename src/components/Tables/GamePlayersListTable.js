@@ -69,7 +69,6 @@ const GamePlayersTable = () => {
   }
 
   const getSelectedGameData = async (selectedGameId) => {
-    setLoading(true)
     try {
       const res = await fetchGameById(selectedGameId)
       const selectedGamePlayers = objectToArrayWithId(res.data)
@@ -79,7 +78,6 @@ const GamePlayersTable = () => {
       setMessageType('warning')
       setMessage('Nie można pobrać tej gry')
     }
-    setLoading(false)
   }
 
   const handleChange = (event) => {
@@ -122,7 +120,6 @@ const GamePlayersTable = () => {
   }
 
   const addPlayer = async (gameId, userId, selectedTimeValue) => {
-    setLoading(true)
     selectedTimeValue ? selectedTimeValue : (selectedTimeValue = false)
 
     try {
@@ -132,6 +129,7 @@ const GamePlayersTable = () => {
 
       const resPlayers = await fetchPlayers(gameId)
       let players = resPlayers.data
+      const oldPlayers = JSON.parse(JSON.stringify(resPlayers.data))
 
       const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
       let playersOnReserve = resPlayersOnReserve.data
@@ -156,9 +154,8 @@ const GamePlayersTable = () => {
       playersOnReserve
         ? playersOnReserve.push(newPlayer)
         : (playersOnReserve = [newPlayer])
-
-      let checkPlayerAlreadyPlaying = resPlayers.data
-        ? resPlayers.data.filter((el) => el.id == userId).length > 0
+      let checkPlayerAlreadyPlaying = oldPlayers
+        ? oldPlayers.filter((el) => el.id == userId).length > 0
         : false
 
       if (
@@ -190,15 +187,12 @@ const GamePlayersTable = () => {
       setMessageType('warning')
       // setMessage(ex.response.data.error.message)
       console.log(ex)
-    } finally {
-      setLoading(false)
     }
   }
 
   const removePlayer = async (playerId, gameId) => {
     setActualGameId(gameId)
     setPlayerIdToAdd(playerId)
-    setLoading(true)
 
     try {
       const resPlayers = await fetchPlayers(gameId)
@@ -242,8 +236,6 @@ const GamePlayersTable = () => {
       setMessageType('warning')
       setMessage('Nie udało się usunąć gracza z gry ;(')
       console.log(ex)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -300,7 +292,6 @@ const GamePlayersTable = () => {
             })}
         </Select>
       </StyledFormControl>
-      {console.log(selectedGamePlayers)}
       <Table
         autorows={true}
         label={'Przypisani zawodnicy do gry'}

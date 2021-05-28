@@ -60,7 +60,7 @@ const AddPlayersTable = (props) => {
         tableHeaders={['imię', 'nazwisko', 'dodaj']}
         columns={['firstName', 'lastName']}
         filteredColumn={'lastName'}
-        title={'Dodaj gracza'}
+        title={'Wszyscy użytkownicy'}
         data={allPlayers ? allPlayers : []}
         handleClick={(playerId) => props.addPlayer(playerId)}
         buttonTitle={'Dodaj gracza'}
