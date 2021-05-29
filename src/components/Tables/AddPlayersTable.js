@@ -9,7 +9,7 @@ import { Snackbar } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert'
 
 const AddPlayersTable = (props) => {
-  const [loading, setLoading] = useState(false)
+  const [loading] = useState(false)
   const [message, setMessage] = useState('')
   const [allPlayers, setAllPlayers] = useState(null)
   const [messageType, setMessageType] = useState('')

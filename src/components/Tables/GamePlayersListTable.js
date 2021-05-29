@@ -239,8 +239,6 @@ const GamePlayersTable = () => {
     }
   }
 
-  const changeSkill = (playerId) => {}
-
   const tableData = selectedGamePlayers
 
   return loading ? (
@@ -272,7 +270,6 @@ const GamePlayersTable = () => {
       </StyledTitle>
       <AddPlayersTable
         addPlayer={(playerId) => handleOpenPrompt(playerId, selectedGameId)}
-        changeSkill={(playerId) => changeSkill(playerId)}
       />
       <StyledFormControl variant="outlined">
         <InputLabel id="select game">Wybierz grę</InputLabel>

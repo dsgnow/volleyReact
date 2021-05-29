@@ -97,7 +97,8 @@ export default function CustomPaginationActionsTable(props) {
     handleClick: PropTypes.func,
     handleChangeSelect: PropTypes.func,
     filteredColumn: PropTypes.string.isRequired,
-    autorows: PropTypes.bool
+    autorows: PropTypes.bool,
+    selectSkill: PropTypes.bool
   }
 
   let levels = Array.apply(null, { length: 10 }).map(Number.call, Number)
