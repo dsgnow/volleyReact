@@ -6,7 +6,10 @@ import {
   TableCell,
   TableFooter,
   TablePagination,
-  TableRow
+  TableRow,
+  InputLabel,
+  FormControl,
+  Select
 } from '@material-ui/core'
 import TablePaginationActions from './TablePaginationActions'
 import Button from '../../../UI/Button/Button'
@@ -24,6 +27,7 @@ export default function CustomPaginationActionsTable(props) {
   const [rows, setRows] = useState(rowsData)
   const [searched, setSearched] = useState('')
   const [search, setSearch] = useState('')
+  const [skill, setSkill] = useState(0)
 
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(
@@ -61,6 +65,15 @@ export default function CustomPaginationActionsTable(props) {
     setPage(0)
   }
 
+  const changePlayerSkill = (playerNewSkill, playerId) => {
+    props.handleChangeSelect(playerNewSkill, playerId)
+  }
+
+  const handleChangeSelected = (event, playerId) => {
+    setSkill('')
+    changePlayerSkill(event.target.value, playerId)
+  }
+
   useEffect(() => {
     setRows(rowsData)
   }, [rowsData])
@@ -82,9 +95,12 @@ export default function CustomPaginationActionsTable(props) {
     rowsPerPageOnStart: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
     handleClick: PropTypes.func,
+    handleChangeSelect: PropTypes.func,
     filteredColumn: PropTypes.string.isRequired,
     autorows: PropTypes.bool
   }
+
+  let levels = Array.apply(null, { length: 10 }).map(Number.call, Number)
 
   return (
     <>
@@ -123,6 +139,30 @@ export default function CustomPaginationActionsTable(props) {
                     {row[column]}
                   </TableCell>
                 ))}
+                {props.selectSkill && (
+                  <TableCell>
+                    <FormControl>
+                      <InputLabel htmlFor="poziom">Poziom</InputLabel>
+                      <Select
+                        style={{ width: 100 }}
+                        id={row.id + 'select'}
+                        native
+                        value={skill}
+                        onChange={() => handleChangeSelected(event, row.id)}>
+                        <option aria-label="None" value="" />
+                        {levels.map((arrLevel) => {
+                          return (
+                            <option
+                              key={arrLevel + 1}
+                              value={(arrLevel + 1).toString()}>
+                              {arrLevel + 1}
+                            </option>
+                          )
+                        })}
+                      </Select>
+                    </FormControl>
+                  </TableCell>
+                )}
                 {props.buttonTitle && (
                   <TableCell style={{ width: 160 }} align="right">
                     <Button
@@ -157,7 +197,7 @@ export default function CustomPaginationActionsTable(props) {
                     value: -1
                   }
                 ]}
-                colSpan={3}
+                colSpan={12}
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}

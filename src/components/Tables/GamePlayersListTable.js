@@ -28,7 +28,7 @@ import Prompt from '../../UI/Prompt/Prompt'
 const StyledFormControl = styled(FormControl)`
   margin: ${({ theme }) => theme.spacing(1)};
   min-width: 150px;
-  width: 40%;
+  width: 50%;
   margin: 40px auto 0;
   ${({ theme }) => `
 ${theme.breakpoints.up('sm')} {
@@ -239,6 +239,8 @@ const GamePlayersTable = () => {
     }
   }
 
+  const changeSkill = (playerId) => {}
+
   const tableData = selectedGamePlayers
 
   return loading ? (
@@ -270,6 +272,7 @@ const GamePlayersTable = () => {
       </StyledTitle>
       <AddPlayersTable
         addPlayer={(playerId) => handleOpenPrompt(playerId, selectedGameId)}
+        changeSkill={(playerId) => changeSkill(playerId)}
       />
       <StyledFormControl variant="outlined">
         <InputLabel id="select game">Wybierz grę</InputLabel>

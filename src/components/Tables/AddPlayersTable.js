@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Table from '../Tables/Table/Table'
 import PropTypes from 'prop-types'
 import { fetchAllPlayers } from '../../services/gameService'
+import { updateUser } from '../../services/accountService'
 import { objectToArrayWithId } from '../../helpers/objects'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import { Snackbar } from '@material-ui/core'
@@ -26,7 +27,6 @@ const AddPlayersTable = (props) => {
   }
 
   const fetchPlayers = async () => {
-    setLoading(true)
     try {
       const res = await fetchAllPlayers()
       const allPlayers = objectToArrayWithId(res.data)
@@ -36,7 +36,23 @@ const AddPlayersTable = (props) => {
       setMessageType('warning')
       setMessage('Nie można pobrać danych użytkowników')
     }
-    setLoading(false)
+  }
+
+  const changeSkill = async (playerNewSkill, playerId) => {
+    try {
+      await updateUser({
+        path: `users/${playerId}.json`,
+        adminLevel: Number(playerNewSkill)
+      })
+      fetchPlayers()
+      setMessageType('success')
+      setOpen(true)
+      setMessage('Pomyślnie zmieniono poziom gracza!')
+    } catch (ex) {
+      setOpen(true)
+      setMessageType('warning')
+      setMessage('Nie udało się zmienić poziomu gracza')
+    }
   }
 
   return loading ? (
@@ -57,13 +73,24 @@ const AddPlayersTable = (props) => {
       <Table
         autorows={false}
         label={'Dodaj zawodników do gry'}
-        tableHeaders={['imię', 'nazwisko', 'dodaj']}
-        columns={['firstName', 'lastName']}
+        tableHeaders={[
+          'imię',
+          'nazwisko',
+          'poziom',
+          'poziom(admin)',
+          'zmień poziom',
+          'dodaj'
+        ]}
+        columns={['firstName', 'lastName', 'userLevel', 'adminLevel']}
         filteredColumn={'lastName'}
         title={'Wszyscy użytkownicy'}
         data={allPlayers ? allPlayers : []}
         handleClick={(playerId) => props.addPlayer(playerId)}
+        handleChangeSelect={(playerNewSkill, playerId) =>
+          changeSkill(playerNewSkill, playerId)
+        }
         buttonTitle={'Dodaj gracza'}
+        selectSkill={true}
         buttonColor={'primary'}
         rowsPerPageOnStart={[1, 6, 12]}
       />
@@ -72,7 +99,8 @@ const AddPlayersTable = (props) => {
 }
 
 AddPlayersTable.propTypes = {
-  addPlayer: PropTypes.func.isRequired
+  addPlayer: PropTypes.func.isRequired,
+  changeSkill: PropTypes.func.isRequired
 }
 
 export default AddPlayersTable

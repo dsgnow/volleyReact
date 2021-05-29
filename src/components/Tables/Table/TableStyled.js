@@ -51,7 +51,7 @@ export const StyledPaper = styled(Paper)`
   padding: 25px 10px;
   box-shadow: ${({ theme }) => theme.palette.shadow.main};
   @media (min-width: 800px) {
-    width: 60%;
+    width: 80%;
     margin: 40px auto;
     padding: 30px 30px;
   }
