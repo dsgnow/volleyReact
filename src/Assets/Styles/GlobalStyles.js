@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 
 export const StyledContainer = styled.div`
-  width: 95%;
+  width: 100%;
   margin: 20px auto;
   padding: 0 0 20px 0;
   /* box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px; */
@@ -11,7 +11,7 @@ export const StyledContainer = styled.div`
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-evenly;
-  background-color: white;
+  background-color: #f7f7f7;
 
   @media (min-width: 800px) {
     width: 90%;
@@ -29,8 +29,8 @@ export const StyledTitle = styled.div`
   background-image: ${({ theme }) => theme.palette.mainGradient.main};
   color: white;
   margin: 0 auto 20px;
+  padding: 20px;
   width: 100%;
-  height: 80px;
   ${({ theme }) => `
     ${theme.breakpoints.up('sm')} {
       margin: 0 auto 50px;

@@ -27,9 +27,9 @@ export const StyledTableContainer = styled(TableContainer)`
 `
 
 export const StyledSearchBar = styled(SearchBar)`
-  box-shadow: ${({ theme }) => theme.palette.shadow.main};
+  box-shadow: rgba(0, 33, 72, 0.2) -4px 9px 25px -6px;
   margin-bottom: 30px;
-  width: 100%;
+  width: 50%;
   margin-left: auto;
 
   ${({ theme }) => `

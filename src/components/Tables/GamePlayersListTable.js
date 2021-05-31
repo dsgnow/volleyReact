@@ -30,6 +30,7 @@ const StyledFormControl = styled(FormControl)`
   min-width: 150px;
   width: 50%;
   margin: 40px auto 0;
+  background-color: white;
   ${({ theme }) => `
 ${theme.breakpoints.up('sm')} {
     margin: 60px auto 0;

@@ -59,6 +59,7 @@ const Drawer = () => {
   }
 
   const navLinks = [
+    { title: `start`, path: `/`, authRequired: false },
     { title: `gry`, path: `/gry`, authRequired: false },
     { title: `dodaj grę`, path: `/dodaj-gre`, authRequired: true },
     { title: `dodaj gracza`, path: `/dodaj-gracza`, authRequired: true },
@@ -107,7 +108,7 @@ const Drawer = () => {
           fullWidth
           variant="contained"
           color="primary"
-          onClick={toggleDrawer('right', true)}>
+          onClick={toggleDrawer('right', state.right ? false : true)}>
           {'menu'}
         </Button>
         <SwipeableDrawer
