@@ -70,25 +70,39 @@ const AddPlayersToGame = () => {
             <StyledTitleTypography variant="h4">Składy</StyledTitleTypography>
             <StyledTitleTypography variant="h5">
               {`${game.name} ${game.street} ${game.dateStart
-                .slice(0, -8)
+                .slice(0, -3)
                 .replace('T', ' ')}`}
             </StyledTitleTypography>
           </StyledTitle>
-          {squads.map((data, index) => {
-            return (
-              <Fragment key={data[0].id + index}>
-                <Table
-                  label={`${index + 1}. Rotacja / ${data[0].rotationTime}`}
-                  tableHeaders={['grupa', 'gracze']}
-                  columns={['name', 'players']}
-                  filteredColumn={'players'}
-                  title={`${index + 1}. Rotacja / ${data[0].rotationTime}`}
-                  data={[data[0]]}
-                  rowsPerPageOnStart={[1, 6, 12]}
-                />
-              </Fragment>
-            )
-          })}
+          {game.autoSquads ? (
+            squads.map((data, index) => {
+              return (
+                <Fragment key={data[0].id + index}>
+                  <Table
+                    label={`${index + 1}. Rotacja / ${data[0].rotationTime}`}
+                    tableHeaders={['grupa', 'gracze']}
+                    columns={['name', 'players']}
+                    filteredColumn={'players'}
+                    title={`${index + 1}. Rotacja / ${data[0].rotationTime}`}
+                    data={[data[0]]}
+                    rowsPerPageOnStart={[1, 6, 12]}
+                  />
+                </Fragment>
+              )
+            })
+          ) : (
+            <Fragment>
+              <Table
+                label={`${1}. Rotacja / ${squads[0][0].rotationTime}`}
+                tableHeaders={['grupa', 'gracze']}
+                columns={['name', 'players']}
+                filteredColumn={'players'}
+                title={`${1}. Rotacja / ${squads[0][0].rotationTime}`}
+                data={[squads[0][0]]}
+                rowsPerPageOnStart={[1, 6, 12]}
+              />
+            </Fragment>
+          )}
         </StyledContainer>
       ) : (
         <StyledContainer maxWidth="lg">

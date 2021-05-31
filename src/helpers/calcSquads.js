@@ -11,6 +11,7 @@ const calcSquads = (gameId) => {
     gameDetails = objectToArrayWithId(resGameDetails.data)[0]
 
     let gameEndTimes = [
+      gameDetails.dateStart,
       gameDetails.rotationTime1,
       gameDetails.rotationTime2,
       gameDetails.rotationTime3
@@ -22,7 +23,6 @@ const calcSquads = (gameId) => {
       let players = JSON.parse(JSON.stringify(allPlayers))
       let groups = []
       let malePlayersPlayingUntilTheGivenTime = []
-      let femalePlayersPlayingUntilTheGivenTime = []
       let bestGroupsNumber
 
       const filterMalePlayersPlayingUntilTheGivenTime = (gameEndTime) => {
@@ -119,13 +119,11 @@ const calcSquads = (gameId) => {
       // }
       // shuffleArray(players);
       filterMalePlayersPlayingUntilTheGivenTime(gameEndTime)
-      //   filterFemalePlayersPlayingUntilTheGivenTime(gameEndTime)
       calcBestNumberOfGroups(malePlayersPlayingUntilTheGivenTime.length)
       createGroups(bestGroupsNumber)
       assignPlayersToGroups(malePlayersPlayingUntilTheGivenTime)
-      assignPlayersToGroups(femalePlayersPlayingUntilTheGivenTime)
       groups[indexOfGroupToPush].rotationTime = gameEndTimes[indexOfGameEndTime]
-        .slice(0, -8)
+        .slice(0, -3)
         .replace('T', ' ')
       allGroups.push(groups)
     })

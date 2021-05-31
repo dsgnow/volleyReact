@@ -34,7 +34,7 @@ export default function Prompt(props) {
         {dates.map((date) => (
           <ListItem button onClick={() => handleListItemClick(date)} key={date}>
             <StyledTimerIcon />
-            <ListItemText primary={date.slice(0, -5).replace('T', ' ')} />
+            <ListItemText primary={date.slice(0, -3).replace('T', ' ')} />
           </ListItem>
         ))}
       </List>

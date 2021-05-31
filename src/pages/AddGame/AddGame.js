@@ -15,8 +15,10 @@ import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import formatDistanceStrict from 'date-fns/formatDistanceStrict'
+import { format, parseISO } from 'date-fns'
 import { addGame } from '../../services/gameService'
 import useAuth from '../../hooks/useAuth'
+import formatTimeToLocal from '../../helpers/formatTimeToLocal'
 
 const StyledContainer = styled(Container)`
   justify-content: flex-start;
@@ -47,9 +49,29 @@ const AddGame = () => {
         unit: 'minute'
       }).slice(0, -8)
 
+      let formatedDatesToDatabase
+
+      if (values.rotationTime1) {
+        formatedDatesToDatabase = {
+          dateStart: formatTimeToLocal(values.dateStart),
+          dateEnd: formatTimeToLocal(values.dateEnd),
+          rotationTime1: formatTimeToLocal(values.rotationTime1),
+          rotationTime2: formatTimeToLocal(values.rotationTime2),
+          rotationTime3: formatTimeToLocal(values.rotationTime3)
+        }
+      } else {
+        formatedDatesToDatabase = {
+          dateStart: formatTimeToLocal(values.dateStart),
+          dateEnd: formatTimeToLocal(values.dateEnd)
+        }
+      }
+
+      console.log(formatedDatesToDatabase)
+
       try {
         await addGame({
           ...values,
+          ...formatedDatesToDatabase,
           gameTime: gameTime,
           reserve: '',
           players: '',

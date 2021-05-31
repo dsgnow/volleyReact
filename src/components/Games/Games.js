@@ -114,7 +114,7 @@ export default function MediaCard(props) {
           gameDetails.rotationTime2,
           gameDetails.rotationTime3
         ])
-      : setPropmptList([gameDetails.rotationTime1])
+      : setPropmptList([gameDetails.dateEnd])
   }
 
   const addPlayer = async (gameId, userId, selectedTimeValue) => {
@@ -272,7 +272,7 @@ export default function MediaCard(props) {
                   color="textPrimary"
                   variant="h5"
                   style={{ fontWeight: 700 }}>
-                  {`${game.dateStart.slice(0, -8).replace('T', ' ')}`}
+                  {`${game.dateStart.slice(0, -3).replace('T', ' ')}`}
                 </Typography>
                 <Typography
                   variant="h6"
