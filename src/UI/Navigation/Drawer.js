@@ -60,7 +60,7 @@ const Drawer = () => {
 
   const navLinks = [
     { title: `start`, path: `/`, authRequired: false },
-    { title: `gry`, path: `/gry`, authRequired: false },
+    { title: `gry`, path: `/gry`, authRequired: true },
     { title: `dodaj grę`, path: `/dodaj-gre`, authRequired: true },
     { title: `dodaj gracza`, path: `/dodaj-gracza`, authRequired: true },
     { title: `profil`, path: `/profil`, authRequired: true },
