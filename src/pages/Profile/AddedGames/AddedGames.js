@@ -79,13 +79,14 @@ const AddedGames = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
+  const [gameIsSelected, setGameIsSelected] = useState(false)
+  const [gameIsChanging, setGameIsChanging] = useState(false)
   const [auth] = useAuth()
 
   const editGame = async (gameId) => {
     setLoading(true)
 
     try {
-      selectForm.current.scrollIntoView({ block: 'start', behavior: 'smooth' })
       const res = await fetchGameById(gameId)
       const fetchedGame = objectToArrayWithId(res.data)
       setInitialValues({
@@ -95,6 +96,7 @@ const AddedGames = () => {
       setError(ex.response.data.error.message)
     }
     setLoading(false)
+    selectForm.current.scrollIntoView({ block: 'start', behavior: 'smooth' })
   }
 
   const fetchGames = async () => {
@@ -115,9 +117,16 @@ const AddedGames = () => {
     setOpen(false)
   }
 
+  const showForm = () => {
+    setGameIsSelected(true)
+    setGameIsChanging(gameIsChanging ? true : false)
+  }
+
   useEffect(() => {
     fetchGames()
   }, [])
+
+  useEffect(() => {}, [gameIsChanging])
 
   return loading ? (
     <LoadingIcon />
@@ -149,15 +158,20 @@ const AddedGames = () => {
                 index={index}
                 data={game}
                 buttonAction="edit"
-                clickHandler={editGame}
+                clickHandler={() => {
+                  showForm()
+                  editGame(event)
+                }}
                 tooltip="edytuj"></GamesList>
             </Wrapper>
           )
         })}
-        <WrapForm ref={selectForm}>
-          <AddGameFormValidation
-            initialValues={initialValues}></AddGameFormValidation>
-        </WrapForm>
+        {gameIsSelected && (
+          <WrapForm ref={selectForm}>
+            <AddGameFormValidation
+              initialValues={initialValues}></AddGameFormValidation>
+          </WrapForm>
+        )}
       </StyledContainer>
     </>
   )
