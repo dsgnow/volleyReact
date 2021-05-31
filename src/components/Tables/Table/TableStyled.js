@@ -46,6 +46,7 @@ export const StyledTableHead = styled(TableHead)`
 `
 
 export const StyledPaper = styled(Paper)`
+  overflow-x: auto;
   width: 90%;
   margin: 20px auto;
   padding: 25px 10px;

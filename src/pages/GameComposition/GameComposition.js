@@ -69,7 +69,10 @@ const AddPlayersToGame = () => {
           <StyledTitle>
             <StyledTitleTypography variant="h4">Składy</StyledTitleTypography>
             <StyledTitleTypography variant="h5">
-              {`${game.name} ${game.street} ${game.dateStart
+              {`${game.name}`}
+            </StyledTitleTypography>
+            <StyledTitleTypography variant="h5">
+              {`${game.street} ${game.dateStart
                 .slice(0, -3)
                 .replace('T', ' ')}`}
             </StyledTitleTypography>

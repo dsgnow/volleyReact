@@ -34,7 +34,8 @@ export const StyledTitle = styled.div`
   ${({ theme }) => `
     ${theme.breakpoints.up('sm')} {
       margin: 0 auto 50px;
-      height: 80px;
+      padding: 10px;
+      height: 100px;
     `}
 `
 
