@@ -85,7 +85,9 @@ const AssignedGames = () => {
       )
 
       setGames(filterByUser)
-    } catch (ex) {}
+    } catch (ex) {
+      setMessage('Błąd')
+    }
   }
 
   const removePlayer = async (gameId) => {
