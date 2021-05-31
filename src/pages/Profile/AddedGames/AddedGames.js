@@ -158,7 +158,7 @@ const AddedGames = () => {
                 index={index}
                 data={game}
                 buttonAction="edit"
-                clickHandler={() => {
+                clickHandler={(event) => {
                   showForm()
                   editGame(event)
                 }}
