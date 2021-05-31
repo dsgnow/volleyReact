@@ -56,13 +56,11 @@ const AddGameFormValidation = (props) => {
           reserve = oldGame.reserve
             ? oldGame.reserve.push(playersToReserve)
             : playersToReserve
-          console.log('tutaj')
         } else if (
           oldGame.players &&
           oldGame.players.length < values.places &&
           oldGame.reserve
         ) {
-          console.log('tutaj')
           const numberOfReservePlayersToPush =
             oldGame.players.length - values.places
           const playersToGame = oldGame.reserve.slice(
@@ -76,7 +74,6 @@ const AddGameFormValidation = (props) => {
             ? oldGame.players.push(playersToGame)
             : playersToGame
         } else if (!oldGame.players && oldGame.reserve && values.places > 0) {
-          console.log('tutaj')
           const numberOfReservePlayersToPush = values.places
           const playersToGame = oldGame.reserve.slice(
             0,
@@ -87,7 +84,6 @@ const AddGameFormValidation = (props) => {
           )
           playersInGame = playersToGame
         } else {
-          console.log('tutaj')
           reserve = oldGame.reserve
           playersInGame = oldGame.players
         }

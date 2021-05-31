@@ -66,7 +66,6 @@ const Login = () => {
           default:
             setError(ex.response.data.error.message)
         }
-        console.log(ex.response)
       }
       setLoading(false)
     }

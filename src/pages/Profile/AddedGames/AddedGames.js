@@ -91,7 +91,6 @@ const AddedGames = () => {
       setInitialValues({
         ...fetchedGame[0]
       })
-      console.log(initialValues)
     } catch (ex) {
       setError(ex.response.data.error.message)
     }
@@ -102,7 +101,6 @@ const AddedGames = () => {
     try {
       const res = await fetchGameByUserAdded(auth.userId)
       const newGames = objectToArrayWithId(res.data)
-      console.log(newGames)
       setGames(newGames)
     } catch (ex) {
       setError(ex.response.data.error.message)

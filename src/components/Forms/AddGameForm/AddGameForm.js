@@ -127,7 +127,6 @@ const AddGameForm = (props) => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              {console.log(isValid(values.dateStart))}
               <DateTimePicker
                 disabled={hide}
                 error={touched.dateStart && Boolean(errors.dateStart)}

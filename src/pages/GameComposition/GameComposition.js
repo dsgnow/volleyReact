@@ -44,7 +44,6 @@ const AddPlayersToGame = () => {
       setOpen(true)
       setMessageType('warning')
       setMessage('Nie można pobrać danych gry')
-      console.log(ex)
     }
     setLoading(false)
   }

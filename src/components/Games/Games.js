@@ -172,7 +172,6 @@ export default function MediaCard(props) {
       setOpen(true)
       setMessageType('warning')
       // setMessage(ex.response.data.error.message)
-      console.log(ex)
     } finally {
       setLoading(false)
     }
@@ -221,7 +220,6 @@ export default function MediaCard(props) {
       setOpen(true)
       setMessageType('warning')
       // setMessage(ex.response.data.error.message)
-      console.log(ex)
     } finally {
       setLoading(false)
     }

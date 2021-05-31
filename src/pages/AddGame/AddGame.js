@@ -15,7 +15,6 @@ import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import formatDistanceStrict from 'date-fns/formatDistanceStrict'
-import { format, parseISO } from 'date-fns'
 import { addGame } from '../../services/gameService'
 import useAuth from '../../hooks/useAuth'
 import formatTimeToLocal from '../../helpers/formatTimeToLocal'
@@ -65,8 +64,6 @@ const AddGame = () => {
           dateEnd: formatTimeToLocal(values.dateEnd)
         }
       }
-
-      console.log(formatedDatesToDatabase)
 
       try {
         await addGame({

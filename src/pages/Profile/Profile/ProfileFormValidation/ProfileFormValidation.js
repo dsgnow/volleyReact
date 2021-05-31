@@ -27,7 +27,6 @@ const ProfileFormValidation = () => {
     try {
       const res = await fetchUserById(auth.userId)
       const fetchedUser = objectToArrayWithId(res.data)
-      console.log(fetchedUser)
 
       setInitialValues({
         firstName: fetchedUser[0].firstName,
@@ -39,7 +38,6 @@ const ProfileFormValidation = () => {
     } catch (ex) {
       setOpen(true)
       setMessageType('warning')
-      console.log(ex)
     }
     setLoading(false)
   }
