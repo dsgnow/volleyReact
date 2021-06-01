@@ -112,7 +112,7 @@ const GamePlayersTable = () => {
             gameDetails.rotationTime2,
             gameDetails.rotationTime3
           ])
-        : setPropmptList([gameDetails.dateEnd])
+        : setPropmptList([gameDetails.rotationTime1])
     } else {
       setMessageType('warning')
       setOpen(true)
