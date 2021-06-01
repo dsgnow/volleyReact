@@ -6,6 +6,7 @@ import {
   CardContent,
   CardActions,
   Card,
+  CardHeader,
   CardActionArea,
   Typography,
   Box,
@@ -49,6 +50,15 @@ const StyledCardMedia = styled(CardMedia)`
   align-items: center;
   text-align: center;
   padding: 20px;
+`
+
+const StyledCardHeader = styled(CardHeader)`
+  color: white;
+  span {
+    color: white;
+    margin: 0 auto;
+    text-align: center;
+  }
 `
 
 const StylednavLink = styled(NavLink)`
@@ -225,6 +235,22 @@ export default function MediaCard(props) {
     }
   }
 
+  const checkPlayerIsAssignedToGame = (game) => {
+    let isOnMainGame =
+      game.players && game.players.filter((el) => el.id == actualUserId).length
+
+    let isOnReserve =
+      game.reserve && game.reserve.filter((el) => el.id == actualUserId).length
+
+    console.log(!!isOnMainGame, !!isOnReserve)
+
+    if (!!isOnMainGame == false && !!isOnReserve == false) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   MediaCard.propTypes = {
     data: PropTypes.array.isRequired
   }
@@ -264,6 +290,23 @@ export default function MediaCard(props) {
               <StyledCardMedia title={game.name}>
                 <CardMediaHeader variant="h4">{`${game.city}, ${game.name}`}</CardMediaHeader>
               </StyledCardMedia>
+              {checkPlayerIsAssignedToGame(game) ? (
+                <StyledCardHeader
+                  style={{ backgroundColor: '#004c8b' }}
+                  subheader="Zapisz się!"></StyledCardHeader>
+              ) : null}
+              {game.players &&
+              game.players.filter((el) => el.id == actualUserId).length ? (
+                <StyledCardHeader
+                  style={{ backgroundColor: '#4caf50' }}
+                  subheader="Jesteś zapisany!"></StyledCardHeader>
+              ) : null}
+              {game.reserve &&
+              game.reserve.filter((el) => el.id == actualUserId).length ? (
+                <StyledCardHeader
+                  style={{ backgroundColor: '#ff9800' }}
+                  subheader="Jesteś na rezerwie!"></StyledCardHeader>
+              ) : null}
               <CardContent style={{ marginLeft: 'auto' }}>
                 <Typography
                   gutterBottom

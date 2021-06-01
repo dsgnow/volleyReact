@@ -6,6 +6,9 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
+import { useState } from 'react'
+import { Snackbar } from '@material-ui/core'
+import MuiAlert from '@material-ui/lab/Alert'
 
 const StyledTimerIcon = styled(TimerIcon)`
   margin-right: 10px;
@@ -13,11 +16,23 @@ const StyledTimerIcon = styled(TimerIcon)`
 
 export default function Prompt(props) {
   const { onClose, open, list } = props
+  const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('')
+  const [openAlert, setOpenAlert] = useState(false)
 
   const dates = list
 
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpenAlert(false)
+  }
+
   const handleClose = () => {
-    alert('Wybierz opcję')
+    setOpenAlert(true)
+    setMessageType('warning')
+    setMessage('Wybierz do której grasz.')
   }
 
   const handleListItemClick = (value) => {
@@ -25,20 +40,39 @@ export default function Prompt(props) {
   }
 
   return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="simple-dialog-title"
-      open={open}>
-      <DialogTitle id="simple-dialog-title">Do której grasz?:)</DialogTitle>
-      <List>
-        {dates.map((date) => (
-          <ListItem button onClick={() => handleListItemClick(date)} key={date}>
-            <StyledTimerIcon />
-            <ListItemText primary={date.slice(0, -3).replace('T', ' ')} />
-          </ListItem>
-        ))}
-      </List>
-    </Dialog>
+    <>
+      {message && (
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={6000}
+          onClose={handleCloseAlert}>
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={handleCloseAlert}
+            severity={messageType}>
+            {message}
+          </MuiAlert>
+        </Snackbar>
+      )}
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby="simple-dialog-title"
+        open={open}>
+        <DialogTitle id="simple-dialog-title">Do której grasz?:)</DialogTitle>
+        <List>
+          {dates.map((date) => (
+            <ListItem
+              button
+              onClick={() => handleListItemClick(date)}
+              key={date}>
+              <StyledTimerIcon />
+              <ListItemText primary={date.slice(0, -3).replace('T', ' ')} />
+            </ListItem>
+          ))}
+        </List>
+      </Dialog>
+    </>
   )
 }
 
