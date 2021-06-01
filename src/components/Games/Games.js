@@ -242,8 +242,6 @@ export default function MediaCard(props) {
     let isOnReserve =
       game.reserve && game.reserve.filter((el) => el.id == actualUserId).length
 
-    console.log(!!isOnMainGame, !!isOnReserve)
-
     if (!!isOnMainGame == false && !!isOnReserve == false) {
       return true
     } else {
