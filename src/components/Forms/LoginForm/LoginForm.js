@@ -11,10 +11,11 @@ import styled from 'styled-components'
 import { StyledContainer as Container } from '../../../Assets/Styles/GlobalStyles'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
+import volleyGraphic from '../../../Assets/Images/volleyVector.svg'
 
 const StyledContainer = styled(Container)`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   /* box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px; */
   background-color: white;
   padding: 10px;
@@ -23,13 +24,29 @@ const StyledContainer = styled(Container)`
   }
 `
 
-const Wrapper = styled.div`
+const WrapperLogin = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
   @media (min-width: 600px) {
-    max-width: 60%;
+    max-width: 50%;
     padding: 30px;
+  }
+`
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 10px;
+  max-width: 90%;
+  text-align: left;
+  @media (min-width: 600px) {
+    max-width: 40%;
+    padding: 30px;
+    margin-top: unset;
   }
 `
 
@@ -46,9 +63,17 @@ const StyledButton = styled(Button)`
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px;
   text-align: center;
+  font-weight: 700;
   @media (min-width: 600px) {
     margin-bottom: 30px;
     text-align: left;
+  }
+`
+
+const Image = styled.img`
+  height: 100%;
+  @media (min-width: 800px) {
+    height: 100%;
   }
 `
 
@@ -72,7 +97,7 @@ const LoginForm = (props) => {
 
   return (
     <StyledContainer>
-      <Wrapper>
+      <WrapperLogin>
         <StyledTypography variant="h5">{props.tittle}</StyledTypography>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
@@ -137,6 +162,9 @@ const LoginForm = (props) => {
             Zarejestruj się
           </StyledButton>
         </form>
+      </WrapperLogin>
+      <Wrapper>
+        <Image src={volleyGraphic} alt="" />
       </Wrapper>
     </StyledContainer>
   )

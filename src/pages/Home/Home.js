@@ -58,13 +58,14 @@ const WrapTexts = styled.div`
   }
 `
 const StyledDescription = styled(Typography)`
-  font-size: 1.3rem;
-  font-weight: 300;
+  font-size: 1.2rem;
+  font-weight: 200;
   margin: 30px 0;
   @media (min-width: 800px) {
     width: 50%;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin: 50px 0;
+    line-height: 30px;
   }
 `
 
@@ -105,10 +106,11 @@ const Home = () => {
               treningi siatkarskie
             </Typography>
             <StyledDescription variant="h3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
-              sint esse voluptatem in veritatis? Quidem saepe expedita officiis
-              sapiente eum suscipit, beatae nobis sit ex sint assumenda.
-              Voluptatum, repudiandae quaerat.
+              Volley to aplikacja, która pozwala na szybkie dodawanie gier i
+              dołączanie do nich innych graczy. Na podstawie poziomu każdego z
+              użytkowników tworzone są drużyny i rotacje graczy. Możesz szybko
+              dołączyć do gry lub z niej zrezygnować a osoba, którą jest na
+              rezerwie, automatycznie zostanie dodana do gry.
             </StyledDescription>
             {auth ? (
               <StyledButton

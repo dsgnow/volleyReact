@@ -355,7 +355,7 @@ export default function MediaCard(props) {
                   </Box>
                 </Typography>
                 <Typography variant="h6" color="textSecondary" component="p">
-                  {`${game.street}, ${game.city}`}
+                  {`ul. ${game.street}, ${game.city}`}
                 </Typography>
               </CardContent>
             </CardActionArea>
