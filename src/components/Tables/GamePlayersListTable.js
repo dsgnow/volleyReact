@@ -134,6 +134,9 @@ const GamePlayersTable = () => {
 
       const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
       let playersOnReserve = resPlayersOnReserve.data
+      const oldPlayersReserve = JSON.parse(
+        JSON.stringify(resPlayersOnReserve.data)
+      )
 
       const resUserDetails = await fetchUserById(userId)
       const userDetails = objectToArrayWithId(resUserDetails.data)[0]
@@ -159,9 +162,14 @@ const GamePlayersTable = () => {
         ? oldPlayers.filter((el) => el.id == userId).length > 0
         : false
 
+      let checkPlayerAlreadyPlayingOnReserve = oldPlayersReserve
+        ? oldPlayersReserve.filter((el) => el.id == userId).length > 0
+        : false
+
       if (
         players &&
         !checkPlayerAlreadyPlaying &&
+        !checkPlayerAlreadyPlayingOnReserve &&
         gamePlaces >= players.length
       ) {
         await updatePlayersInGame(gameId, {
@@ -171,7 +179,11 @@ const GamePlayersTable = () => {
         setMessageType('success')
         setOpen(true)
         setMessage('Pomyślnie dodano do gry!')
-      } else if (!checkPlayerAlreadyPlaying && gamePlaces < players.length) {
+      } else if (
+        !checkPlayerAlreadyPlaying &&
+        !checkPlayerAlreadyPlayingOnReserve &&
+        gamePlaces < players.length
+      ) {
         await updatePlayersInGame(gameId, {
           reserve: playersOnReserve
         })
@@ -182,6 +194,10 @@ const GamePlayersTable = () => {
         setMessageType('warning')
         setOpen(true)
         setMessage('Ten gracz już jest dodany do tej gry.')
+      } else if (checkPlayerAlreadyPlayingOnReserve) {
+        setMessageType('warning')
+        setOpen(true)
+        setMessage('Ten gracz już jest dodany na rezerwie.')
       }
     } catch (ex) {
       setOpen(true)

@@ -61,7 +61,7 @@ export const validationSchema = yup.object().shape({
 })
 
 export const initialValues = {
-  // active: true,
+  active: true,
   // name: 'ZSOE',
   // city: 'Gliwice',
   // street: 'Chorzowska',
