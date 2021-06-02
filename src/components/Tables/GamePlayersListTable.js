@@ -243,7 +243,6 @@ const GamePlayersTable = () => {
         players: players,
         reserve: playersOnReserve
       })
-      f(gameId)
       setMessageType('success')
       setOpen(true)
       setMessage('Pomyślnie usunięto z gry!')
