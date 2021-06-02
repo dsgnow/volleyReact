@@ -70,6 +70,7 @@ const GamePlayersTable = () => {
   }
 
   const getSelectedGameData = async (selectedGameId) => {
+    console.log(selectedGameId)
     try {
       const res = await fetchGameById(selectedGameId)
       const selectedGamePlayers = objectToArrayWithId(res.data)
@@ -112,7 +113,7 @@ const GamePlayersTable = () => {
             gameDetails.rotationTime2,
             gameDetails.rotationTime3
           ])
-        : setPropmptList([gameDetails.rotationTime1])
+        : setPropmptList([gameDetails.dateEnd])
     } else {
       setMessageType('warning')
       setOpen(true)
@@ -207,7 +208,6 @@ const GamePlayersTable = () => {
   }
 
   const removePlayer = async (playerId, gameId) => {
-    setActualGameId(gameId)
     setPlayerIdToAdd(playerId)
 
     try {
@@ -243,7 +243,7 @@ const GamePlayersTable = () => {
         players: players,
         reserve: playersOnReserve
       })
-      getSelectedGameData(actualGameId)
+      f(gameId)
       setMessageType('success')
       setOpen(true)
       setMessage('Pomyślnie usunięto z gry!')
