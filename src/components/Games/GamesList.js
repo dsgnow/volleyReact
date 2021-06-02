@@ -60,15 +60,28 @@ const GamesList = (props) => {
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title={tooltip}>
-            <IconButton
-              onClick={() => props.clickHandler(data.id)}
-              edit={data.id}
-              edge="end"
-              aria-label={tooltip}>
-              <ListOutlinedIcon color="primary" fontSize="large" />
-            </IconButton>
-          </Tooltip>
+          <>
+            <Tooltip title={tooltip}>
+              <IconButton
+                onClick={() => props.clickHandler(data.id)}
+                edit={data.id}
+                edge="end"
+                aria-label={tooltip}>
+                <ListOutlinedIcon color="primary" fontSize="large" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={'usuń grę'}>
+              <IconButton
+                onClick={() => props.deleteGame(data.id)}
+                edge="end"
+                aria-label={'usuń grę'}>
+                <CancelPresentationOutlinedIcon
+                  color="secondary"
+                  fontSize="large"
+                />
+              </IconButton>
+            </Tooltip>
+          </>
         )}
       </StyledGrid>
     </>
@@ -81,6 +94,7 @@ GamesList.propTypes = {
   buttonAction: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   clickHandler: PropTypes.func,
+  deleteGame: PropTypes.func,
   index: PropTypes.number
 }
 

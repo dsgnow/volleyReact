@@ -11,7 +11,8 @@ import MuiAlert from '@material-ui/lab/Alert'
 import LoadingIcon from '../../../UI/LoadingIcon/LoadingIcon'
 import {
   fetchGameByUserAdded,
-  fetchGameById
+  fetchGameById,
+  deleteGame
 } from '../../../services/gameService'
 import useAuth from '../../../hooks/useAuth'
 import filterByDate from '../../../helpers/filterByDate'
@@ -112,6 +113,17 @@ const AddedGames = () => {
     setLoading(false)
   }
 
+  const deleteGameHandler = async (id) => {
+    try {
+      await deleteGame(id)
+      fetchGames()
+      setGameIsSelected(false)
+    } catch (ex) {
+      setOpen(true)
+      setError('Nie można usunąć gry.')
+    }
+  }
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
@@ -164,6 +176,7 @@ const AddedGames = () => {
                   showForm()
                   editGame(event)
                 }}
+                deleteGame={(event) => deleteGameHandler(event)}
                 tooltip="edytuj"></GamesList>
             </Wrapper>
           )

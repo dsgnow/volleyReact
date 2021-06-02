@@ -9,6 +9,11 @@ export const addGame = (data) => {
   return res
 }
 
+export const deleteGame = (id) => {
+  const res = axios.delete(`games\\${id}.json`, {})
+  return res
+}
+
 export const updateGame = (data) => {
   const res = axios.patch(`games\\${data.id}.json`, {
     ...data
