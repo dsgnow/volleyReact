@@ -79,15 +79,19 @@ const AddPlayersToGame = () => {
           {game.autoSquads ? (
             squads.map((data, index) => {
               return (
-                <Fragment key={data[0].id + index}>
+                <Fragment key={Math.floor(Math.random() * 100 + 1)}>
                   <Table
                     label={`${index + 1}. Rotacja / ${data[0].rotationTime}`}
                     tableHeaders={['grupa', 'gracze']}
                     columns={['name', 'players']}
                     filteredColumn={'players'}
                     title={`${index + 1}. Rotacja / ${data[0].rotationTime}`}
-                    data={[data[0]]}
-                    rowsPerPageOnStart={[1, 6, 12]}
+                    data={data}
+                    rowsPerPageOnStart={[
+                      data.length,
+                      data.length + 1,
+                      data.length + 2
+                    ]}
                   />
                 </Fragment>
               )
@@ -100,8 +104,12 @@ const AddPlayersToGame = () => {
                 columns={['name', 'players']}
                 filteredColumn={'players'}
                 title={`${1}. Rotacja / ${squads[0][0].rotationTime}`}
-                data={[squads[0][0]]}
-                rowsPerPageOnStart={[1, 6, 12]}
+                data={squads[0]}
+                rowsPerPageOnStart={[
+                  squads[0].length,
+                  squads[0].length + 1,
+                  squads[0].length + 2
+                ]}
               />
             </Fragment>
           )}
