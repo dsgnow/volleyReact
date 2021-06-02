@@ -15,6 +15,7 @@ import {
 import { NavLink, useRouteMatch } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import { objectToArrayWithId } from '../../helpers/objects'
+import filterByDate from '../../helpers/filterByDate'
 import {
   updatePlayersInGame,
   fetchPlayers,
@@ -92,7 +93,8 @@ export default function MediaCard(props) {
     try {
       const res = await fetchAllGames()
       const newGames = objectToArrayWithId(res.data)
-      setGames(newGames)
+      let newGamesFilteredByDate = filterByDate(newGames)
+      setGames(newGamesFilteredByDate)
     } catch (ex) {
       setOpen(true)
       setMessageType('warning')

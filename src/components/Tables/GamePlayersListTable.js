@@ -24,6 +24,7 @@ import {
   StyledTitleTypography
 } from '../../Assets/Styles/GlobalStyles'
 import Prompt from '../../UI/Prompt/Prompt'
+import filterByDate from '../../helpers/filterByDate'
 
 const StyledFormControl = styled(FormControl)`
   margin: ${({ theme }) => theme.spacing(1)};
@@ -60,7 +61,8 @@ const GamePlayersTable = () => {
     try {
       const res = await fetchAllGames()
       const newGames = objectToArrayWithId(res.data)
-      setGames(newGames)
+      let newGamesFilteredByDate = filterByDate(newGames)
+      setGames(newGamesFilteredByDate)
     } catch (ex) {
       setOpen(true)
       setMessageType('warning')
@@ -70,7 +72,6 @@ const GamePlayersTable = () => {
   }
 
   const getSelectedGameData = async (selectedGameId) => {
-    console.log(selectedGameId)
     try {
       const res = await fetchGameById(selectedGameId)
       const selectedGamePlayers = objectToArrayWithId(res.data)

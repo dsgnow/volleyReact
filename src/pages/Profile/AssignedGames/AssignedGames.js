@@ -16,6 +16,7 @@ import {
   fetchPlayersOnReserve
 } from '../../../services/gameService'
 import calcSquads from '../../../helpers/calcSquads'
+import filterByDate from '../../../helpers/filterByDate'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -73,8 +74,9 @@ const AssignedGames = () => {
     try {
       const res = await fetchGameByUserTakesPart()
       const newGames = objectToArrayWithId(res.data)
+      let newGamesFilteredByDate = filterByDate(newGames)
 
-      const filterByUser = newGames.filter(
+      const filterByUser = newGamesFilteredByDate.filter(
         (game) =>
           (game.players &&
             (game.list = game.players.filter((el) => el.id == auth.userId))

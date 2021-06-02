@@ -14,6 +14,7 @@ import {
   fetchGameById
 } from '../../../services/gameService'
 import useAuth from '../../../hooks/useAuth'
+import filterByDate from '../../../helpers/filterByDate'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -103,7 +104,8 @@ const AddedGames = () => {
     try {
       const res = await fetchGameByUserAdded(auth.userId)
       const newGames = objectToArrayWithId(res.data)
-      setGames(newGames)
+      let newGamesFilteredByDate = filterByDate(newGames)
+      setGames(newGamesFilteredByDate)
     } catch (ex) {
       setError(ex.response.data.error.message)
     }

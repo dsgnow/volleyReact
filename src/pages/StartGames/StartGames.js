@@ -10,6 +10,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import { fetchAllGames } from '../../services/gameService'
+import filterByDate from '../../helpers/filterByDate'
 
 const StartGames = () => {
   const [games, setGames] = useState([])
@@ -21,7 +22,8 @@ const StartGames = () => {
     try {
       const res = await fetchAllGames()
       const newGames = objectToArrayWithId(res.data)
-      setGames(newGames)
+      let newGamesFilteredByDate = filterByDate(newGames)
+      setGames(newGamesFilteredByDate)
     } catch (ex) {
       setError(ex.response.data.error.message)
     }
