@@ -25,35 +25,39 @@ const StyledContainer = styled(Container)`
   background-color: white;
   padding: 10px;
   @media (min-width: 600px) {
-    padding: 80px;
+    padding: 40px;
     flex-direction: row;
+  }
+  @media (min-width: 1000px) {
+    padding: 80px;
   }
 `
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  align-content: space-around;
+  justify-content: center;
+  align-content: center;
   align-items: center;
+  align-self: center;
   padding: 10px 0;
   width: 95%;
   margin: 10px auto;
-  padding: 0 10px;
+  padding: 10px 10px 0;
   box-shadow: ${({ theme }) => theme.palette.shadow.main};
   @media (min-width: 1000px) {
-    width: none;
+    width: auto;
     min-width: 200px;
-    max-width: 45%;
     margin: 20px auto 20px 0;
+    padding: 0 20px;
   }
 `
 const StyledTypography = styled(Typography)`
   width: 100%;
-  margin-bottom: 20px;
+  margin: 10px 0;
   text-align: center;
   @media (min-width: 600px) {
-    margin-bottom: 30px;
+    margin: 0px 0 30px;
     text-align: left;
   }
 `

@@ -6,85 +6,114 @@ import ListOutlinedIcon from '@material-ui/icons/ListOutlined'
 
 const BoldTypography = styled(Typography)`
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   @media (min-width: 600px) {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 `
 
 const StyledTypography = styled(Typography)`
   font-size: 0.8rem;
   @media (min-width: 600px) {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 `
 
 const StyledGrid = styled(Grid)`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  align-self: center;
   padding: 10px 10px;
   @media (min-width: 600px) {
     flex-direction: row;
   }
 `
 
+const StyledGrid__name = styled(StyledGrid)`
+  width: auto;
+  @media (min-width: 300px) {
+    min-width: 200px;
+  }
+  @media (min-width: 600px) {
+    width: 300px;
+  }
+  @media (min-width: 1000px) {
+    width: 400px;
+  }
+`
+
+const WrapColumn = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @media (min-width: 600px) {
+    flex-direction: row;
+  }
+`
+
+const WrapRow = styled('div')`
+  display: flex;
+  flex-direction: row;
+`
+
 const GamesList = (props) => {
   const { tooltip, buttonAction, data, index, removePlayer } = props
 
   return (
-    <>
-      <StyledGrid item xs={12} sm={6} style={{ display: 'flex' }}>
-        <BoldTypography variant="h6">{`${index + 1}. ${data.city} ${
+    <WrapColumn>
+      <StyledGrid__name>
+        <BoldTypography variant="h6">{`${index + 1}. ${data.city}, ${
           data.name
         }`}</BoldTypography>
-      </StyledGrid>
-      <StyledGrid item xs={3} sm={3}>
-        <StyledTypography variant="h6">{`${data.dateStart
-          .slice(0, -8)
-          .replace('T', ' ')}`}</StyledTypography>
-      </StyledGrid>
-      <StyledGrid item xs={6} sm={3}>
-        {buttonAction === 'remove' ? (
-          <Tooltip title={tooltip}>
-            <IconButton
-              // onClick={() => props.clickHandler(data.id)}
-              remove={data.id}
-              edge="end"
-              aria-label={tooltip}
-              onClick={removePlayer}>
-              <CancelPresentationOutlinedIcon
-                color="secondary"
-                fontSize="large"
-              />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <>
+      </StyledGrid__name>
+      <WrapRow>
+        <StyledGrid item>
+          <StyledTypography variant="h6">{`${data.dateStart
+            .slice(0, -8)
+            .replace('T', ' ')}`}</StyledTypography>
+        </StyledGrid>
+        <StyledGrid item>
+          {buttonAction === 'remove' ? (
             <Tooltip title={tooltip}>
               <IconButton
-                onClick={() => props.clickHandler(data.id)}
-                edit={data.id}
+                // onClick={() => props.clickHandler(data.id)}
+                remove={data.id}
                 edge="end"
-                aria-label={tooltip}>
-                <ListOutlinedIcon color="primary" fontSize="large" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={'usuń grę'}>
-              <IconButton
-                onClick={() => props.deleteGame(data.id)}
-                edge="end"
-                aria-label={'usuń grę'}>
+                aria-label={tooltip}
+                onClick={removePlayer}>
                 <CancelPresentationOutlinedIcon
                   color="secondary"
                   fontSize="large"
                 />
               </IconButton>
             </Tooltip>
-          </>
-        )}
-      </StyledGrid>
-    </>
+          ) : (
+            <WrapRow>
+              <Tooltip title={tooltip}>
+                <IconButton
+                  onClick={() => props.clickHandler(data.id)}
+                  edit={data.id}
+                  edge="end"
+                  aria-label={tooltip}>
+                  <ListOutlinedIcon color="primary" fontSize="large" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={'usuń grę'}>
+                <IconButton
+                  onClick={() => props.deleteGame(data.id)}
+                  edge="end"
+                  aria-label={'usuń grę'}>
+                  <CancelPresentationOutlinedIcon
+                    color="secondary"
+                    fontSize="large"
+                  />
+                </IconButton>
+              </Tooltip>
+            </WrapRow>
+          )}
+        </StyledGrid>
+      </WrapRow>
+    </WrapColumn>
   )
 }
 

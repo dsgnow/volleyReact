@@ -24,8 +24,11 @@ const StyledContainer = styled(Container)`
   background-color: white;
   padding: 10px;
   @media (min-width: 600px) {
-    padding: 80px;
+    padding: 40px;
     flex-direction: row;
+  }
+  @media (min-width: 1000px) {
+    padding: 80px;
   }
 `
 
@@ -38,13 +41,13 @@ const Wrapper = styled.div`
   padding: 10px 0;
   width: 95%;
   margin: 10px auto;
-  padding: 0 10px;
+  padding: 10px 10px 0;
   box-shadow: ${({ theme }) => theme.palette.shadow.main};
   @media (min-width: 1000px) {
-    width: none;
+    width: auto;
     min-width: 200px;
-    max-width: 45%;
     margin: 20px auto 20px 0;
+    padding: 0 20px;
   }
 `
 
@@ -57,7 +60,6 @@ const WrapForm = styled.div`
   padding: 20px 10px;
   box-shadow: ${({ theme }) => theme.palette.shadow.main};
   @media (min-width: 1000px) {
-    width: none;
     min-width: 400px;
     width: 100%;
     margin: 20px auto 50px 0;
@@ -66,10 +68,10 @@ const WrapForm = styled.div`
 
 const StyledTypography = styled(Typography)`
   width: 100%;
-  margin-bottom: 20px;
+  margin: 10px 0;
   text-align: center;
   @media (min-width: 600px) {
-    margin-bottom: 30px;
+    margin: 0px 0 30px;
     text-align: left;
   }
 `
