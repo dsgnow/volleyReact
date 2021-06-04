@@ -260,7 +260,6 @@ const GamePlayersTable = () => {
       setOpen(true)
       setMessageType('warning')
       setMessage('Nie udało się usunąć gracza z gry ;(')
-      console.log(ex)
     }
   }
 

@@ -16,6 +16,7 @@ import {
 } from '../../../services/gameService'
 import useAuth from '../../../hooks/useAuth'
 import filterByDate from '../../../helpers/filterByDate'
+import ConfirmPrompt from '../../../UI/Prompt/ConfirmPrompt'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -80,12 +81,21 @@ const AddedGames = () => {
   const selectForm = useRef()
   const [initialValues, setInitialValues] = useState(defaultInitialValues)
   const [games, setGames] = useState([])
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
   const [gameIsSelected, setGameIsSelected] = useState(false)
   const [gameIsChanging, setGameIsChanging] = useState(false)
   const [auth] = useAuth()
+  const [messageType, setMessageType] = useState('')
+  const [message, setMessage] = useState('')
+  const [confPrompt, setConfPrompt] = useState(false)
+  const [actualGameId, setActualGameId] = useState(false)
+
+  useEffect(() => {
+    fetchGames()
+  }, [])
+
+  useEffect(() => {}, [gameIsChanging])
 
   const editGame = async (gameId) => {
     setLoading(true)
@@ -97,7 +107,7 @@ const AddedGames = () => {
         ...fetchedGame[0]
       })
     } catch (ex) {
-      setError(ex.response.data.error.message)
+      setMessage(ex.response.data.error.message)
     }
     setLoading(false)
     selectForm.current.scrollIntoView({ block: 'start', behavior: 'smooth' })
@@ -110,19 +120,29 @@ const AddedGames = () => {
       let newGamesFilteredByDate = filterByDate(newGames)
       setGames(newGamesFilteredByDate)
     } catch (ex) {
-      setError(ex.response.data.error.message)
+      setMessage(ex.response.data.error.message)
     }
     setLoading(false)
   }
 
-  const deleteGameHandler = async (id) => {
+  const handleAgree = (event) => {
+    setConfPrompt(true)
+    setActualGameId(event)
+  }
+
+  const deleteGameHandler = async () => {
+    setConfPrompt(false)
     try {
-      await deleteGame(id)
+      await deleteGame(actualGameId)
       fetchGames()
       setGameIsSelected(false)
-    } catch (ex) {
+      setMessageType('success')
       setOpen(true)
-      setError('Nie można usunąć gry.')
+      setMessage('Pomyślnie usunięto grę!')
+    } catch (ex) {
+      setMessageType('warning')
+      setOpen(true)
+      setMessage('Nie można usunąć gry.')
     }
   }
 
@@ -138,26 +158,26 @@ const AddedGames = () => {
     setGameIsChanging(gameIsChanging ? true : false)
   }
 
-  useEffect(() => {
-    fetchGames()
-  }, [])
-
-  useEffect(() => {}, [gameIsChanging])
-
   return loading ? (
     <LoadingIcon />
   ) : (
     <>
-      {error && (
+      {message && (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <MuiAlert
             elevation={6}
             variant="filled"
             onClose={handleClose}
-            severity="warning">
-            {error}
+            severity={messageType}>
+            {message}
           </MuiAlert>
         </Snackbar>
+      )}
+      {confPrompt && (
+        <ConfirmPrompt
+          open={confPrompt}
+          cancel={() => setConfPrompt(false)}
+          agree={() => deleteGameHandler()}></ConfirmPrompt>
       )}
       <StyledContainer>
         {games.length > 0 ? (
@@ -178,7 +198,7 @@ const AddedGames = () => {
                   showForm()
                   editGame(event)
                 }}
-                deleteGame={(event) => deleteGameHandler(event)}
+                deleteGame={(event) => handleAgree(event)}
                 tooltip="edytuj"></GamesList>
             </Wrapper>
           )
