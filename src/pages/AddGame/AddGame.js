@@ -16,8 +16,11 @@ import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import formatDistanceStrict from 'date-fns/formatDistanceStrict'
 import { addGame } from '../../services/gameService'
+import { fetchAllPlayers } from '../../services/gameService'
 import useAuth from '../../hooks/useAuth'
 import formatTimeToLocal from '../../helpers/formatTimeToLocal'
+import { sendEmailAddGame } from '../../services/sendEmail'
+import { objectToArrayWithId } from '../../helpers/objects'
 
 const StyledContainer = styled(Container)`
   justify-content: flex-start;
@@ -74,7 +77,20 @@ const AddGame = () => {
           players: '',
           addedBy: auth.userId
         })
-
+        const resPLayers = await fetchAllPlayers()
+        const users = objectToArrayWithId(resPLayers.data)
+        sendEmailAddGame(
+          users,
+          {
+            ...values,
+            ...formatedDatesToDatabase,
+            gameTime: gameTime,
+            reserve: '',
+            players: '',
+            addedBy: auth.userId
+          },
+          'template_f2l9hxd'
+        )
         setMessageType('success')
         setOpen(true)
         setMessage('Pomyślnie dodano nową grę!')

@@ -18,7 +18,7 @@ import {
 } from '../../../services/gameService'
 import calcSquads from '../../../helpers/calcSquads'
 import filterByDate from '../../../helpers/filterByDate'
-import sendEmail from '../../../services/sendEmail'
+import { sendEmail } from '../../../services/sendEmail'
 
 const StyledContainer = styled(Container)`
   display: flex;

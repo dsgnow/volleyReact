@@ -25,7 +25,7 @@ import {
 } from '../../Assets/Styles/GlobalStyles'
 import Prompt from '../../UI/Prompt/Prompt'
 import filterByDate from '../../helpers/filterByDate'
-import sendEmail from '../../services/sendEmail'
+import { sendEmail } from '../../services/sendEmail'
 import useAuth from '../../hooks/useAuth'
 
 const StyledFormControl = styled(FormControl)`

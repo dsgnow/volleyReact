@@ -1,7 +1,7 @@
 import { init } from 'emailjs-com'
 import emailjs from 'emailjs-com'
 
-const sendEmail = (userDetails, gameDetails, template) => {
+export const sendEmail = (userDetails, gameDetails, template) => {
   init('user_AoI2i08DYgNhf8tElHnoP')
 
   var templateParams = {
@@ -23,4 +23,26 @@ const sendEmail = (userDetails, gameDetails, template) => {
     )
 }
 
-export default sendEmail
+export const sendEmailAddGame = (users, gameDetails, template) => {
+  init('user_AoI2i08DYgNhf8tElHnoP')
+
+  users.map((user) => {
+    var templateParams = {
+      to_name: user.firstName,
+      email: user.email,
+      game_city: gameDetails.city,
+      game_street: gameDetails.street,
+      dateStart: gameDetails.dateStart
+    }
+
+    user.emailNotifications &&
+      emailjs.send('service_96bedfd', template, templateParams).then(
+        function (response) {
+          return response.status
+        },
+        function (error) {
+          return error
+        }
+      )
+  })
+}

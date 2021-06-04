@@ -28,7 +28,7 @@ import { useState, useEffect } from 'react'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import MuiAlert from '@material-ui/lab/Alert'
 import Prompt from '../../UI/Prompt/Prompt'
-import sendEmail from '../../services/sendEmail'
+import { sendEmail } from '../../services/sendEmail'
 
 const StyledCard = styled(Card)`
   width: 315px;
