@@ -1,12 +1,16 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import { useState } from 'react'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import IconButton from '@material-ui/core/IconButton'
+import {
+  IconButton,
+  FormControlLabel,
+  Typography,
+  Grid,
+  TextField,
+  Button,
+  Switch
+} from '@material-ui/core'
 import MenuItem from '@material-ui/core/MenuItem'
 import styled from 'styled-components'
 import { StyledContainer as Container } from '../../../Assets/Styles/GlobalStyles'
@@ -50,6 +54,12 @@ const StyledTypography = styled(Typography)`
     margin-bottom: 30px;
     text-align: left;
   }
+`
+
+const StyledSwitchGrid = styled(Grid)`
+  margin: 20px 0;
+  padding: 0;
+  text-align: left;
 `
 
 const ProfileDetailsForm = (props) => {
@@ -129,6 +139,21 @@ const ProfileDetailsForm = (props) => {
                 })}
               </TextField>
             </Grid>
+            <StyledSwitchGrid item xs={12} sm={12}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    value={formik.values.emailNotifications}
+                    checked={formik.values.emailNotifications}
+                    onChange={formik.handleChange}
+                    name="emailNotifications"
+                    id="emailNotifications"
+                    color="primary"
+                  />
+                }
+                label="Włącz powiadomienia email"
+              />
+            </StyledSwitchGrid>
             <Grid item xs={12}>
               <TextField
                 error={formik.touched.email && Boolean(formik.errors.email)}

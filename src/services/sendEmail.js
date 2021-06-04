@@ -12,14 +12,15 @@ const sendEmail = (userDetails, gameDetails, template) => {
     dateStart: gameDetails.dateStart
   }
 
-  emailjs.send('service_96bedfd', template, templateParams).then(
-    function (response) {
-      return response.status
-    },
-    function (error) {
-      return error
-    }
-  )
+  userDetails.emailNotifications &&
+    emailjs.send('service_96bedfd', template, templateParams).then(
+      function (response) {
+        return response.status
+      },
+      function (error) {
+        return error
+      }
+    )
 }
 
 export default sendEmail

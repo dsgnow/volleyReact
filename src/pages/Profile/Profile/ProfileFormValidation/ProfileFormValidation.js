@@ -33,7 +33,8 @@ const ProfileFormValidation = () => {
         lastName: fetchedUser[0].lastName,
         level: Number(fetchedUser[0].userLevel),
         email: fetchedUser[0].email,
-        password: ''
+        password: '',
+        emailNotifications: fetchedUser[0].emailNotifications
       })
     } catch (ex) {
       setOpen(true)
@@ -78,7 +79,8 @@ const ProfileFormValidation = () => {
             lastName: values.lastName,
             userLevel: Number(values.level),
             email: values.email,
-            userId: res.data.localId
+            userId: res.data.localId,
+            emailNotifications: values.emailNotifications
           }))
 
         setMessageType('success')
