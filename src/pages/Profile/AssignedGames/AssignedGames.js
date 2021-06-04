@@ -115,7 +115,8 @@ const AssignedGames = () => {
       if (playersOnReserve && gamePlaces >= players.length) {
         const resUserDetails = await fetchUserById(playersOnReserve[0].id)
         const userDetails = objectToArrayWithId(resUserDetails.data)[0]
-        sendEmail(userDetails, gameDetails, 'template_viw6vfi')
+        playersOnReserve[0].id !== auth.userId &&
+          sendEmail(userDetails, gameDetails, 'template_viw6vfi')
 
         players.push(playersOnReserve[0])
         playersOnReserve = playersOnReserve.filter(

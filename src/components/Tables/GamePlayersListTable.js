@@ -26,6 +26,7 @@ import {
 import Prompt from '../../UI/Prompt/Prompt'
 import filterByDate from '../../helpers/filterByDate'
 import sendEmail from '../../services/sendEmail'
+import useAuth from '../../hooks/useAuth'
 
 const StyledFormControl = styled(FormControl)`
   margin: ${({ theme }) => theme.spacing(1)};
@@ -52,6 +53,7 @@ const GamePlayersTable = () => {
   const [promptList, setPropmptList] = useState(['Brak godzin do rotacji'])
   const [actualGameId, setActualGameId] = useState(null)
   const [playerIdToAdd, setPlayerIdToAdd] = useState(null)
+  const [auth] = useAuth()
 
   useEffect(() => {
     fetchGames()
@@ -226,7 +228,8 @@ const GamePlayersTable = () => {
       if (playersOnReserve && players && gamePlaces >= players.length) {
         const resUserDetails = await fetchUserById(playersOnReserve[0].id)
         const userDetails = objectToArrayWithId(resUserDetails.data)[0]
-        sendEmail(userDetails, gameDetails, 'template_viw6vfi')
+        playersOnReserve[0].id !== auth.userId &&
+          sendEmail(userDetails, gameDetails, 'template_viw6vfi')
 
         players.push(playersOnReserve[0])
         playersOnReserve = playersOnReserve.filter(

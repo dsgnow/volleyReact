@@ -207,7 +207,8 @@ export default function MediaCard(props) {
       if (playersOnReserve && players && gamePlaces >= players.length) {
         const resUserDetails = await fetchUserById(playersOnReserve[0].id)
         const userDetails = objectToArrayWithId(resUserDetails.data)[0]
-        sendEmail(userDetails, gameDetails, 'template_viw6vfi')
+        playersOnReserve[0].id !== actualUserId &&
+          sendEmail(userDetails, gameDetails, 'template_viw6vfi')
 
         players.push(playersOnReserve[0])
         playersOnReserve = playersOnReserve.filter(
