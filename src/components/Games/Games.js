@@ -28,6 +28,7 @@ import { useState, useEffect } from 'react'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import MuiAlert from '@material-ui/lab/Alert'
 import Prompt from '../../UI/Prompt/Prompt'
+import sendEmail from '../../services/sendEmail'
 
 const StyledCard = styled(Card)`
   width: 315px;
@@ -204,6 +205,10 @@ export default function MediaCard(props) {
       const gamePlaces = gameDetails.places
 
       if (playersOnReserve && players && gamePlaces >= players.length) {
+        const resUserDetails = await fetchUserById(playersOnReserve[0].id)
+        const userDetails = objectToArrayWithId(resUserDetails.data)[0]
+        sendEmail(userDetails, gameDetails, 'template_viw6vfi')
+
         players.push(playersOnReserve[0])
         playersOnReserve = playersOnReserve.filter(
           (el) => el.id !== playersOnReserve[0].id

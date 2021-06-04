@@ -8,6 +8,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import LoadingIcon from '../../../UI/LoadingIcon/LoadingIcon'
 import { fetchGameByUserTakesPart } from '../../../services/gameService'
+import { fetchUserById } from '../../../services/accountService'
 import useAuth from '../../../hooks/useAuth'
 import {
   updatePlayersInGame,
@@ -17,6 +18,7 @@ import {
 } from '../../../services/gameService'
 import calcSquads from '../../../helpers/calcSquads'
 import filterByDate from '../../../helpers/filterByDate'
+import sendEmail from '../../../services/sendEmail'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -111,6 +113,10 @@ const AssignedGames = () => {
       const gamePlaces = gameDetails.places
 
       if (playersOnReserve && gamePlaces >= players.length) {
+        const resUserDetails = await fetchUserById(playersOnReserve[0].id)
+        const userDetails = objectToArrayWithId(resUserDetails.data)[0]
+        sendEmail(userDetails, gameDetails, 'template_viw6vfi')
+
         players.push(playersOnReserve[0])
         playersOnReserve = playersOnReserve.filter(
           (el) => el.id !== playersOnReserve[0].id
