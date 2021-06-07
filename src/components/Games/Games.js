@@ -174,22 +174,18 @@ export default function MediaCard(props) {
         setMessage('Nie udało się zrezygnować z gry.')
         setOpen(true)
     }
-    fetchGames()
+    await fetchGames()
     setLoading(false)
   }
 
   const checkPlayerIsAssignedToGame = (game) => {
     let isOnMainGame =
-      game.players && game.players.filter((el) => el.id == actualUserId).length
+      game.players && game.players.filter((el) => el.id === actualUserId).length
 
     let isOnReserve =
-      game.reserve && game.reserve.filter((el) => el.id == actualUserId).length
+      game.reserve && game.reserve.filter((el) => el.id === actualUserId).length
 
-    if (!!isOnMainGame == false && !!isOnReserve == false) {
-      return true
-    } else {
-      return false
-    }
+    return !!isOnMainGame === false && !!isOnReserve === false
   }
 
   MediaCard.propTypes = {
@@ -229,19 +225,22 @@ export default function MediaCard(props) {
               {checkPlayerIsAssignedToGame(game) ? (
                 <StyledCardHeader
                   style={{ backgroundColor: '#004c8b' }}
-                  subheader="Zapisz się!"></StyledCardHeader>
+                  subheader="Zapisz się!"
+                />
               ) : null}
               {game.players &&
-              game.players.filter((el) => el.id == actualUserId).length ? (
+              game.players.filter((el) => el.id === actualUserId).length ? (
                 <StyledCardHeader
                   style={{ backgroundColor: '#4caf50' }}
-                  subheader="Jesteś zapisany!"></StyledCardHeader>
+                  subheader="Jesteś zapisany!"
+                />
               ) : null}
               {game.reserve &&
-              game.reserve.filter((el) => el.id == actualUserId).length ? (
+              game.reserve.filter((el) => el.id === actualUserId).length ? (
                 <StyledCardHeader
                   style={{ backgroundColor: '#ff9800' }}
-                  subheader="Jesteś na rezerwie!"></StyledCardHeader>
+                  subheader="Jesteś na rezerwie!"
+                />
               ) : null}
               <CardContent style={{ marginLeft: 'auto' }}>
                 <Typography
@@ -299,9 +298,9 @@ export default function MediaCard(props) {
             </CardActionArea>
             <CardActions>
               {(game.players &&
-                game.players.filter((el) => el.id == actualUserId).length) ||
+                game.players.filter((el) => el.id === actualUserId).length) ||
               (game.reserve &&
-                game.reserve.filter((el) => el.id == actualUserId).length) ? (
+                game.reserve.filter((el) => el.id === actualUserId).length) ? (
                 <Button
                   size="large"
                   color="primary"

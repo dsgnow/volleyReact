@@ -4,9 +4,9 @@ import {
   fetchPlayers,
   fetchGameById,
   fetchPlayersOnReserve
-} from '../services/gameService'
-import { fetchUserById } from '../services/accountService'
-import { sendEmail } from '../services/sendEmail'
+} from './gameService'
+import { fetchUserById } from './accountService'
+import { sendEmail } from './sendEmail'
 
 export const addPlayerToGame = async (gameId, userId, selectedTimeValue) => {
   selectedTimeValue ? selectedTimeValue : (selectedTimeValue = false)
@@ -36,7 +36,7 @@ export const addPlayerToGame = async (gameId, userId, selectedTimeValue) => {
       name: `${userName} ${userLastName}`,
       endTime: selectedTimeValue,
       skill:
-        userDetails.adminLevel != ''
+        userDetails.adminLevel !== ''
           ? Number(userDetails.adminLevel)
           : Number(userDetails.userLevel),
       info: ''
@@ -47,11 +47,11 @@ export const addPlayerToGame = async (gameId, userId, selectedTimeValue) => {
       ? playersOnReserve.push(newPlayer)
       : (playersOnReserve = [newPlayer])
     let checkPlayerAlreadyPlaying = oldPlayers
-      ? oldPlayers.filter((el) => el.id == userId).length > 0
+      ? oldPlayers.filter((el) => el.id === userId).length > 0
       : false
 
     let checkPlayerAlreadyPlayingOnReserve = oldPlayersReserve
-      ? oldPlayersReserve.filter((el) => el.id == userId).length > 0
+      ? oldPlayersReserve.filter((el) => el.id === userId).length > 0
       : false
 
     if (

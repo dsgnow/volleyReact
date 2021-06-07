@@ -14,7 +14,7 @@ export const validationSchema = yup.object().shape({
     .max(20, 'Hasło jest za długie.')
     .required('To pole jest wymagane..'),
   confirmPassword: yup.string().when('password', {
-    is: (val) => (val && val.length > 0 ? true : false),
+    is: (val) => val && val.length > 0,
     then: yup
       .string()
       .min(6, 'Hasło jest za krótkie.')

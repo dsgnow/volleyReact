@@ -34,7 +34,6 @@ const Wrapper = styled.div`
   align-content: center;
   align-items: center;
   align-self: center;
-  padding: 10px 0;
   width: 95%;
   margin: 10px auto;
   padding: 10px 10px 0;
@@ -51,7 +50,7 @@ const StyledTypography = styled(Typography)`
   margin: 10px 0;
   text-align: center;
   @media (min-width: 600px) {
-    margin: 0px 0 30px;
+    margin: 0 0 30px;
     text-align: left;
   }
 `
@@ -79,10 +78,10 @@ const AssignedGames = () => {
       const filterByUser = newGamesFilteredByDate.filter(
         (game) =>
           (game.players &&
-            (game.list = game.players.filter((el) => el.id == auth.userId))
+            (game.list = game.players.filter((el) => el.id === auth.userId))
               .length) ||
           (game.reserve &&
-            (game.list = game.reserve.filter((el) => el.id == auth.userId))
+            (game.list = game.reserve.filter((el) => el.id === auth.userId))
               .length)
       )
 
@@ -106,7 +105,7 @@ const AssignedGames = () => {
         setMessage('Nie udało się zrezygnować z gry.')
         setOpen(true)
     }
-    fetchGames()
+    await fetchGames()
     setLoading(false)
   }
 
@@ -146,7 +145,8 @@ const AssignedGames = () => {
                 data={game}
                 buttonAction="remove"
                 removePlayer={() => removePlayer(game.id, actualUserId)}
-                tooltip="zrezygnuj"></GamesList>
+                tooltip="zrezygnuj"
+              />
             </Wrapper>
           )
         })}

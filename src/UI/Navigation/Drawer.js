@@ -73,7 +73,7 @@ const Drawer = () => {
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}>
-      <StyledListHead></StyledListHead>
+      <StyledListHead />
       <Divider />
       <StyledList component="nav" aria-labelledby="main navigation">
         {navLinks.map(({ title, path, authRequired }) => (
@@ -108,7 +108,7 @@ const Drawer = () => {
           fullWidth
           variant="contained"
           color="primary"
-          onClick={toggleDrawer('right', state.right ? false : true)}>
+          onClick={toggleDrawer('right', !state.right)}>
           {'menu'}
         </Button>
         <SwipeableDrawer

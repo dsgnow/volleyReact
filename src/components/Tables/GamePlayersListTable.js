@@ -24,7 +24,6 @@ import {
 } from '../../services/playersService'
 
 const StyledFormControl = styled(FormControl)`
-  margin: ${({ theme }) => theme.spacing(1)};
   min-width: 150px;
   width: 50%;
   margin: 40px auto 0;
@@ -124,7 +123,7 @@ const GamePlayersTable = () => {
     const res = await addPlayerToGame(gameId, userId, selectedTimeValue)
     switch (res) {
       case 'Pomyślnie dodano do gry!':
-        getSelectedGameData(gameId)
+        await getSelectedGameData(gameId)
         setMessageType('success')
         setMessage('Pomyślnie dodano do gry!')
         setOpen(true)
@@ -157,7 +156,7 @@ const GamePlayersTable = () => {
     const res = await removePlayerFromGame(gameId, actualUserId)
     switch (res) {
       case 'Pomyślnie zrezygnowałeś z gry!':
-        getSelectedGameData(gameId)
+        await getSelectedGameData(gameId)
         setMessageType('success')
         setMessage('Pomyślnie usunięto z gry!')
         setOpen(true)
@@ -167,7 +166,7 @@ const GamePlayersTable = () => {
         setMessage('Nie udało się zrezygnować z gry.')
         setOpen(true)
     }
-    fetchGames()
+    await fetchGames()
     setLoading(false)
   }
 

@@ -1,19 +1,12 @@
 import styled from 'styled-components'
 import { TableContainer, Paper, Typography, TableHead } from '@material-ui/core'
 import SearchBar from 'material-ui-search-bar'
-
-export const StyledTableContainer = styled(TableContainer)`
-  /* ${({ theme }) => `
-   ${theme.breakpoints.up('sm')} {
-       background-color: red; 
-   `} */
-  /* background: ${({ theme }) => theme.primaryDark};  */
+styled(TableContainer)`
   position: relative;
   width: 100%;
-  margin: 5px auto;
   padding: 25px;
   background-color: #fafafa;
-  margin-bottom: 40px;
+  margin: 5px auto 40px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -21,11 +14,9 @@ export const StyledTableContainer = styled(TableContainer)`
   @media (min-width: 800px) {
     width: 90%;
     padding: 0;
-    margin: 0 auto;
-    margin-bottom: 100px;
+    margin: 0 auto 100px;
   }
 `
-
 export const StyledSearchBar = styled(SearchBar)`
   box-shadow: rgba(0, 33, 72, 0.2) -4px 9px 25px -6px;
   margin-bottom: 30px;

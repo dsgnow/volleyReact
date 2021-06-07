@@ -39,7 +39,6 @@ const Wrapper = styled.div`
   justify-content: space-around;
   align-content: space-around;
   align-items: center;
-  padding: 10px 0;
   width: 95%;
   margin: 10px auto;
   padding: 10px 10px 0;
@@ -55,7 +54,6 @@ const Wrapper = styled.div`
 const WrapForm = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px 0;
   width: 95%;
   margin: 20px auto;
   padding: 20px 10px;
@@ -72,7 +70,7 @@ const StyledTypography = styled(Typography)`
   margin: 10px 0;
   text-align: center;
   @media (min-width: 600px) {
-    margin: 0px 0 30px;
+    margin: 0 0 30px;
     text-align: left;
   }
 `
@@ -103,6 +101,7 @@ const AddedGames = () => {
     try {
       const res = await fetchGameById(gameId)
       const fetchedGame = objectToArrayWithId(res.data)
+      // noinspection JSCheckFunctionSignatures
       setInitialValues({
         ...fetchedGame[0]
       })
@@ -134,7 +133,7 @@ const AddedGames = () => {
     setConfPrompt(false)
     try {
       await deleteGame(actualGameId)
-      fetchGames()
+      await fetchGames()
       setGameIsSelected(false)
       setMessageType('success')
       setOpen(true)
@@ -155,7 +154,7 @@ const AddedGames = () => {
 
   const showForm = () => {
     setGameIsSelected(true)
-    setGameIsChanging(gameIsChanging ? true : false)
+    setGameIsChanging(gameIsChanging)
   }
 
   return loading ? (
@@ -177,7 +176,8 @@ const AddedGames = () => {
         <ConfirmPrompt
           open={confPrompt}
           cancel={() => setConfPrompt(false)}
-          agree={() => deleteGameHandler()}></ConfirmPrompt>
+          agree={() => deleteGameHandler()}
+        />
       )}
       <StyledContainer>
         {games.length > 0 ? (
@@ -199,14 +199,14 @@ const AddedGames = () => {
                   editGame(event)
                 }}
                 deleteGame={(event) => handleAgree(event)}
-                tooltip="edytuj"></GamesList>
+                tooltip="edytuj"
+              />
             </Wrapper>
           )
         })}
         {gameIsSelected && (
           <WrapForm ref={selectForm}>
-            <AddGameFormValidation
-              initialValues={initialValues}></AddGameFormValidation>
+            <AddGameFormValidation initialValues={initialValues} />
           </WrapForm>
         )}
       </StyledContainer>

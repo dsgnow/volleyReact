@@ -54,7 +54,7 @@ const StyledButton = styled(Button)`
   display: flex;
   margin-top: 20px;
   width: 100%;
-  align-self: left;
+  align-self: flex-start;
   @media (min-width: 600px) {
     width: 30%;
   }

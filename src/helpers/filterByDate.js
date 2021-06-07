@@ -3,8 +3,8 @@ const filterByDate = (data) => {
   date.setDate(date.getDate() - 1)
   let filteredData = data.filter((el) => el.dateEnd >= date.toISOString())
   filteredData.sort(function (a, b) {
-    var c = new Date(a.dateStart)
-    var d = new Date(b.dateStart)
+    const c = new Date(a.dateStart)
+    const d = new Date(b.dateStart)
     return c - d
   })
   return filteredData

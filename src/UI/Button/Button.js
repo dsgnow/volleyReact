@@ -9,7 +9,6 @@ const StyledButton = styled(Button)`
   outline: none;
   text-decoration: none;
   color: white;
-  /* background-color: ${(props) => props.color}; */
 `
 
 const StyledButtonOk = (props) => {

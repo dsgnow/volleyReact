@@ -3,7 +3,7 @@ import emailjs from 'emailjs-com'
 init('user_AoI2i08DYgNhf8tElHnoP')
 
 export const sendEmail = (userDetails, gameDetails, template) => {
-  var templateParams = {
+  const templateParams = {
     to_name: userDetails.firstName,
     email: userDetails.email,
     game_city: gameDetails.city,
@@ -24,7 +24,7 @@ export const sendEmail = (userDetails, gameDetails, template) => {
 
 export const sendEmailAddGame = (users, gameDetails, template) => {
   users.map((user) => {
-    var templateParams = {
+    const templateParams = {
       to_name: user.firstName,
       email: user.email,
       game_city: gameDetails.city,

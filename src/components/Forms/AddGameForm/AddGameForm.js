@@ -8,7 +8,7 @@ import {
   MenuItem
 } from '@material-ui/core'
 import styled from 'styled-components'
-import DateFnsUtils from '@date-io/date-fns' // choose your lib
+import DateFnsUtils from '@date-io/date-fns'
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import { format, isValid } from 'date-fns'
 import plLocale from 'date-fns/locale/pl'
@@ -30,7 +30,7 @@ const StyledButton = styled(Button)`
   display: flex;
   margin-top: 20px;
   width: 100%;
-  align-self: left;
+  align-self: flex-start;
   @media (min-width: 600px) {
     width: 30%;
   }

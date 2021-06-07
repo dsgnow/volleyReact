@@ -44,7 +44,7 @@ const AddPlayersTable = (props) => {
         path: `users/${playerId}.json`,
         adminLevel: Number(playerNewSkill)
       })
-      fetchPlayers()
+      await fetchPlayers()
       setMessageType('success')
       setOpen(true)
       setMessage('Pomyślnie zmieniono poziom gracza!')
@@ -100,7 +100,7 @@ const AddPlayersTable = (props) => {
 
 AddPlayersTable.propTypes = {
   addPlayer: PropTypes.func.isRequired,
-  changeSkill: PropTypes.func.isRequired
+  changeSkill: PropTypes.func
 }
 
 export default AddPlayersTable

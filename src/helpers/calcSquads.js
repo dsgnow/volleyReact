@@ -1,5 +1,5 @@
 import { fetchGameById, updateGameById } from '../services/gameService'
-import { objectToArrayWithId } from '../helpers/objects'
+import { objectToArrayWithId } from './objects'
 
 const calcSquads = (gameId) => {
   let groups = []
@@ -76,7 +76,7 @@ const calcSquads = (gameId) => {
           )
 
           const pushPlayersToGroups = () => {
-            allPlayers[indexOfName].info == ''
+            allPlayers[indexOfName].info === ''
               ? (allPlayers[indexOfName].info += `Rotacja ${
                   indexOfGameEndTime + 1
                 } / Grupa: ${groups[indexOfGroupToPush].id}`)
@@ -88,7 +88,7 @@ const calcSquads = (gameId) => {
 
             groups[indexOfGroupToPush].skill += players[indexOfMaxSkill].skill
 
-            groups[indexOfGroupToPush].players == ''
+            groups[indexOfGroupToPush].players === ''
               ? (groups[indexOfGroupToPush].players +=
                   players[indexOfMaxSkill].name)
               : (groups[

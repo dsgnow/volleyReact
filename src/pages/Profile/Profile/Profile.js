@@ -41,7 +41,7 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    location.pathname == '/profil' && setPageValue(0)
+    location.pathname === '/profil' && setPageValue(0)
   }, [location])
 
   return (
