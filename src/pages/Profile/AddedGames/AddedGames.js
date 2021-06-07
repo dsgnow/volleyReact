@@ -107,7 +107,7 @@ const AddedGames = () => {
         ...fetchedGame[0]
       })
     } catch (ex) {
-      setMessage(ex.response.data.error.message)
+      setMessage('Nie udało się pobrać danych gry.')
     }
     setLoading(false)
     selectForm.current.scrollIntoView({ block: 'start', behavior: 'smooth' })
@@ -120,7 +120,7 @@ const AddedGames = () => {
       let newGamesFilteredByDate = filterByDate(newGames)
       setGames(newGamesFilteredByDate)
     } catch (ex) {
-      setMessage(ex.response.data.error.message)
+      setMessage('Nie udało się pobrać gier.')
     }
     setLoading(false)
   }

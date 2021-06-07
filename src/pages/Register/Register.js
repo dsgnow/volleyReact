@@ -76,7 +76,7 @@ const Register = () => {
             )
             break
           default:
-            setError(ex.response.data.error.message)
+            setError('Błąd')
         }
       }
 

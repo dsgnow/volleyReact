@@ -97,7 +97,7 @@ const AddGame = () => {
       } catch (ex) {
         setOpen(true)
         setMessageType('warning')
-        setMessage(ex.response.data.error.message)
+        setMessage('Nie udało się dodać nowej gry.')
       }
       setLoading(false)
     }

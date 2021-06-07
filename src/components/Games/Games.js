@@ -16,19 +16,15 @@ import { NavLink, useRouteMatch } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import { objectToArrayWithId } from '../../helpers/objects'
 import filterByDate from '../../helpers/filterByDate'
-import {
-  updatePlayersInGame,
-  fetchPlayers,
-  fetchAllGames,
-  fetchGameById,
-  fetchPlayersOnReserve
-} from '../../services/gameService'
-import { fetchUserById } from '../../services/accountService'
+import { fetchAllGames, fetchGameById } from '../../services/gameService'
 import { useState, useEffect } from 'react'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import MuiAlert from '@material-ui/lab/Alert'
 import Prompt from '../../UI/Prompt/Prompt'
-import { sendEmail } from '../../services/sendEmail'
+import {
+  addPlayerToGame,
+  removePlayerFromGame
+} from '../../services/playersService'
 
 const StyledCard = styled(Card)`
   width: 315px;
@@ -99,7 +95,7 @@ export default function MediaCard(props) {
     } catch (ex) {
       setOpen(true)
       setMessageType('warning')
-      setMessage(ex.response.data.error.message)
+      setMessage('Nie udało się pobrać gier.')
     }
   }
 
@@ -132,115 +128,54 @@ export default function MediaCard(props) {
 
   const addPlayer = async (gameId, userId, selectedTimeValue) => {
     setLoading(true)
-    selectedTimeValue ? selectedTimeValue : (selectedTimeValue = false)
 
-    try {
-      const resGameDetails = await fetchGameById(gameId)
-      const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
-      const gamePlaces = gameDetails.places
-
-      const resPlayers = await fetchPlayers(gameId)
-      let players = resPlayers.data
-
-      const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
-      let playersOnReserve = resPlayersOnReserve.data
-
-      const resUserDetails = await fetchUserById(userId)
-      const userDetails = objectToArrayWithId(resUserDetails.data)[0]
-      const userName = userDetails.firstName
-      const userLastName = userDetails.lastName
-
-      const newPlayer = {
-        id: userId,
-        name: `${userName} ${userLastName}`,
-        endTime: selectedTimeValue,
-        skill:
-          userDetails.adminLevel != ''
-            ? Number(userDetails.adminLevel)
-            : Number(userDetails.userLevel),
-        info: ''
-      }
-
-      players ? players.push(newPlayer) : (players = [newPlayer])
-      playersOnReserve
-        ? playersOnReserve.push(newPlayer)
-        : (playersOnReserve = [newPlayer])
-
-      if (players && gamePlaces >= players.length) {
-        await updatePlayersInGame(gameId, {
-          players: players
-        })
+    const res = await addPlayerToGame(gameId, userId, selectedTimeValue)
+    switch (res) {
+      case 'Pomyślnie dodano do gry!':
         setMessageType('success')
-        setOpen(true)
         setMessage('Pomyślnie dołączyłeś do gry!')
-      } else {
-        await updatePlayersInGame(gameId, {
-          reserve: playersOnReserve
-        })
-        setMessageType('warning')
         setOpen(true)
+        break
+      case 'Brak wolnych miejsc. Pomyślnie dodano na rezerwę.':
+        setMessageType('warning')
         setMessage('Brak wolnych miejsc. Pomyślnie zapisałeś się na rezerwę.')
-      }
-    } catch (ex) {
-      setOpen(true)
-      setMessageType('warning')
-      // setMessage(ex.response.data.error.message)
-    } finally {
-      setLoading(false)
+        setOpen(true)
+        break
+      case 'Ten gracz już jest dodany do tej gry.':
+        setMessageType('warning')
+        setMessage('Ten gracz już jest dodany do tej gry.')
+        setOpen(true)
+        break
+      case 'Ten gracz już jest dodany na rezerwie.':
+        setMessageType('warning')
+        setMessage('Ten gracz już jest dodany na rezerwie.')
+        setOpen(true)
+        break
+      default:
+        setMessageType('warning')
+        setMessage('Nie udało się dołaczyć do gry.')
+        setOpen(true)
     }
+    setLoading(false)
   }
 
-  const removePlayer = async (gameId) => {
+  const removePlayer = async (gameId, actualUserId) => {
     setLoading(true)
 
-    try {
-      const resPlayers = await fetchPlayers(gameId)
-      let players = resPlayers.data
-
-      const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
-      let playersOnReserve = resPlayersOnReserve.data
-
-      const resGameDetails = await fetchGameById(gameId)
-      const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
-      const gamePlaces = gameDetails.places
-
-      if (playersOnReserve && players && gamePlaces >= players.length) {
-        const resUserDetails = await fetchUserById(playersOnReserve[0].id)
-        const userDetails = objectToArrayWithId(resUserDetails.data)[0]
-        playersOnReserve[0].id !== actualUserId &&
-          sendEmail(userDetails, gameDetails, 'template_viw6vfi')
-
-        players.push(playersOnReserve[0])
-        playersOnReserve = playersOnReserve.filter(
-          (el) => el.id !== playersOnReserve[0].id
-        )
-        players = players.filter((el) => el.id !== actualUserId)
-      } else {
-        players
-          ? (players = players.filter((el) => el.id !== actualUserId))
-          : (players = [{}])
-
-        playersOnReserve
-          ? (playersOnReserve = playersOnReserve.filter(
-              (el) => el.id !== actualUserId
-            ))
-          : (playersOnReserve = [{}])
-      }
-
-      await updatePlayersInGame(gameId, {
-        players: players,
-        reserve: playersOnReserve
-      })
-      setMessageType('success')
-      setOpen(true)
-      setMessage('Pomyślnie zrezygnowałeś z gry!')
-    } catch (ex) {
-      setOpen(true)
-      setMessageType('warning')
-      // setMessage(ex.response.data.error.message)
-    } finally {
-      setLoading(false)
+    const res = await removePlayerFromGame(gameId, actualUserId)
+    switch (res) {
+      case 'Pomyślnie zrezygnowałeś z gry!':
+        setMessageType('success')
+        setMessage('Pomyślnie zrezygnowałeś z gry!')
+        setOpen(true)
+        break
+      default:
+        setMessageType('warning')
+        setMessage('Nie udało się zrezygnować z gry.')
+        setOpen(true)
     }
+    fetchGames()
+    setLoading(false)
   }
 
   const checkPlayerIsAssignedToGame = (game) => {
@@ -260,11 +195,6 @@ export default function MediaCard(props) {
   MediaCard.propTypes = {
     data: PropTypes.array.isRequired
   }
-
-  // const filterByUser = props.data.filter(
-  //   (game) =>
-  //     (game.list = game.players.filter((el) => el.id == actualUserId)).length
-  // )
 
   return loading ? (
     <LoadingIcon />

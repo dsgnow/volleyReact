@@ -25,7 +25,7 @@ const StartGames = () => {
       let newGamesFilteredByDate = filterByDate(newGames)
       setGames(newGamesFilteredByDate)
     } catch (ex) {
-      setError(ex.response.data.error.message)
+      setError('Nie udało się pobrać gier.')
     }
     setLoading(false)
   }

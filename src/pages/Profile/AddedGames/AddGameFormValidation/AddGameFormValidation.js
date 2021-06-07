@@ -102,7 +102,7 @@ const AddGameFormValidation = (props) => {
       } catch (ex) {
         setOpen(true)
         setMessageType('warning')
-        setMessage(ex.response.data.error.message)
+        setMessage('Nie udało się nadpisać gry.')
       }
       setLoading(false)
     },

@@ -2,14 +2,7 @@ import { useState, useEffect } from 'react'
 import Table from '../Tables/Table/Table'
 import AddPlayersTable from '../Tables/AddPlayersTable'
 import { objectToArrayWithId } from '../../helpers/objects'
-import {
-  updatePlayersInGame,
-  fetchPlayers,
-  fetchAllGames,
-  fetchGameById,
-  fetchPlayersOnReserve
-} from '../../services/gameService'
-import { fetchUserById } from '../../services/accountService'
+import { fetchAllGames, fetchGameById } from '../../services/gameService'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import { Snackbar } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert'
@@ -25,8 +18,11 @@ import {
 } from '../../Assets/Styles/GlobalStyles'
 import Prompt from '../../UI/Prompt/Prompt'
 import filterByDate from '../../helpers/filterByDate'
-import { sendEmail } from '../../services/sendEmail'
 import useAuth from '../../hooks/useAuth'
+import {
+  addPlayerToGame,
+  removePlayerFromGame
+} from '../../services/playersService'
 
 const StyledFormControl = styled(FormControl)`
   margin: ${({ theme }) => theme.spacing(1)};
@@ -54,8 +50,10 @@ const GamePlayersTable = () => {
   const [actualGameId, setActualGameId] = useState(null)
   const [playerIdToAdd, setPlayerIdToAdd] = useState(null)
   const [auth] = useAuth()
+  const [actualUserId, setActualUserId] = useState(null)
 
   useEffect(() => {
+    setActualUserId(auth.userId)
     fetchGames()
   }, [])
 
@@ -126,141 +124,55 @@ const GamePlayersTable = () => {
   }
 
   const addPlayer = async (gameId, userId, selectedTimeValue) => {
-    selectedTimeValue ? selectedTimeValue : (selectedTimeValue = false)
-
-    try {
-      const resGameDetails = await fetchGameById(gameId)
-      const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
-      const gamePlaces = gameDetails.places
-
-      const resPlayers = await fetchPlayers(gameId)
-      let players = resPlayers.data
-      const oldPlayers = JSON.parse(JSON.stringify(resPlayers.data))
-
-      const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
-      let playersOnReserve = resPlayersOnReserve.data
-      const oldPlayersReserve = JSON.parse(
-        JSON.stringify(resPlayersOnReserve.data)
-      )
-
-      const resUserDetails = await fetchUserById(userId)
-      const userDetails = objectToArrayWithId(resUserDetails.data)[0]
-      const userName = userDetails.firstName
-      const userLastName = userDetails.lastName
-
-      const newPlayer = {
-        id: userId,
-        name: `${userName} ${userLastName}`,
-        endTime: selectedTimeValue,
-        skill:
-          userDetails.adminLevel != ''
-            ? Number(userDetails.adminLevel)
-            : Number(userDetails.userLevel),
-        info: ''
-      }
-
-      players ? players.push(newPlayer) : (players = [newPlayer])
-      playersOnReserve
-        ? playersOnReserve.push(newPlayer)
-        : (playersOnReserve = [newPlayer])
-      let checkPlayerAlreadyPlaying = oldPlayers
-        ? oldPlayers.filter((el) => el.id == userId).length > 0
-        : false
-
-      let checkPlayerAlreadyPlayingOnReserve = oldPlayersReserve
-        ? oldPlayersReserve.filter((el) => el.id == userId).length > 0
-        : false
-
-      if (
-        players &&
-        !checkPlayerAlreadyPlaying &&
-        !checkPlayerAlreadyPlayingOnReserve &&
-        gamePlaces >= players.length
-      ) {
-        await updatePlayersInGame(gameId, {
-          players: players
-        })
-        getSelectedGameData(actualGameId)
+    setLoading(true)
+    const res = await addPlayerToGame(gameId, userId, selectedTimeValue)
+    switch (res) {
+      case 'Pomyślnie dodano do gry!':
+        getSelectedGameData(gameId)
         setMessageType('success')
+        setMessage('Pomyślnie dołączyłeś do gry!')
         setOpen(true)
-        setMessage('Pomyślnie dodano do gry!')
-      } else if (
-        !checkPlayerAlreadyPlaying &&
-        !checkPlayerAlreadyPlayingOnReserve &&
-        gamePlaces < players.length
-      ) {
-        await updatePlayersInGame(gameId, {
-          reserve: playersOnReserve
-        })
+        break
+      case 'Brak wolnych miejsc. Pomyślnie dodano na rezerwę.':
         setMessageType('warning')
+        setMessage('Brak wolnych miejsc. Pomyślnie zapisałeś się na rezerwę.')
         setOpen(true)
-        setMessage('Brak wolnych miejsc. Pomyślnie dodano na rezerwę.')
-      } else if (checkPlayerAlreadyPlaying) {
+        break
+      case 'Ten gracz już jest dodany do tej gry.':
         setMessageType('warning')
-        setOpen(true)
         setMessage('Ten gracz już jest dodany do tej gry.')
-      } else if (checkPlayerAlreadyPlayingOnReserve) {
-        setMessageType('warning')
         setOpen(true)
+        break
+      case 'Ten gracz już jest dodany na rezerwie.':
+        setMessageType('warning')
         setMessage('Ten gracz już jest dodany na rezerwie.')
-      }
-    } catch (ex) {
-      setOpen(true)
-      setMessageType('warning')
-      // setMessage(ex.response.data.error.message)
+        setOpen(true)
+        break
+      default:
+        setMessageType('warning')
+        setMessage('Nie udało się dołaczyć do gry.')
+        setOpen(true)
     }
+    setLoading(false)
   }
 
-  const removePlayer = async (playerId, gameId) => {
-    setPlayerIdToAdd(playerId)
-
-    try {
-      const resPlayers = await fetchPlayers(gameId)
-      let players = resPlayers.data
-
-      const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
-      let playersOnReserve = resPlayersOnReserve.data
-
-      const resGameDetails = await fetchGameById(gameId)
-      const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
-      const gamePlaces = gameDetails.places
-
-      if (playersOnReserve && players && gamePlaces >= players.length) {
-        const resUserDetails = await fetchUserById(playersOnReserve[0].id)
-        const userDetails = objectToArrayWithId(resUserDetails.data)[0]
-        playersOnReserve[0].id !== auth.userId &&
-          sendEmail(userDetails, gameDetails, 'template_viw6vfi')
-
-        players.push(playersOnReserve[0])
-        playersOnReserve = playersOnReserve.filter(
-          (el) => el.id !== playersOnReserve[0].id
-        )
-        players = players.filter((el) => el.id !== playerId)
-      } else {
-        players
-          ? (players = players.filter((el) => el.id !== playerId))
-          : (players = [{}])
-
-        playersOnReserve
-          ? (playersOnReserve = playersOnReserve.filter(
-              (el) => el.id !== playerId
-            ))
-          : (playersOnReserve = [{}])
-      }
-
-      await updatePlayersInGame(gameId, {
-        players: players,
-        reserve: playersOnReserve
-      })
-      getSelectedGameData(gameId)
-      setMessageType('success')
-      setOpen(true)
-      setMessage('Pomyślnie usunięto z gry!')
-    } catch (ex) {
-      setOpen(true)
-      setMessageType('warning')
-      setMessage('Nie udało się usunąć gracza z gry ;(')
+  const removePlayer = async (gameId, actualUserId) => {
+    setLoading(true)
+    const res = await removePlayerFromGame(gameId, actualUserId)
+    switch (res) {
+      case 'Pomyślnie zrezygnowałeś z gry!':
+        getSelectedGameData(gameId)
+        setMessageType('success')
+        setMessage('Pomyślnie zrezygnowałeś z gry!')
+        setOpen(true)
+        break
+      default:
+        setMessageType('warning')
+        setMessage('Nie udało się zrezygnować z gry.')
+        setOpen(true)
     }
+    fetchGames()
+    setLoading(false)
   }
 
   const tableData = selectedGamePlayers
@@ -326,7 +238,7 @@ const GamePlayersTable = () => {
           selectedGamePlayers ? `Gracze dodani do gry` : `Brak graczy`
         }`}
         data={tableData ? tableData : []}
-        handleClick={(playerId) => removePlayer(playerId, selectedGameId)}
+        handleClick={(playerId) => removePlayer(selectedGameId, playerId)}
         buttonTitle={'Usuń gracza'}
         buttonColor={'secondary'}
         rowsPerPageOnStart={[3, 12, 24]}

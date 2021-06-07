@@ -104,7 +104,7 @@ const ProfileFormValidation = () => {
             setMessage('Podany email jest już zajęty.')
             break
           default:
-            setMessage(ex.response.data.error.message)
+            setMessage('Błąd')
         }
       }
       setLoading(false)

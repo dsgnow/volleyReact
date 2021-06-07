@@ -8,17 +8,9 @@ import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import LoadingIcon from '../../../UI/LoadingIcon/LoadingIcon'
 import { fetchGameByUserTakesPart } from '../../../services/gameService'
-import { fetchUserById } from '../../../services/accountService'
 import useAuth from '../../../hooks/useAuth'
-import {
-  updatePlayersInGame,
-  fetchPlayers,
-  fetchGameById,
-  fetchPlayersOnReserve
-} from '../../../services/gameService'
-import calcSquads from '../../../helpers/calcSquads'
 import filterByDate from '../../../helpers/filterByDate'
-import { sendEmail } from '../../../services/sendEmail'
+import { removePlayerFromGame } from '../../../services/playersService'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -71,8 +63,10 @@ const AssignedGames = () => {
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('')
   const [auth] = useAuth()
+  const [actualUserId, setActualUserId] = useState(null)
 
   useEffect(() => {
+    setActualUserId(auth.userId)
     fetchGames()
   }, [loading])
 
@@ -94,62 +88,26 @@ const AssignedGames = () => {
 
       setGames(filterByUser)
     } catch (ex) {
-      setMessage('Błąd')
+      setMessage('Nie udało się pobrać gier.')
     }
   }
 
-  const removePlayer = async (gameId) => {
+  const removePlayer = async (gameId, actualUserId) => {
     setLoading(true)
-
-    try {
-      const resPlayers = await fetchPlayers(gameId)
-      let players = resPlayers.data
-
-      const resPlayersOnReserve = await fetchPlayersOnReserve(gameId)
-      let playersOnReserve = resPlayersOnReserve.data
-
-      const resGameDetails = await fetchGameById(gameId)
-      const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
-      const gamePlaces = gameDetails.places
-
-      if (playersOnReserve && gamePlaces >= players.length) {
-        const resUserDetails = await fetchUserById(playersOnReserve[0].id)
-        const userDetails = objectToArrayWithId(resUserDetails.data)[0]
-        playersOnReserve[0].id !== auth.userId &&
-          sendEmail(userDetails, gameDetails, 'template_viw6vfi')
-
-        players.push(playersOnReserve[0])
-        playersOnReserve = playersOnReserve.filter(
-          (el) => el.id !== playersOnReserve[0].id
-        )
-        players = players.filter((el) => el.id !== auth.userId)
-      } else {
-        players
-          ? (players = players.filter((el) => el.id !== auth.userId))
-          : (players = [{}])
-
-        playersOnReserve
-          ? (playersOnReserve = playersOnReserve.filter(
-              (el) => el.id !== auth.userId
-            ))
-          : (playersOnReserve = [{}])
-      }
-
-      await updatePlayersInGame(gameId, {
-        players: players,
-        reserve: playersOnReserve
-      })
-      calcSquads(gameId)
-      setMessageType('success')
-      setOpen(true)
-      setMessage('Pomyślnie zrezygnowałeś z gry!')
-    } catch (ex) {
-      setOpen(true)
-      setMessageType('warning')
-      setMessage(ex.response.data.error.message)
-    } finally {
-      setLoading(false)
+    const res = await removePlayerFromGame(gameId, actualUserId)
+    switch (res) {
+      case 'Pomyślnie zrezygnowałeś z gry!':
+        setMessageType('success')
+        setMessage('Pomyślnie zrezygnowałeś z gry!')
+        setOpen(true)
+        break
+      default:
+        setMessageType('warning')
+        setMessage('Nie udało się zrezygnować z gry.')
+        setOpen(true)
     }
+    fetchGames()
+    setLoading(false)
   }
 
   const handleClose = (event, reason) => {
@@ -187,7 +145,7 @@ const AssignedGames = () => {
                 index={index}
                 data={game}
                 buttonAction="remove"
-                removePlayer={() => removePlayer(game.id, auth.userId)}
+                removePlayer={() => removePlayer(game.id, actualUserId)}
                 tooltip="zrezygnuj"></GamesList>
             </Wrapper>
           )

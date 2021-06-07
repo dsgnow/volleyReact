@@ -64,7 +64,7 @@ const Login = () => {
             setError('Użytkownik został zablokowany.')
             break
           default:
-            setError(ex.response.data.error.message)
+            setError('Błąd')
         }
       }
       setLoading(false)
