@@ -18,7 +18,6 @@ import {
 } from '../../Assets/Styles/GlobalStyles'
 import Prompt from '../../UI/Prompt/Prompt'
 import filterByDate from '../../helpers/filterByDate'
-import useAuth from '../../hooks/useAuth'
 import {
   addPlayerToGame,
   removePlayerFromGame
@@ -49,11 +48,8 @@ const GamePlayersTable = () => {
   const [promptList, setPropmptList] = useState(['Brak godzin do rotacji'])
   const [actualGameId, setActualGameId] = useState(null)
   const [playerIdToAdd, setPlayerIdToAdd] = useState(null)
-  const [auth] = useAuth()
-  const [actualUserId, setActualUserId] = useState(null)
 
   useEffect(() => {
-    setActualUserId(auth.userId)
     fetchGames()
   }, [])
 
@@ -130,12 +126,12 @@ const GamePlayersTable = () => {
       case 'Pomyślnie dodano do gry!':
         getSelectedGameData(gameId)
         setMessageType('success')
-        setMessage('Pomyślnie dołączyłeś do gry!')
+        setMessage('Pomyślnie dodano do gry!')
         setOpen(true)
         break
       case 'Brak wolnych miejsc. Pomyślnie dodano na rezerwę.':
         setMessageType('warning')
-        setMessage('Brak wolnych miejsc. Pomyślnie zapisałeś się na rezerwę.')
+        setMessage('Brak wolnych miejsc. Pomyślnie dodano na rezerwę.')
         setOpen(true)
         break
       case 'Ten gracz już jest dodany do tej gry.':
@@ -163,7 +159,7 @@ const GamePlayersTable = () => {
       case 'Pomyślnie zrezygnowałeś z gry!':
         getSelectedGameData(gameId)
         setMessageType('success')
-        setMessage('Pomyślnie zrezygnowałeś z gry!')
+        setMessage('Pomyślnie usunięto z gry!')
         setOpen(true)
         break
       default:
