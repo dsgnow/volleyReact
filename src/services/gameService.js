@@ -3,78 +3,65 @@ import axios from '../axios'
 const allGames = '/games.json'
 
 export const addGame = (data) => {
-  const res = axios.post(allGames, {
+  return axios.post(allGames, {
     ...data
   })
-  return res
 }
 
 export const deleteGame = (id) => {
-  const res = axios.delete(`games\\${id}.json`, {})
-  return res
+  return axios.delete(`games\\${id}.json`, {})
 }
 
 export const updateGame = (data) => {
-  const res = axios.patch(`games\\${data.id}.json`, {
+  return axios.patch(`games\\${data.id}.json`, {
     ...data
   })
-  return res
 }
 
 export const updateGameById = (id, data) => {
-  const res = axios.patch(`games\\${id}.json`, {
+  return axios.patch(`games\\${id}.json`, {
     ...data
   })
-  return res
 }
 
 export const fetchAllActiveGames = () => {
-  const res = axios.get(`${allGames}?orderBy="active"&equalTo=true`, {})
-  return res
+  return axios.get(`${allGames}?orderBy="active"&equalTo=true`, {})
 }
 
 export const fetchAllGames = () => {
-  const res = axios.get(`${allGames}`, {})
-  return res
+  return axios.get(`${allGames}`, {})
 }
 
 export const fetchGameByUserAdded = (data) => {
-  const res = axios.get(`${allGames}?orderBy="addedBy"&equalTo="${data}"`, {})
-  return res
+  return axios.get(`${allGames}?orderBy="addedBy"&equalTo="${data}"`, {})
 }
 
 export const fetchGameByUserTakesPart = () => {
-  const res = fetchAllActiveGames()
-  return res
+  return fetchAllActiveGames()
 }
 
 export const fetchGameById = (data) => {
-  const res = axios.get(`${allGames}?orderBy="$key"&equalTo="${data}"`, {})
-  return res
+  return axios.get(`${allGames}?orderBy="$key"&equalTo="${data}"`, {})
 }
 
 export const fetchPlayers = (data) => {
-  const res = axios.get(`games\\${data}\\players.json`, {
+  return axios.get(`games\\${data}\\players.json`, {
     ...data
   })
-  return res
 }
 
 export const fetchAllPlayers = () => {
-  const res = axios.get(`users.json`, {})
-  return res
+  return axios.get(`users.json`, {})
 }
 
 export const fetchPlayersOnReserve = (data) => {
-  const res = axios.get(`games\\${data}\\reserve.json`, {
+  return axios.get(`games\\${data}\\reserve.json`, {
     ...data
   })
-  return res
 }
 
 export const updatePlayersInGame = (id, data) => {
-  const res = axios.patch(`games\\${id}.json`, {
+  return axios.patch(`games\\${id}.json`, {
     ...data
   })
-  return res
 }
