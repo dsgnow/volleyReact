@@ -16,7 +16,7 @@ import { NavLink, useRouteMatch } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import { objectToArrayWithId } from '../../helpers/objects'
 import filterByDate from '../../helpers/filterByDate'
-import { fetchAllGames, fetchGameById } from '../../services/gameService'
+import { fetchAllActiveGames, fetchGameById } from '../../services/gameService'
 import { useState, useEffect } from 'react'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import MuiAlert from '@material-ui/lab/Alert'
@@ -88,7 +88,7 @@ export default function MediaCard(props) {
 
   const fetchGames = async () => {
     try {
-      const res = await fetchAllGames()
+      const res = await fetchAllActiveGames()
       const newGames = objectToArrayWithId(res.data)
       let newGamesFilteredByDate = filterByDate(newGames)
       setGames(newGamesFilteredByDate)

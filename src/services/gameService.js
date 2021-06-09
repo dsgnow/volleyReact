@@ -28,8 +28,13 @@ export const updateGameById = (id, data) => {
   return res
 }
 
-export const fetchAllGames = () => {
+export const fetchAllActiveGames = () => {
   const res = axios.get(`${allGames}?orderBy="active"&equalTo=true`, {})
+  return res
+}
+
+export const fetchAllGames = () => {
+  const res = axios.get(`${allGames}`, {})
   return res
 }
 
@@ -39,7 +44,7 @@ export const fetchGameByUserAdded = (data) => {
 }
 
 export const fetchGameByUserTakesPart = () => {
-  const res = fetchAllGames()
+  const res = fetchAllActiveGames()
   return res
 }
 

@@ -9,7 +9,7 @@ import { objectToArrayWithId } from '../../helpers/objects'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
-import { fetchAllGames } from '../../services/gameService'
+import { fetchAllActiveGames } from '../../services/gameService'
 import filterByDate from '../../helpers/filterByDate'
 
 const StartGames = () => {
@@ -20,7 +20,7 @@ const StartGames = () => {
 
   const fetchGames = async () => {
     try {
-      const res = await fetchAllGames()
+      const res = await fetchAllActiveGames()
       const newGames = objectToArrayWithId(res.data)
       let newGamesFilteredByDate = filterByDate(newGames)
       setGames(newGamesFilteredByDate)
