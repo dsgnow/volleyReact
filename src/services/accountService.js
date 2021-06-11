@@ -2,36 +2,31 @@ import axiosAuth from '../axios-auth'
 import axios from '../axios'
 
 export const signUp = (data) => {
-  const res = axiosAuth.post('accounts:signUp', {
+  return axiosAuth.post('accounts:signUp', {
     ...data,
     returnSecureToken: true
   })
-  return res
 }
 
 export const updateAccount = (data) => {
-  const res = axiosAuth.post('accounts:update', {
+  return axiosAuth.post('accounts:update', {
     ...data,
     returnSecureToken: true
   })
-  return res
 }
 
 export const updateUser = (data) => {
-  const res = axios.patch(data.path, {
+  return axios.patch(data.path, {
     ...data
   })
-  return res
 }
 
 export const addNewUser = (data) => {
-  const res = axios.put(data.path, {
+  return axios.put(data.path, {
     ...data
   })
-  return res
 }
 
 export const fetchUserById = (data) => {
-  const res = axios.get(`/users.json?orderBy="$key"&equalTo="${data}"`, {})
-  return res
+  return axios.get(`/users.json?orderBy="$key"&equalTo="${data}"`, {})
 }

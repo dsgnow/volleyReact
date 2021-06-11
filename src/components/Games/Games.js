@@ -109,7 +109,8 @@ export default function MediaCard(props) {
   const handlePromptClose = (selectedTimeValue) => {
     setSelectedEndTimePlaying(selectedTimeValue)
     setOpenPrompt(false)
-    addPlayer(actualGameId, actualUserId, selectedTimeValue)
+    selectedTimeValue &&
+      addPlayer(actualGameId, actualUserId, selectedTimeValue)
   }
 
   const handleOpenPrompt = async (gameId) => {
@@ -169,6 +170,13 @@ export default function MediaCard(props) {
         setMessage('Pomyślnie zrezygnowałeś z gry!')
         setOpen(true)
         break
+      case 'Minął czas rezygnacji.':
+        setMessageType('warning')
+        setMessage(
+          'Ostateczny czas rezygnacji już minął. Skontaktuj się z administratorem.'
+        )
+        setOpen(true)
+        break
       default:
         setMessageType('warning')
         setMessage('Nie udało się zrezygnować z gry.')
@@ -224,8 +232,8 @@ export default function MediaCard(props) {
               </StyledCardMedia>
               {checkPlayerIsAssignedToGame(game) ? (
                 <StyledCardHeader
-                  style={{ backgroundColor: '#004c8b' }}
-                  subheader="Zapisz się!"
+                  style={{ backgroundColor: '#ffffff' }}
+                  subheader=""
                 />
               ) : null}
               {game.players &&
@@ -270,7 +278,17 @@ export default function MediaCard(props) {
                   color="textSecondary"
                   gutterBottom
                   style={{ marginTop: '5px' }}>
-                  Ilość wolnych miejsc:
+                  Miejsca:
+                  <Box fontWeight="fontWeightBold" display="inline" m={1}>
+                    {game.players && game.places}
+                  </Box>
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="textSecondary"
+                  gutterBottom
+                  style={{ marginTop: '5px' }}>
+                  Wolne miejsca:
                   <Box fontWeight="fontWeightBold" display="inline" m={1}>
                     {`${
                       game.players
@@ -278,7 +296,7 @@ export default function MediaCard(props) {
                           ? game.places - game.players.length
                           : 0
                         : game.places
-                    }/${game.places}`}
+                    }`}
                   </Box>
                 </Typography>
                 <Typography
@@ -317,6 +335,11 @@ export default function MediaCard(props) {
                   Zapisz się
                 </Button>
               )}
+              <StylednavLink to={`${url}/lista/${game.id}`}>
+                <Button size="large" color="primary">
+                  Lista
+                </Button>
+              </StylednavLink>
               <StylednavLink to={`${url}/składy/${game.id}`}>
                 <Button size="large" color="primary">
                   Składy

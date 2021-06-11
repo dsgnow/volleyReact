@@ -30,9 +30,10 @@ export default function Prompt(props) {
   }
 
   const handleClose = () => {
+    onClose(null)
     setOpenAlert(true)
     setMessageType('warning')
-    setMessage('Wybierz do której grasz.')
+    setMessage('Anulowano dołączenie do gry.')
   }
 
   const handleListItemClick = (value) => {

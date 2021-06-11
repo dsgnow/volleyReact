@@ -38,8 +38,9 @@ const AddPlayersToGame = () => {
       await calcSquads(id)
       const res = await fetchGameById(id)
       const actualGame = objectToArrayWithId(res.data)[0]
-      setSquads(actualGame.squads)
+      setSquads(actualGame)
       setGame(actualGame)
+      console.log(actualGame)
     } catch (ex) {
       setOpen(true)
       setMessageType('warning')
@@ -63,10 +64,12 @@ const AddPlayersToGame = () => {
           </MuiAlert>
         </Snackbar>
       )}
-      {squads && squads.length > 0 ? (
+      {squads.players && squads.players.length > 0 ? (
         <StyledContainer maxWidth="lg">
           <StyledTitle>
-            <StyledTitleTypography variant="h5">Składy</StyledTitleTypography>
+            <StyledTitleTypography variant="h5">
+              Lista graczy
+            </StyledTitleTypography>
             <StyledTitleTypography variant="h5">
               {`${game.name}`}
             </StyledTitleTypography>
@@ -76,50 +79,45 @@ const AddPlayersToGame = () => {
                 .replace('T', ' ')}`}
             </StyledTitleTypography>
           </StyledTitle>
-          {game.autoSquads ? (
-            squads.map((data, index) => {
-              return (
-                <Fragment key={Math.floor(Math.random() * 100 + 1)}>
-                  <Table
-                    label={`${index + 1}. Rotacja / ${data[0].rotationTime}`}
-                    tableHeaders={['grupa', 'gracze']}
-                    columns={['name', 'players']}
-                    filteredColumn={'players'}
-                    title={`${index + 1}. Rotacja / ${data[0].rotationTime}`}
-                    data={data}
-                    rowsPerPageOnStart={[
-                      data.length,
-                      data.length + 1,
-                      data.length + 2
-                    ]}
-                  />
-                </Fragment>
-              )
-            })
-          ) : (
-            <Fragment>
+          <Fragment>
+            <Table
+              label={`Lista graczy`}
+              tableHeaders={['Gracz', 'gra do']}
+              columns={['name', 'endTime']}
+              filteredColumn={'name'}
+              title={`Lista graczy`}
+              data={squads.players}
+              rowsPerPageOnStart={[
+                squads.players.length,
+                squads.players.length + 1,
+                squads.players.length + 2
+              ]}
+            />
+            {squads.reserve && squads.reserve.length > 0 && (
               <Table
-                label={`${1}. Rotacja / ${squads[0][0].rotationTime}`}
-                tableHeaders={['grupa', 'gracze']}
-                columns={['name', 'players']}
+                label={`Lista rezerwowa`}
+                tableHeaders={['Gracz', 'gra do']}
+                columns={['name', 'endTime']}
                 filteredColumn={'players'}
-                title={`${1}. Rotacja / ${squads[0][0].rotationTime}`}
-                data={squads[0]}
+                title={`Lista graczy`}
+                data={squads.reserve}
                 rowsPerPageOnStart={[
-                  squads[0].length,
-                  squads[0].length + 1,
-                  squads[0].length + 2
+                  squads.reserve.length,
+                  squads.reserve.length + 1,
+                  squads.reserve.length + 2
                 ]}
               />
-            </Fragment>
-          )}
+            )}
+          </Fragment>
         </StyledContainer>
       ) : (
         <StyledContainer maxWidth="lg">
           <StyledTitle>
-            <StyledTitleTypography variant="h4">Składy</StyledTitleTypography>
+            <StyledTitleTypography variant="h4">
+              Lista graczy
+            </StyledTitleTypography>
             <StyledTitleTypography variant="h5">
-              Brak składów
+              Brak graczy
             </StyledTitleTypography>
           </StyledTitle>
         </StyledContainer>

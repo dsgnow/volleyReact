@@ -181,7 +181,7 @@ export default function CustomPaginationActionsTable(props) {
                 style={{
                   height: 53 * emptyRows
                 }}>
-                <TableCell colSpan={6} />
+                <TableCell colSpan={3} />
               </TableRow>
             )}
           </TableBody>
@@ -198,7 +198,6 @@ export default function CustomPaginationActionsTable(props) {
                     value: -1
                   }
                 ]}
-                colSpan={12}
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}

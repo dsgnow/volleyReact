@@ -94,7 +94,8 @@ const GamePlayersTable = () => {
   const handlePromptClose = (selectedTimeValue) => {
     setSelectedEndTimePlaying(selectedTimeValue)
     setOpenPrompt(false)
-    addPlayer(actualGameId, playerIdToAdd, selectedTimeValue)
+    selectedTimeValue &&
+      addPlayer(actualGameId, playerIdToAdd, selectedTimeValue)
   }
 
   const handleOpenPrompt = async (playerId, gameId) => {
@@ -153,7 +154,7 @@ const GamePlayersTable = () => {
 
   const removePlayer = async (gameId, actualUserId) => {
     setLoading(true)
-    const res = await removePlayerFromGame(gameId, actualUserId)
+    const res = await removePlayerFromGame(gameId, actualUserId, true)
     switch (res) {
       case 'Pomyślnie zrezygnowałeś z gry!':
         await getSelectedGameData(gameId)

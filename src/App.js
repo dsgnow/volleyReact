@@ -10,6 +10,7 @@ import Header from '../src/components/Header/Header'
 import StartGames from './pages/StartGames/StartGames'
 import AddPlayersToGame from '../src/pages/admin/AddPlayersToGame/AddPlayersToGame'
 import GameComposition from '../src/pages/GameComposition/GameComposition'
+import GameList from '../src/pages/GameList/GameList'
 import Home from './pages/Home/Home'
 import Layout from './components/Layout/Layout'
 import NotFound from './pages/404/404'
@@ -102,6 +103,10 @@ function App() {
           <AuthenticatedRoute
             path={`/gry/składy/:id${regex}`}
             component={GameComposition}
+          />
+          <AuthenticatedRoute
+            path={`/gry/lista/:id${regex}`}
+            component={GameList}
           />
           <AuthenticatedRoute path="/gry" component={StartGames} />
           <AuthenticatedRoute

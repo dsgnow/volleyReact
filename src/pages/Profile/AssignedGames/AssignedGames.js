@@ -100,6 +100,13 @@ const AssignedGames = () => {
         setMessage('Pomyślnie zrezygnowałeś z gry!')
         setOpen(true)
         break
+      case 'Minął czas rezygnacji.':
+        setMessageType('warning')
+        setMessage(
+          'Ostateczny czas rezygnacji już minął. Skontaktuj się z administratorem.'
+        )
+        setOpen(true)
+        break
       default:
         setMessageType('warning')
         setMessage('Nie udało się zrezygnować z gry.')

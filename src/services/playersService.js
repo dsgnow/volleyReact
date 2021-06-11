@@ -7,6 +7,7 @@ import {
 } from './gameService'
 import { fetchUserById } from './accountService'
 import { sendEmail } from './sendEmail'
+import { parseISO } from 'date-fns'
 
 export const addPlayerToGame = async (gameId, userId, selectedTimeValue) => {
   selectedTimeValue ? selectedTimeValue : (selectedTimeValue = false)
@@ -84,7 +85,7 @@ export const addPlayerToGame = async (gameId, userId, selectedTimeValue) => {
   }
 }
 
-export const removePlayerFromGame = async (gameId, actualUserId) => {
+export const removePlayerFromGame = async (gameId, actualUserId, admin) => {
   try {
     const resPlayers = await fetchPlayers(gameId)
     let players = resPlayers.data
@@ -96,6 +97,12 @@ export const removePlayerFromGame = async (gameId, actualUserId) => {
     const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
     const gamePlaces = gameDetails.places
 
+    let lastPossibleResignation = new Date()
+    lastPossibleResignation.setHours(lastPossibleResignation.getHours() - 8)
+
+    if (parseISO(!admin && gameDetails.dateEnd) < lastPossibleResignation) {
+      return 'Minął czas rezygnacji.'
+    }
     if (playersOnReserve && players && gamePlaces >= players.length) {
       const resUserDetails = await fetchUserById(playersOnReserve[0].id)
       const userDetails = objectToArrayWithId(resUserDetails.data)[0]
