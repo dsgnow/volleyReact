@@ -68,9 +68,6 @@ const AddPlayersToGame = () => {
         <StyledContainer maxWidth="lg">
           <StyledTitle>
             <StyledTitleTypography variant="h5">
-              Lista graczy
-            </StyledTitleTypography>
-            <StyledTitleTypography variant="h5">
               {`${game.name}`}
             </StyledTitleTypography>
             <StyledTitleTypography variant="h5">
@@ -99,7 +96,7 @@ const AddPlayersToGame = () => {
                 tableHeaders={['Gracz', 'gra do']}
                 columns={['name', 'endTime']}
                 filteredColumn={'players'}
-                title={`Lista graczy`}
+                title={`Lista rezerwowa`}
                 data={squads.reserve}
                 rowsPerPageOnStart={[
                   squads.reserve.length,

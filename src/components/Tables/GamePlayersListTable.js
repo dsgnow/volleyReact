@@ -120,7 +120,6 @@ const GamePlayersTable = () => {
   }
 
   const addPlayer = async (gameId, userId, selectedTimeValue) => {
-    setLoading(true)
     const res = await addPlayerToGame(gameId, userId, selectedTimeValue)
     switch (res) {
       case 'Pomyślnie dodano do gry!':
@@ -149,11 +148,9 @@ const GamePlayersTable = () => {
         setMessage('Nie udało się dołaczyć do gry.')
         setOpen(true)
     }
-    setLoading(false)
   }
 
   const removePlayer = async (gameId, actualUserId) => {
-    setLoading(true)
     const res = await removePlayerFromGame(gameId, actualUserId, true)
     switch (res) {
       case 'Pomyślnie zrezygnowałeś z gry!':
@@ -168,7 +165,6 @@ const GamePlayersTable = () => {
         setOpen(true)
     }
     await fetchGames()
-    setLoading(false)
   }
 
   const tableData = selectedGamePlayers

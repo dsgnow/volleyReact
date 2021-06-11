@@ -231,10 +231,17 @@ export default function MediaCard(props) {
                 <CardMediaHeader variant="h4">{`${game.city}, ${game.name}`}</CardMediaHeader>
               </StyledCardMedia>
               {checkPlayerIsAssignedToGame(game) ? (
-                <StyledCardHeader
-                  style={{ backgroundColor: '#ffffff' }}
-                  subheader=""
-                />
+                game.players.length < game.places ? (
+                  <StyledCardHeader
+                    style={{ backgroundColor: '#003c77' }}
+                    subheader="Możesz się zapisać!"
+                  />
+                ) : (
+                  <StyledCardHeader
+                    style={{ backgroundColor: '#ff9800' }}
+                    subheader="Możesz się zapisać na rezerwę!"
+                  />
+                )
               ) : null}
               {game.players &&
               game.players.filter((el) => el.id === actualUserId).length ? (
@@ -320,14 +327,16 @@ export default function MediaCard(props) {
               (game.reserve &&
                 game.reserve.filter((el) => el.id === actualUserId).length) ? (
                 <Button
-                  size="large"
+                  variant="contained"
+                  size="medium"
                   color="primary"
                   onClick={() => removePlayer(game.id, actualUserId)}>
                   Zrezygnuj
                 </Button>
               ) : (
                 <Button
-                  size="large"
+                  variant="contained"
+                  size="medium"
                   color="primary"
                   onClick={() => {
                     handleOpenPrompt(game.id)
@@ -336,12 +345,12 @@ export default function MediaCard(props) {
                 </Button>
               )}
               <StylednavLink to={`${url}/lista/${game.id}`}>
-                <Button size="large" color="primary">
+                <Button size="small" color="default" variant="contained">
                   Lista
                 </Button>
               </StylednavLink>
               <StylednavLink to={`${url}/składy/${game.id}`}>
-                <Button size="large" color="primary">
+                <Button size="small" color="default" variant="contained">
                   Składy
                 </Button>
               </StylednavLink>

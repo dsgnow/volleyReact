@@ -66,7 +66,6 @@ const AddPlayersToGame = () => {
       {squads && squads.length > 0 ? (
         <StyledContainer maxWidth="lg">
           <StyledTitle>
-            <StyledTitleTypography variant="h5">Składy</StyledTitleTypography>
             <StyledTitleTypography variant="h5">
               {`${game.name}`}
             </StyledTitleTypography>
