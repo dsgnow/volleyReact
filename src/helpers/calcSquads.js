@@ -1,5 +1,6 @@
 import { fetchGameById, updateGameById } from '../services/gameService'
 import { objectToArrayWithId } from './objects'
+import isEqual from 'lodash.isequal'
 
 const calcSquads = (gameId) => {
   let groups = []
@@ -51,7 +52,9 @@ const calcSquads = (gameId) => {
             skill: 0,
             players: '',
             playersCount: 0,
-            rotationTime: ''
+            rotationTime: gameEndTimes[indexOfGameEndTime]
+              .slice(0, -3)
+              .replace('T', ' ')
           }
         }
       }
@@ -122,15 +125,13 @@ const calcSquads = (gameId) => {
       calcBestNumberOfGroups(malePlayersPlayingUntilTheGivenTime.length)
       createGroups(bestGroupsNumber)
       assignPlayersToGroups(malePlayersPlayingUntilTheGivenTime)
-      groups[indexOfGroupToPush].rotationTime = gameEndTimes[indexOfGameEndTime]
-        .slice(0, -3)
-        .replace('T', ' ')
       allGroups.push(groups)
     })
 
-    await updateGameById(gameId, {
-      squads: allGroups
-    })
+    !isEqual(gameDetails.squads, allGroups) &&
+      (await updateGameById(gameId, {
+        squads: allGroups
+      }))
   }
 
   getGameDetails()

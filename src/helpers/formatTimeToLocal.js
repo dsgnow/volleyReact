@@ -1,10 +1,9 @@
-import { format, parseISO } from 'date-fns'
+import { formatISO9075 } from 'date-fns'
 
 const formatTimeToLocal = (date) => {
-  const dateString = date.toISOString()
-  const parsedTime = parseISO(dateString)
-  const formattedTime = format(parsedTime, 'yyyy-MM-dd kk:mm:ss')
-  return formattedTime
+  const dateString = formatISO9075(date)
+  console.log(dateString)
+  return dateString
 }
 
 export default formatTimeToLocal

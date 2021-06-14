@@ -10,7 +10,7 @@ import {
 import styled from 'styled-components'
 import DateFnsUtils from '@date-io/date-fns'
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
-import { format, isValid } from 'date-fns'
+import { format } from 'date-fns'
 import plLocale from 'date-fns/locale/pl'
 import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined'
 import { IconButton, InputAdornment } from '@material-ui/core'
@@ -136,13 +136,9 @@ const AddGameForm = (props) => {
                 label="Data rozpoczęcia"
                 inputVariant="outlined"
                 name={'dateStart'}
-                value={
-                  !isValid(values.dateStart) && values.dateStart
-                    ? values.dateStart.slice(0, -5)
-                    : values.dateStart
-                }
+                value={values.dateStart}
                 clearable
-                format="d MMM yyyy HH:mm:ss"
+                format="d MMM yyyy HH:mm"
                 disablePast={true}
                 ampm={false}
                 clearLabel="wyczyść"
@@ -170,11 +166,7 @@ const AddGameForm = (props) => {
                 label="Data zakończenia"
                 inputVariant="outlined"
                 name={'dateEnd'}
-                value={
-                  !isValid(values.dateEnd) && values.dateEnd
-                    ? values.dateEnd.slice(0, -5)
-                    : values.dateEnd
-                }
+                value={values.dateEnd}
                 clearable
                 format="d MMM yyyy HH:mm"
                 disablePast={true}
