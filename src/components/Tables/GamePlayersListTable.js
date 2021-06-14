@@ -6,7 +6,6 @@ import { fetchAllGames, fetchGameById } from '../../services/gameService'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
 import { Snackbar } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert'
-import clearDate from '../../helpers/clearDate'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
@@ -214,7 +213,10 @@ const GamePlayersTable = () => {
             games.map((game) => {
               return (
                 <MenuItem key={game.id} value={game.id}>
-                  {`${game.city} ${game.street}, ${clearDate(game.dateStart)}`}
+                  {`${game.city} ${game.street}, ${game.dateStart.slice(
+                    0,
+                    -3
+                  )}`}
                 </MenuItem>
               )
             })}

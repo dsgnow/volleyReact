@@ -228,7 +228,7 @@ export default function MediaCard(props) {
             />
             <CardActionArea>
               <StyledCardMedia title={game.name}>
-                <CardMediaHeader variant="h4">{`${game.city}, ${game.name}`}</CardMediaHeader>
+                <CardMediaHeader variant="h4">{`${game.name}`}</CardMediaHeader>
               </StyledCardMedia>
               {checkPlayerIsAssignedToGame(game) ? (
                 game.players.length < game.places ? (

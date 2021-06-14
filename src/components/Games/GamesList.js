@@ -62,14 +62,14 @@ const GamesList = (props) => {
   return (
     <WrapColumn>
       <StyledGrid__name>
-        <BoldTypography variant="h6">{`${index + 1}. ${data.city}, ${
-          data.name
+        <BoldTypography variant="h6">{`${index + 1}. ${data.name}, ${
+          data.city
         }`}</BoldTypography>
       </StyledGrid__name>
       <WrapRow>
         <StyledGrid item>
           <StyledTypography variant="h6">{`${data.dateStart
-            .slice(0, -8)
+            .slice(0, -3)
             .replace('T', ' ')}`}</StyledTypography>
         </StyledGrid>
         <StyledGrid item>
