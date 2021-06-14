@@ -40,7 +40,6 @@ const AddPlayersToGame = () => {
       const actualGame = objectToArrayWithId(res.data)[0]
       setSquads(actualGame)
       setGame(actualGame)
-      console.log(actualGame)
     } catch (ex) {
       setOpen(true)
       setMessageType('warning')
