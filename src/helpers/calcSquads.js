@@ -52,9 +52,8 @@ const calcSquads = (gameId) => {
             skill: 0,
             players: '',
             playersCount: 0,
-            rotationTime: gameEndTimes[indexOfGameEndTime]
-              .slice(0, -3)
-              .replace('T', ' ')
+            rotationTime: '',
+            info: ''
           }
         }
       }
@@ -90,6 +89,12 @@ const calcSquads = (gameId) => {
             groups[indexOfGroupToPush].playersCount++
 
             groups[indexOfGroupToPush].skill += players[indexOfMaxSkill].skill
+
+            groups[indexOfGroupToPush].rotationTime = gameEndTimes[
+              indexOfGameEndTime
+            ]
+              .slice(0, -3)
+              .replace('T', ' ')
 
             groups[indexOfGroupToPush].players === ''
               ? (groups[indexOfGroupToPush].players +=
