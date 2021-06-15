@@ -25,6 +25,7 @@ import Profile from './pages/Profile/Profile/Profile'
 import AddGame from './pages/AddGame/AddGame'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
+import ResetPassword from './pages/ResetPassword/ResetPassword'
 
 let theme = createMuiTheme({
   typography: {
@@ -113,6 +114,7 @@ function App() {
           <AuthenticatedRoute path="/dodaj-gre" component={AddGame} />
           <Route path="/logowanie" component={Login} />
           <Route path="/rejestracja" component={Register} />
+          <Route path="/reset" component={ResetPassword} />
           <Route path="/" exact component={Home} />
           <Route component={NotFound} />
         </Switch>

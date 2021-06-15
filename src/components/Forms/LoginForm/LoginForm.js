@@ -90,8 +90,7 @@ const LoginForm = (props) => {
   }
 
   const history = useHistory()
-  const routeChange = () => {
-    let path = `rejestracja`
+  const routeChange = (path) => {
     history.push(path)
   }
 
@@ -155,11 +154,19 @@ const LoginForm = (props) => {
           </StyledButton>
           <StyledButton
             size="small"
-            onClick={routeChange}
+            onClick={() => routeChange('rejestracja')}
             fullWidth
             variant="text"
             color="secondary">
             Zarejestruj się
+          </StyledButton>
+          <StyledButton
+            size="small"
+            onClick={() => routeChange('reset')}
+            fullWidth
+            variant="text"
+            color="secondary">
+            Resetuj hasło
           </StyledButton>
         </form>
       </WrapperLogin>

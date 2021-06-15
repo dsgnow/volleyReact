@@ -1,24 +1,24 @@
 import { useState } from 'react'
-import LoginForm from '../../components/Forms/LoginForm/LoginForm'
+import ResetPasswordForm from '../../components/Forms/ResetPasswordForm/ResetPasswordForm'
 import {
   validationSchema,
   initialValues
-} from '../../components/Forms/LoginForm/validationSchema'
+} from '../../components/Forms/ResetPasswordForm/validationSchema'
 import { useFormik } from 'formik'
 import LoadingIcon from '../../UI/LoadingIcon/LoadingIcon'
-import axios from '../../axios-auth'
 import useAuth from '../../hooks/useAuth'
 import { useHistory } from 'react-router-dom'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
-import { addHours, formatISO } from 'date-fns'
+import { resetPassword } from '../../services/accountService'
 
-const Login = () => {
+const ResetPassword = () => {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
-  const [auth, , setAuth] = useAuth()
-  const [error, setError] = useState('')
+  const [auth, ,] = useAuth()
   const [open, setOpen] = useState(false)
+  const [messageType, setMessageType] = useState('')
+  const [message, setMessage] = useState('')
 
   if (auth) {
     history.push('/')
@@ -38,33 +38,24 @@ const Login = () => {
       setLoading(true)
 
       try {
-        const res = await axios.post('accounts:signInWithPassword', {
-          email: values.email,
-          password: values.password,
-          returnSecureToken: true
+        await resetPassword({
+          requestType: 'PASSWORD_RESET',
+          email: values.email
         })
-        const localStorageLifeTime = addHours(new Date(), 1)
-        setAuth({
-          email: res.data.email,
-          token: res.data.idToken,
-          userId: res.data.localId,
-          expiryDate: formatISO(localStorageLifeTime)
-        })
-        history.push('/')
+        setMessageType('success')
+        setOpen(true)
+        setMessage(
+          'Wysłaliśmy link do resetu hasła na podany email. Sprawdź pocztę.'
+        )
       } catch (ex) {
         setOpen(true)
+        setMessageType('warning')
         switch (ex.response.data.error.message) {
           case 'EMAIL_NOT_FOUND':
-            setError('Nie ma takiego emaila.')
-            break
-          case 'INVALID_PASSWORD':
-            setError('Hasło jest nieprawidłowe.')
-            break
-          case 'USER_DISABLED':
-            setError('Użytkownik został zablokowany.')
+            setMessage('Nie ma takiego emaila.')
             break
           default:
-            setError('Błąd')
+            setMessage('Błąd')
         }
       }
       setLoading(false)
@@ -74,23 +65,23 @@ const Login = () => {
     <LoadingIcon />
   ) : (
     <>
-      {error && (
+      {message && (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <MuiAlert
             elevation={6}
             variant="filled"
             onClose={handleClose}
-            severity="warning">
-            {error}
+            severity={messageType}>
+            {message}
           </MuiAlert>
         </Snackbar>
       )}
-      <LoginForm
+      <ResetPasswordForm
         formik={formik}
-        buttonTittle={'Zaloguj'}
-        tittle={'Logowanie'}></LoginForm>
+        buttonTittle={'Resetuj hasło'}
+        tittle={'Resetowanie hasła'}></ResetPasswordForm>
     </>
   )
 }
 
-export default Login
+export default ResetPassword

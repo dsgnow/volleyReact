@@ -15,6 +15,12 @@ export const updateAccount = (data) => {
   })
 }
 
+export const resetPassword = (data) => {
+  return axiosAuth.post('accounts:sendOobCode', {
+    ...data
+  })
+}
+
 export const updateUser = (data) => {
   return axios.patch(data.path, {
     ...data
