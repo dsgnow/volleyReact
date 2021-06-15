@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { Typography } from '@material-ui/core'
 import Navbar from '../../UI/Navigation/Navbar'
 import headerImage from '../../Assets/Images/headerImage3.png'
+import { Suspense } from 'react'
 
 const StyledHeader = styled.div`
   position: relative;
@@ -52,7 +53,9 @@ const Header = () => {
     <div style={{ position: 'relative' }}>
       <Navbar />
       <StyledHeader>
-        <HeaderImage src={headerImage} alt="" />
+        <Suspense fallback={<p>Ładowanie zdjęcia...</p>}>
+          <HeaderImage src={headerImage} alt="" />
+        </Suspense>
         <WrapHeaderTexts>
           <HeaderText display="block" variant="body1">
             dodaj grę,

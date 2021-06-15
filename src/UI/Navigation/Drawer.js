@@ -38,7 +38,7 @@ const RouterNavLink = styled(NavLink)`
 `
 
 const Drawer = () => {
-  const [auth, setAuth] = useAuth()
+  const [auth, authAdmin, setAuth] = useAuth()
   const logout = () => {
     setAuth(false)
   }
@@ -62,7 +62,12 @@ const Drawer = () => {
     { title: `start`, path: `/`, authRequired: false },
     { title: `gry`, path: `/gry`, authRequired: true },
     { title: `dodaj grę`, path: `/dodaj-gre`, authRequired: true },
-    { title: `dodaj gracza`, path: `/dodaj-gracza`, authRequired: true },
+    {
+      title: `dodaj gracza`,
+      path: `/dodaj-gracza`,
+      adminAuthRequired: true,
+      authRequired: true
+    },
     { title: `profil`, path: `/profil`, authRequired: true },
     { title: `logowanie`, path: `/logowanie`, authRequired: false },
     { title: `wyloguj`, path: `/`, authRequired: true }
@@ -76,9 +81,9 @@ const Drawer = () => {
       <StyledListHead />
       <Divider />
       <StyledList component="nav" aria-labelledby="main navigation">
-        {navLinks.map(({ title, path, authRequired }) => (
+        {navLinks.map(({ title, path, authRequired, adminAuthRequired }) => (
           <div key={title}>
-            {auth && title !== 'logowanie' ? (
+            {auth && !adminAuthRequired && title !== 'logowanie' ? (
               <RouterNavLink exact to={path}>
                 <StyledListItem
                   button
@@ -87,7 +92,14 @@ const Drawer = () => {
                 </StyledListItem>
               </RouterNavLink>
             ) : null}
-            {!auth && !authRequired ? (
+            {!auth && !authRequired && !adminAuthRequired ? (
+              <RouterNavLink exact to={path}>
+                <StyledListItem button>
+                  <ListItemText primary={title} />
+                </StyledListItem>
+              </RouterNavLink>
+            ) : null}
+            {authAdmin && authRequired && adminAuthRequired ? (
               <RouterNavLink exact to={path}>
                 <StyledListItem button>
                   <ListItemText primary={title} />

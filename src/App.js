@@ -4,6 +4,7 @@ import ReducerContext from './context/ReducerContext'
 import AuthContext from './context/authContext'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import AuthenticatedRoute from './hoc/AuthenticatedRoute'
+import AdminRoute from './hoc/AdminRoute'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import './App.css'
 import Header from '../src/components/Header/Header'
@@ -96,7 +97,6 @@ function App() {
   const header = <Header />
   const content = (
     <main>
-      {/* <ErrorBoundary> */}
       <Suspense fallback={<p>Ładowanie...</p>}>
         <Switch>
           <AuthenticatedRoute path="/profil" component={Profile} />
@@ -109,10 +109,7 @@ function App() {
             component={GameList}
           />
           <AuthenticatedRoute path="/gry" component={StartGames} />
-          <AuthenticatedRoute
-            path="/dodaj-gracza"
-            component={AddPlayersToGame}
-          />
+          <AdminRoute path="/dodaj-gracza" component={AddPlayersToGame} />
           <AuthenticatedRoute path="/dodaj-gre" component={AddGame} />
           <Route path="/logowanie" component={Login} />
           <Route path="/rejestracja" component={Register} />
@@ -120,7 +117,6 @@ function App() {
           <Route component={NotFound} />
         </Switch>
       </Suspense>
-      {/* </ErrorBoundary> */}
     </main>
   )
 
@@ -130,7 +126,9 @@ function App() {
         <AuthContext.Provider
           value={{
             user: state.user,
+            userAdmin: state.userAdmin,
             login: (user) => dispatch({ type: 'login', user }),
+            loginAdmin: (user) => dispatch({ type: 'loginAdmin', user }),
             logout: () => dispatch({ type: 'logout' })
           }}>
           <MuiThemeProvider theme={theme}>

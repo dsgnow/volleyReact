@@ -16,7 +16,7 @@ import { addHours, formatISO } from 'date-fns'
 const Login = () => {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
-  const [auth, setAuth] = useAuth()
+  const [auth, , setAuth] = useAuth()
   const [error, setError] = useState('')
   const [open, setOpen] = useState(false)
 

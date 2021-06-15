@@ -17,7 +17,7 @@ import { signUp, addNewUser } from '../../services/accountService'
 const Register = () => {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
-  const [auth, setAuth] = useAuth()
+  const [auth, , setAuth] = useAuth()
   const [error, setError] = useState('')
   const [open, setOpen] = useState(false)
 

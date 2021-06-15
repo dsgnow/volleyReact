@@ -6,6 +6,7 @@ import AuthContext from '../context/authContext'
 export default function useAuth() {
   const authContext = useContext(AuthContext)
   const auth = authContext.user
+  const authAdmin = authContext.userAdmin
 
   // const history = useHistory()
 
@@ -20,14 +21,20 @@ export default function useAuth() {
   useDebugValue(auth ? 'Zalogowany' : 'Wylogowany')
 
   const setAuth = (user) => {
-    if (user) {
+    if (user && user.userId === 'bPZQgyRzPCQxrzY6zCf6EEzGhNm2') {
+      authContext.login(user)
+      window.localStorage.setItem('token-data', JSON.stringify(user))
+      authContext.loginAdmin(user)
+      window.localStorage.setItem('tokenAdmin-data', JSON.stringify(user))
+    } else if (user) {
       authContext.login(user)
       window.localStorage.setItem('token-data', JSON.stringify(user))
     } else {
       authContext.logout()
       window.localStorage.removeItem('token-data')
+      window.localStorage.removeItem('tokenAdmin-data')
     }
   }
 
-  return [auth, setAuth]
+  return [auth, authAdmin, setAuth]
 }
