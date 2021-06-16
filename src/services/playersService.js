@@ -97,10 +97,10 @@ export const removePlayerFromGame = async (gameId, actualUserId, admin) => {
     const gameDetails = objectToArrayWithId(resGameDetails.data)[0]
     const gamePlaces = gameDetails.places
 
-    let lastPossibleResignation = new Date()
+    let lastPossibleResignation = parseISO(gameDetails.dateEnd)
     lastPossibleResignation.setHours(lastPossibleResignation.getHours() - 8)
 
-    if (parseISO(!admin && gameDetails.dateEnd) < lastPossibleResignation) {
+    if (!playersOnReserve && !admin && new Date() >= lastPossibleResignation) {
       return 'Minął czas rezygnacji.'
     }
     if (playersOnReserve && players && gamePlaces >= players.length) {

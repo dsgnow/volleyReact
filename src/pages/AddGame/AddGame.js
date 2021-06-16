@@ -73,8 +73,6 @@ const AddGame = () => {
           ...values,
           ...formatedDatesToDatabase,
           gameTime: gameTime,
-          reserve: '',
-          players: '',
           addedBy: auth.userId
         })
         const resPLayers = await fetchAllPlayers()
@@ -85,8 +83,6 @@ const AddGame = () => {
             ...values,
             ...formatedDatesToDatabase,
             gameTime: gameTime,
-            reserve: '',
-            players: '',
             addedBy: auth.userId
           },
           'template_f2l9hxd'

@@ -173,7 +173,7 @@ export default function MediaCard(props) {
       case 'Minął czas rezygnacji.':
         setMessageType('warning')
         setMessage(
-          'Ostateczny czas rezygnacji już minął. Skontaktuj się z administratorem.'
+          'Ostateczny czas rezygnacji już minął oraz nie ma nikogo na rezerwie. Skontaktuj się z administratorem.'
         )
         setOpen(true)
         break
@@ -231,7 +231,9 @@ export default function MediaCard(props) {
                 <CardMediaHeader variant="h4">{`${game.name}`}</CardMediaHeader>
               </StyledCardMedia>
               {checkPlayerIsAssignedToGame(game) ? (
-                game.players.length < game.places ? (
+                (game.players && game.players.length < game.places) ||
+                game.players == null ||
+                game.players == '' ? (
                   <StyledCardHeader
                     style={{ backgroundColor: '#003c77' }}
                     subheader="Możesz się zapisać!"
@@ -287,7 +289,7 @@ export default function MediaCard(props) {
                   style={{ marginTop: '5px' }}>
                   Miejsca:
                   <Box fontWeight="fontWeightBold" display="inline" m={1}>
-                    {game.players && game.places}
+                    {game.places}
                   </Box>
                 </Typography>
                 <Typography
