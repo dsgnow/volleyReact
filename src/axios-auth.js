@@ -1,9 +1,10 @@
 import axios from 'axios'
+import { axiosAuthBaseUrl, axiosAuthKey } from './keys'
 
 const instance = axios.create({
-  baseURL: 'https://identitytoolkit.googleapis.com/v1',
+  baseURL: axiosAuthBaseUrl,
   params: {
-    key: 'AIzaSyCZ2hEIK-v3vgzUUiPuofHORfbDkxLkmd8'
+    key: axiosAuthKey
   }
 })
 

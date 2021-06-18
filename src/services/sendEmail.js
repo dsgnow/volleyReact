@@ -1,6 +1,8 @@
 import { init } from 'emailjs-com'
 import emailjs from 'emailjs-com'
-init('user_AoI2i08DYgNhf8tElHnoP')
+import { emailInit } from '../keys'
+
+init(emailInit)
 
 export const sendEmail = (userDetails, gameDetails, template) => {
   const templateParams = {

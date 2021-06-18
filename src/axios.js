@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { axiosBaseUrl } from './keys'
 
 const instance = axios.create({
-  baseURL: 'https://volley-6247b-default-rtdb.firebaseio.com'
+  baseURL: axiosBaseUrl
 })
 
 export default instance
