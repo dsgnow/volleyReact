@@ -1,10 +1,9 @@
 import axios from 'axios'
-import { axiosAuthBaseUrl, axiosAuthKey } from './keys'
 
 const instance = axios.create({
-  baseURL: axiosAuthBaseUrl,
+  baseURL: process.env.REACT_APP_axiosAuthBaseUrl,
   params: {
-    key: axiosAuthKey
+    key: process.env.REACT_APP_axiosAuthKey
   }
 })
 

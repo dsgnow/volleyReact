@@ -1,8 +1,7 @@
 import axios from 'axios'
-import { axiosBaseUrl } from './keys'
 
 const instance = axios.create({
-  baseURL: axiosBaseUrl
+  baseURL: process.env.REACT_APP_axiosBaseUrl
 })
 
 export default instance

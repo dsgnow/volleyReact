@@ -1,8 +1,7 @@
 import { init } from 'emailjs-com'
 import emailjs from 'emailjs-com'
-import { emailInit, emailServiceId } from '../keys'
 
-init(emailInit)
+init(process.env.REACT_APP_emailInit)
 
 export const sendEmail = (userDetails, gameDetails, template) => {
   const templateParams = {
@@ -14,14 +13,16 @@ export const sendEmail = (userDetails, gameDetails, template) => {
   }
 
   userDetails.emailNotifications &&
-    emailjs.send(emailServiceId, template, templateParams).then(
-      function (response) {
-        return response.status
-      },
-      function (error) {
-        return error
-      }
-    )
+    emailjs
+      .send(process.env.REACT_APP_emailServiceId, template, templateParams)
+      .then(
+        function (response) {
+          return response.status
+        },
+        function (error) {
+          return error
+        }
+      )
 }
 
 export const sendEmailAddGame = (users, gameDetails, template) => {
@@ -35,13 +36,15 @@ export const sendEmailAddGame = (users, gameDetails, template) => {
     }
 
     user.emailNotifications &&
-      emailjs.send(emailServiceId, template, templateParams).then(
-        function (response) {
-          return response.status
-        },
-        function (error) {
-          return error
-        }
-      )
+      emailjs
+        .send(process.env.REACT_APP_emailServiceId, template, templateParams)
+        .then(
+          function (response) {
+            return response.status
+          },
+          function (error) {
+            return error
+          }
+        )
   })
 }
