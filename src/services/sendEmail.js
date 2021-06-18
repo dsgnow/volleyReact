@@ -1,6 +1,6 @@
 import { init } from 'emailjs-com'
 import emailjs from 'emailjs-com'
-import { emailInit } from '../keys'
+import { emailInit, emailServiceId } from '../keys'
 
 init(emailInit)
 
@@ -14,7 +14,7 @@ export const sendEmail = (userDetails, gameDetails, template) => {
   }
 
   userDetails.emailNotifications &&
-    emailjs.send('service_96bedfd', template, templateParams).then(
+    emailjs.send(emailServiceId, template, templateParams).then(
       function (response) {
         return response.status
       },
@@ -35,7 +35,7 @@ export const sendEmailAddGame = (users, gameDetails, template) => {
     }
 
     user.emailNotifications &&
-      emailjs.send('service_96bedfd', template, templateParams).then(
+      emailjs.send(emailServiceId, template, templateParams).then(
         function (response) {
           return response.status
         },
