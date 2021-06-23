@@ -1,9 +1,18 @@
 import * as yup from 'yup'
 
 export const validationSchema = yup.object().shape({
-  name: yup.string().required('To pole jest wymagane..'),
-  city: yup.string().required('To pole jest wymagane..'),
-  street: yup.string().required('To pole jest wymagane..'),
+  name: yup
+    .string()
+    .required('To pole jest wymagane..')
+    .max(20, 'nazwa może mieć maksymalnie 20 znaków'),
+  city: yup
+    .string()
+    .required('To pole jest wymagane..')
+    .max(20, 'miasto może mieć maksymalnie 20 znaków'),
+  street: yup
+    .string()
+    .required('To pole jest wymagane..')
+    .max(20, 'ulica może mieć maksymalnie 20 znaków'),
   dateStart: yup.date().required('To pole jest wymagane..').nullable(),
   dateEnd: yup
     .date()
@@ -13,9 +22,19 @@ export const validationSchema = yup.object().shape({
     )
     .required('To pole jest wymagane..')
     .nullable(),
-  places: yup.number().required('To pole jest wymagane..'),
+  places: yup
+    .number()
+    .required('To pole jest wymagane..')
+    .positive('Numer musi być dodatni.')
+    .min(1, 'ilość miejsc musi być równa lub większka niż 1')
+    .max(36, 'ilość miejsc nie może być większa niż 36'),
   level: yup.string().required('To pole jest wymagane..'),
-  price: yup.number().required('To pole jest wymagane..'),
+  price: yup
+    .number()
+    .required('To pole jest wymagane..')
+    .positive('Numer musi być dodatni.')
+    .min(1, 'cena musi być równa lub większka niż 1')
+    .max(1000, 'cena nie może być większa niż 1000'),
   rotationTime1: yup
     .date()
     .nullable()
