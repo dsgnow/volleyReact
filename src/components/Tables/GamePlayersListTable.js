@@ -37,7 +37,7 @@ const GamePlayersTable = () => {
   const [selectedGameId, setSelectedGameId] = useState('')
   const [selectedGamePlayers, setSelectedGamePlayers] = useState('')
   const [selectedGameData, setSelectedGameData] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [loading] = useState(false)
   const [message, setMessage] = useState('')
   const [games, setGames] = useState(null)
   const [messageType, setMessageType] = useState('')
@@ -53,7 +53,6 @@ const GamePlayersTable = () => {
   }, [])
 
   const fetchGames = async () => {
-    setLoading(true)
     try {
       const res = await fetchAllGames()
       const newGames = objectToArrayWithId(res.data)
@@ -64,7 +63,6 @@ const GamePlayersTable = () => {
       setMessageType('warning')
       setMessage('Nie można pobrać danych gier')
     }
-    setLoading(false)
   }
 
   const getSelectedGameData = async (selectedGameId) => {
