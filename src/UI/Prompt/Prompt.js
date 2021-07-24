@@ -15,7 +15,7 @@ const StyledTimerIcon = styled(TimerIcon)`
 `
 
 export default function Prompt(props) {
-  const { onClose, open, list } = props
+  const { onClose, open, list, gameDetails } = props
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('')
   const [openAlert, setOpenAlert] = useState(false)
@@ -62,13 +62,21 @@ export default function Prompt(props) {
         open={open}>
         <DialogTitle id="simple-dialog-title">Do której grasz?:)</DialogTitle>
         <List>
-          {dates.map((date) => (
+          {dates.map((date, index) => (
             <ListItem
               button
               onClick={() => handleListItemClick(date)}
               key={date}>
               <StyledTimerIcon />
-              <ListItemText primary={date.slice(0, -3).replace('T', ' ')} />
+              <ListItemText
+                primary={
+                  index !== 2
+                    ? dates[dates.length > 1 && index < 2 ? index + 1 : index]
+                        .slice(11, -3)
+                        .replace('T', ' ')
+                    : gameDetails.dateEnd.slice(11, -3).replace('T', ' ')
+                }
+              />
             </ListItem>
           ))}
         </List>
@@ -80,5 +88,6 @@ export default function Prompt(props) {
 Prompt.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  list: PropTypes.array
+  list: PropTypes.array,
+  gameDetails: PropTypes.object
 }

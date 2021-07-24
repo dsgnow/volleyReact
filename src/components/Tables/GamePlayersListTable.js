@@ -36,6 +36,7 @@ ${theme.breakpoints.up('sm')} {
 const GamePlayersTable = () => {
   const [selectedGameId, setSelectedGameId] = useState('')
   const [selectedGamePlayers, setSelectedGamePlayers] = useState('')
+  const [selectedGameData, setSelectedGameData] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [games, setGames] = useState(null)
@@ -70,7 +71,9 @@ const GamePlayersTable = () => {
     try {
       const res = await fetchGameById(selectedGameId)
       const selectedGamePlayers = objectToArrayWithId(res.data)
+      const selectedGameData = objectToArrayWithId(res.data)
       setSelectedGamePlayers(selectedGamePlayers[0].players)
+      setSelectedGameData(selectedGameData[0])
     } catch (ex) {
       setOpen(true)
       setMessageType('warning')
@@ -189,6 +192,7 @@ const GamePlayersTable = () => {
         onClose={handlePromptClose}
         list={promptList}
         gameId={selectedGameId}
+        gameDetails={selectedGameData}
       />
       <StyledTitle>
         <StyledTitleTypography variant="h4">

@@ -224,6 +224,7 @@ export default function MediaCard(props) {
               open={openPrompt}
               onClose={handlePromptClose}
               list={promptList}
+              gameDetails={game}
               gameId={game.id}
             />
             <CardActionArea>
