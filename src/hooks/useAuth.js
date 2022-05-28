@@ -21,7 +21,7 @@ export default function useAuth() {
   useDebugValue(auth ? 'Zalogowany' : 'Wylogowany')
 
   const setAuth = (user) => {
-    if (user && user.userId === 'jJXU4w0UZ9WFW8ApRmKR04YPwrn1') {
+    if (user && user.userId === '3p3vHh71y3gyf1IDYJ2f9cExcgy2') {
       authContext.login(user)
       window.localStorage.setItem('token-data', JSON.stringify(user))
       authContext.loginAdmin(user)
